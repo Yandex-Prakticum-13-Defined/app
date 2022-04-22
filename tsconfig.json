@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "declaration": false,
     "sourceMap": false,
-    "baseUrl": "../../arkanoid",
+    "baseUrl": ".",
     "outDir": "./dist",
     "paths": {
       "*": ["./src/*"]
