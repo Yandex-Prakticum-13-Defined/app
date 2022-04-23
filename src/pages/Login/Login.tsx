@@ -11,7 +11,6 @@ export const Login = () => {
     console.log('submit')
   }
 
-  console.log(register_fon)
   return (
     <div className='container'>
       <h1>Welcome</h1>
