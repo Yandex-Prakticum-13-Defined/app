@@ -1,13 +1,12 @@
-import React from "react";
-import './Login.scss'
-import Input from "../../components/Input/Input";
-import Button from "../../components/Button/Button/Button";
+import React from 'react';
+import './Login.scss';
+import { Link } from 'react-router-dom';
+import Input from '../../components/Input/Input';
+import Button from '../../components/Button/Button/Button';
 
-export const Login = () => {
-
+const Login = () => {
   const handleSubmit = () => {
-    console.log('submit')
-  }
+  };
 
   return (
     <div className='container'>
@@ -17,7 +16,9 @@ export const Login = () => {
         <Input className='form__input' name='password' type='password' placeholder='password'/>
       </form>
       <Button title='Login'/>
-      <a className='register' href='/register'>Register</a>
+      <Link className='register' to='/register'>Register</Link>
     </div>
-  )
-}
+  );
+};
+
+export default Login;

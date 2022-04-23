@@ -1,13 +1,11 @@
-import React from "react";
-import './Register.scss'
-import Input from "../../components/Input/Input";
-import Button from "../../components/Button/Button/Button";
+import React from 'react';
+import './Register.scss';
+import Input from '../../components/Input/Input';
+import Button from '../../components/Button/Button/Button';
 
-export const Register = () => {
-
+const Register = () => {
   const handleSubmit = () => {
-    console.log('submit')
-  }
+  };
 
   return (
     <div className='container'>
@@ -20,5 +18,7 @@ export const Register = () => {
       </form>
       <Button title='Register'/>
     </div>
-  )
-}
+  );
+};
+
+export default Register;
