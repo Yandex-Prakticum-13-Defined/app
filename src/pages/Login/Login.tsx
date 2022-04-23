@@ -1,7 +1,5 @@
 import React from "react";
 import './Login.scss'
-// @ts-ignore
-import register_fon from '../../img/register_fon.png'
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button/Button";
 
