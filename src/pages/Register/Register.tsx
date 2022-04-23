@@ -4,29 +4,10 @@ import './Register.scss'
 import register_fon from '../../img/register_fon.png'
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button/Button";
-// import {useForm} from 'react-hook-form'
+
 
 export const Register = () => {
 
-//   const formMethod = useForm({
-//     mode: 'onChange',
-//     defaultValue: {
-//       first_name: '',
-//       second_name: '',
-//       login: '',
-//       email: '',
-//       password: '',
-//       phone: ''
-//     }
-//   })
-// console.log(formMethod)
-  // const {
-  //   // control,
-  //   // formState: {isValid},
-  //   // getValue,
-  //   // setWalue,
-  //   // watch
-  // } = formMethod
 
   const handleSubmit = () => {
     console.log('submit')
