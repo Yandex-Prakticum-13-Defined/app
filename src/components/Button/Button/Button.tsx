@@ -6,17 +6,19 @@ interface IButton {
   onClick?: () => void;
   title?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
+  disabled?: boolean
 }
 
 const Button = ({
-  className,
-  onClick,
-  title,
-  type,
-}: IButton) => (
-    <button className={className || 'button'} onClick={onClick} type={type}>
-      {title}
-    </button>
+                  className,
+                  onClick,
+                  title,
+                  type,
+                  disabled
+                }: IButton) => (
+  <button className={className || 'button'} onClick={onClick} type={type} disabled={disabled}>
+    {title}
+  </button>
 );
 
 export default Button;
