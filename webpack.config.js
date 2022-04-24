@@ -23,7 +23,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(svg|woff(2)?)$/,
+        test: /\.(png|svg|woff(2)?)$/,
         type: 'asset/resource'
       },
       {
