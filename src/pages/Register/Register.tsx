@@ -1,11 +1,10 @@
 import React from 'react';
-// import {useForm} from 'react-hook-form'
 
 import './Register.scss';
+import { postUser } from '../../api/api';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button/Button';
 import {useInput} from "../../hooks/useInput";
-// import {postUser} from "./api/Api";
 
 const Register = () => {
   const username = useInput('', {
@@ -37,31 +36,25 @@ const Register = () => {
     }
   })
 
-  // const [username, setUsername] = useState('')
-  // const [login, setLogin] =useState('')
-  // const [email, setEmail] =useState('')
-  // const [password, setPassword] =useState('')
-  // const [usernameDirty, setUsernameDirty] = useState(false)
-  // const [loginDirty, setLoginDirty] =useState(false)
-  // const [emailDirty, setEmailDirty] =useState(false)
-  // const [passwordDirty, setPasswordDirty] =useState(false)
-  // const [usernameError, setUsernameError] = useState('')
-  // const [loginError, setLoginError] =useState('')
-  // const [emailError, setEmailError] =useState('')
-  // const [passwordError, setPasswordError] =useState('')
-  // const [formValid, setFormValid] = useState(false)
-
-  // const formMethod = {
-  //   first_name: '',
-  //   second_name: 'Second',
-  //   login: '',
-  //   email: '',
-  //   password: '',
-  //   phone: '+7-000-000-00-00'
-  // }
+  const formMethod = {
+    first_name: 'name',
+    second_name: 'Second',
+    login: 'login123211',
+    email: 'email@email1.ru',
+    password: 'Asdasd123sdf',
+    phone: '+7-000-000-00-00'
+  };
 
   const handleSubmit = () => {
-    // postUser(formMethod)
+    postUser(formMethod)
+      // eslint-disable-next-line no-console
+      .then((id) => console.log(`Пользователь с id ${id} успешно загеристрирован!`))
+      // eslint-disable-next-line no-console
+      .catch((e) => console.log(`Ошибка ${e}`));
+  };
+
+  const handleChange = () => {
+
   };
 
   return (
@@ -104,7 +97,7 @@ const Register = () => {
           {(password.isDirty && password.passwordError.isError) &&
           <div className='form__error'>{password.passwordError.error}</div>}
         </div>
-        <Button type='submit' title='Register'
+        <Button type='submit' title='Register' onClick={handleSubmit}
                 disabled={!username.inputValid || !login.inputValid || !email.inputValid || !password.inputValid}/>
       </form>
     </div>
