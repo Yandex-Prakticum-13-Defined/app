@@ -2,41 +2,31 @@ import React from 'react';
 // import {useForm} from 'react-hook-form'
 
 import './Register.scss';
+import { postUser } from '../../api/api';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button/Button';
-import {postUser} from "./api/Api";
-
-
-
 
 const Register = () => {
-
   const formMethod = {
-      first_name: '',
-      second_name: 'Second',
-      login: '',
-      email: '',
-      password: '',
-      phone: '+7-000-000-00-00'
-  }
+    first_name: 'name',
+    second_name: 'Second',
+    login: 'login123211',
+    email: 'email@email1.ru',
+    password: 'Asdasd123sdf',
+    phone: '+7-000-000-00-00'
+  };
 
   const handleSubmit = () => {
     postUser(formMethod)
+      // eslint-disable-next-line no-console
+      .then((id) => console.log(`Пользователь с id ${id} успешно загеристрирован!`))
+      // eslint-disable-next-line no-console
+      .catch((e) => console.log(`Ошибка ${e}`));
   };
 
   const handleChange = () => {
 
-  }
-
-
-  console.log(formMethod)
-  const {
-    // control,
-    // formState: {isValid},
-    // getValue,
-    // setWalue,
-    // watch
-  } = formMethod
+  };
 
   return (
     <div className='container'>
@@ -48,7 +38,7 @@ const Register = () => {
         <Input className='form__input' name='email' type='email' placeholder='email address'/>
         <Input className='form__input' name='password' type='password' placeholder='password'/>
       </form>
-      <Button title='Register'/>
+      <Button onClick={handleSubmit} title='Register'/>
     </div>
   );
 };
