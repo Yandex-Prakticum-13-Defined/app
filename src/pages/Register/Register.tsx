@@ -53,10 +53,6 @@ const Register = () => {
       .catch((e) => console.log(`Ошибка ${e}`));
   };
 
-  const handleChange = () => {
-
-  };
-
   return (
     <div className='container'>
       <form className='form' onSubmit={handleSubmit}>
