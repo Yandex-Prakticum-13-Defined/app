@@ -45,21 +45,21 @@ function LeaderboardTable() {
   };
 
   return (
-    <div className="leaderboard-table">
-      <div className="leaderboard-table__sort-buttons">
-        <button className={getButtonClassName(sort, 'name')} type="button"
+    <div className='leaderboard-table'>
+      <div className='leaderboard-table__sort-buttons'>
+        <button className={getButtonClassName(sort, 'name')} type='button'
                 onClick={() => handleSortButtonClick('name')}
         >имя</button>
-        <button className={getButtonClassName(sort, 'points')} type="button"
+        <button className={getButtonClassName(sort, 'points')} type='button'
                 onClick={() => handleSortButtonClick('points')}
         >очки</button>
       </div>
-      <div className="leaderboard-table__rows">
+      <div className='leaderboard-table__rows'>
         {
           leaderboardData.map((row) => (
             <Fragment key={row.number}>
               <p className={getColorClassName(row.number, 'leaderboard-table__number')}>{row.number}</p>
-              <img className="leaderboard-table__image" src={row.image} alt="Аватар пользователя"/>
+              <img className='leaderboard-table__image' src={row.image} alt='Аватар пользователя'/>
               <p className={getColorClassName(row.number, 'leaderboard-table__name')}>{row.name}</p>
               <p className={getColorClassName(row.number, 'leaderboard-table__points')}>{row.points}</p>
             </Fragment>

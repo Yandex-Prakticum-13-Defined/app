@@ -17,7 +17,8 @@
     /** Разрешается использовать "_" в названии объекта если это свойство стоит после this */
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     /** Обязательная пустая строка между return и предыдущим кодом */
-    "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }]
+    "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
+    "jsx-quotes": ["error", "prefer-single"]
   },
   "parserOptions": {
     "project": "./tsconfig.json"
