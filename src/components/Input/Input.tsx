@@ -14,16 +14,16 @@ interface IInput {
 }
 
 const Input = ({
-                 className,
-                 id,
-                 name,
-                 title,
-                 type,
-                 value,
-                 onChange,
-                 placeholder,
-                 onBlur
-               }: IInput) => (
+  className,
+  id,
+  name,
+  title,
+  type,
+  value,
+  onChange,
+  placeholder,
+  onBlur
+}: IInput) => (
   <div className='input'>
     {title && <label htmlFor={name} className="label">{title}</label>}
     <input className={className} id={id} name={name} type={type} value={value} onChange={onChange}
