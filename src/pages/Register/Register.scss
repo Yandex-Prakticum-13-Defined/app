@@ -23,7 +23,6 @@
   justify-content: center;
   font-weight: bold;
   font-size: 20px;
-  //margin-bottom: 20px;
 
   &__wrapper {
     display: flex;
@@ -42,12 +41,6 @@
     color: inherit;
     outline: none;
     border-bottom: 3px solid black;
-  }
-  &__error {
-    color: red;
-    margin-left: 10px;
-    font-size: 14px;
-    font-weight: normal;
   }
 }
 

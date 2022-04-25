@@ -43,20 +43,12 @@ const Login = () => {
         <div className='form__wrapper'>
           <Input className='form__input' name='login' type='text' placeholder='login'
                  value={login.value} onBlur={login.onBlur}
-                 onChange={(e: HTMLInputElement) => login.onChange(e)}/>
-          {(login.isDirty && login.isEmpty.isError)
-          && <div className='form__error'>{login.isEmpty.error}</div>}
-          {(login.isDirty && login.loginError.isError)
-          && <div className='form__error'>{login.loginError.error}</div>}
+                 onChange={(e: HTMLInputElement) => login.onChange(e)} login={login}/>
         </div>
         <div className='form__wrapper'>
           <Input className='form__input' name='password' type='password' placeholder='password'
                  value={password.value} onBlur={password.onBlur}
-                 onChange={(e: HTMLInputElement) => password.onChange(e)}/>
-          {(password.isDirty && password.isEmpty.isError)
-          && <div className='form__error'>{password.isEmpty.error}</div>}
-          {(password.isDirty && password.passwordError.isError)
-          && <div className='form__error'>{password.passwordError.error}</div>}
+                 onChange={(e: HTMLInputElement) => password.onChange(e)} password={password}/>
         </div>
       <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
               disabled={!login.inputValid || !password.inputValid}/>

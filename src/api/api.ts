@@ -15,12 +15,11 @@ export interface ISignInData {
   password: string;
 }
 
-const apiURL = 'https://ya-praktikum.tech/api/v2';
+const API_URL = 'https://ya-praktikum.tech/api/v2';
 
-export const postUser = (userData: IRegisterData) => axios.post(`${apiURL}/auth/signup`, userData)
+export const postUser = (userData: IRegisterData) => axios.post(`${API_URL}/auth/signup`, userData)
   .then((response) => response.data.id);
   // .catch((error) => { console.log(error.reason || error.message); });
 
-export const postSignIn = (signInrData: ISignInData) => axios.post(`${apiURL}/auth/signin`, signInrData)
+export const postSignIn = (signInrData: ISignInData) => axios.post(`${API_URL}/auth/signin`, signInrData)
   .then((response) => response);
-// .catch((error) => { console.log(error.reason || error.message); });
