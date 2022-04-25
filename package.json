@@ -6,7 +6,7 @@
     "dev": "webpack serve --mode development --open --hot",
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open --hot",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "stylelint": "npx stylelint **/*.scss",
     "test": "",
     "prepare": "husky install"
@@ -55,7 +55,7 @@
     "webpack-dev-server": "4.8.1"
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": "eslint",
+    "*.{js,ts,tsx}": "npm run lint",
     "*.scss": "npx stylelint",
     "*": "npm run test"
   }

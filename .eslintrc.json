@@ -7,13 +7,17 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true
-      }
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }
     ],
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "max-len": ["error", { "code": 120 }],
+    /** Разрешается использовать "_" в названии объекта если это свойство стоит после this */
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    /** Обязательная пустая строка между return и предыдущим кодом */
+    "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }]
   },
   "parserOptions": {
     "project": "./tsconfig.json"
