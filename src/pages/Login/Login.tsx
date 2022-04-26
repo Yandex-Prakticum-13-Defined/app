@@ -50,10 +50,11 @@ const Login = () => {
           <Input className='form__input' name='password' type='password' placeholder='password'
                  value={password.value} onBlur={password.onBlur}
                  onChange={(e: HTMLInputElement) => password.onChange(e)}
-                 isDirty={password.isDirty} isEmpty={password.isEmpty} isError={password.passwordError}/>
+                 isDirty={password.isDirty} isEmpty={password.isEmpty}
+                 isError={password.passwordError}/>
         </div>
-      <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
-              disabled={!login.inputValid || !password.inputValid}/>
+        <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
+                disabled={!login.inputValid || !password.inputValid}/>
       </form>
       <Link className='register' to='/register'>Register</Link>
     </div>
