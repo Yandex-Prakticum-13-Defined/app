@@ -21,5 +21,5 @@ export const postUser = (userData: IRegisterData) => axios.post(`${API_URL}/auth
   .then((response) => response.data.id);
   // .catch((error) => { console.log(error.reason || error.message); });
 
-export const postSignIn = (signInrData: ISignInData) => axios.post(`${API_URL}/auth/signin`, signInrData)
+export const postSignIn = (signInData: ISignInData) => axios.post(`${API_URL}/auth/signin`, signInData)
   .then((response) => response);

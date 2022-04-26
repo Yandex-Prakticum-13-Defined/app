@@ -2,7 +2,7 @@ import React from 'react';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button/Button';
+import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 import { postSignIn } from '../../api/api';
 
@@ -43,12 +43,14 @@ const Login = () => {
         <div className='form__wrapper'>
           <Input className='form__input' name='login' type='text' placeholder='login'
                  value={login.value} onBlur={login.onBlur}
-                 onChange={(e: HTMLInputElement) => login.onChange(e)} login={login}/>
+                 onChange={(e: HTMLInputElement) => login.onChange(e)}
+                 isDirty={login.isDirty} isEmpty={login.isEmpty} isError={login.loginError}/>
         </div>
         <div className='form__wrapper'>
           <Input className='form__input' name='password' type='password' placeholder='password'
                  value={password.value} onBlur={password.onBlur}
-                 onChange={(e: HTMLInputElement) => password.onChange(e)} password={password}/>
+                 onChange={(e: HTMLInputElement) => password.onChange(e)}
+                 isDirty={password.isDirty} isEmpty={password.isEmpty} isError={password.passwordError}/>
         </div>
       <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
               disabled={!login.inputValid || !password.inputValid}/>

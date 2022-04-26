@@ -1,9 +1,10 @@
 import React from 'react';
 
 import './Register.scss';
+import { Link } from 'react-router-dom';
 import { postUser } from '../../api/api';
 import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button/Button';
+import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 
 const Register = () => {
@@ -61,22 +62,26 @@ const Register = () => {
         <div className='form__wrapper'>
           <Input className='form__input' name='username' type='text' placeholder='username'
                  value={username.value} onBlur={username.onBlur}
-                 onChange={(e: HTMLInputElement) => username.onChange(e)} username={username}/>
+                 onChange={(e: HTMLInputElement) => username.onChange(e)}
+                 isDirty={username.isDirty} isEmpty={username.isEmpty} isError={username.usernameError}/>
         </div>
         <div className='form__wrapper'>
           <Input className='form__input' name='login' type='text' placeholder='login'
                  value={login.value} onBlur={login.onBlur}
-                 onChange={(e: HTMLInputElement) => login.onChange(e)} login={login}/>
+                 onChange={(e: HTMLInputElement) => login.onChange(e)}
+                 isDirty={login.isDirty} isEmpty={login.isEmpty} isError={login.loginError}/>
         </div>
         <div className='form__wrapper'>
           <Input className='form__input' name='email' type='email' placeholder='email address'
                  value={email.value} onBlur={email.onBlur}
-                 onChange={(e: HTMLInputElement) => email.onChange(e)} email={email}/>
+                 onChange={(e: HTMLInputElement) => email.onChange(e)}
+                 isDirty={email.isDirty} isEmpty={email.isEmpty} isError={email.emailError}/>
         </div>
         <div className='form__wrapper'>
           <Input className='form__input' name='password' type='password' placeholder='password'
                  value={password.value} onBlur={password.onBlur}
-                 onChange={(e: HTMLInputElement) => password.onChange(e)} password={password}/>
+                 onChange={(e: HTMLInputElement) => password.onChange(e)}
+                 isDirty={password.isDirty} isEmpty={password.isEmpty} isError={password.passwordError}/>
         </div>
         <Button type='submit' title='Register' onClick={(e: any) => handleSubmit(e)}
                 disabled={!username.inputValid
@@ -84,6 +89,7 @@ const Register = () => {
                 || !email.inputValid
                 || !password.inputValid}/>
       </form>
+      <Link className='register' to='/login'>Login</Link>
     </div>
   );
 };
