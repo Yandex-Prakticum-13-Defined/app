@@ -20,8 +20,8 @@ type TSortingRules = {
 };
 
 enum SortingField {
-  name = 'name',
-  points = 'points',
+  NAME = 'name',
+  POINTS = 'points',
 }
 
 enum SortingDirection {
@@ -35,11 +35,12 @@ function LeaderboardTable() {
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Анастасия', points: 2100 },
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Владимир', points: 700 }
   ];
-  const [leaderboardData, setLeaderboardData] = useState<TNumberedLeaderboardData[]>([]);
-  const [sort, setSort] = useState<TSortingRules>({
-    field: SortingField.points,
+  const initialSort = {
+    field: SortingField.POINTS,
     direction: SortingDirection.DESC
-  });
+  };
+  const [leaderboardData, setLeaderboardData] = useState<TNumberedLeaderboardData[]>([]);
+  const [sort, setSort] = useState<TSortingRules>(initialSort);
 
   useEffect(() => setLeaderboardData(prepareData(serverData)), []);
 
@@ -52,21 +53,18 @@ function LeaderboardTable() {
       direction = SortingDirection.DESC;
     }
 
-    setLeaderboardData([...sortByField(leaderboardData, field, direction)]);
-    setSort({
-      field,
-      direction
-    });
+    setLeaderboardData(sortByField(leaderboardData, field, direction));
+    setSort({ field, direction });
   };
 
   return (
     <div className='leaderboard-table'>
       <div className='leaderboard-table__sort-buttons'>
-        <button className={getButtonClassName(sort, SortingField.name)} type='button'
-                onClick={() => handleSortButtonClick(SortingField.name)}
+        <button className={getButtonClassName(sort, SortingField.NAME)} type='button'
+                onClick={() => handleSortButtonClick(SortingField.NAME)}
         >имя</button>
-        <button className={getButtonClassName(sort, SortingField.points)} type='button'
-                onClick={() => handleSortButtonClick(SortingField.points)}
+        <button className={getButtonClassName(sort, SortingField.POINTS)} type='button'
+                onClick={() => handleSortButtonClick(SortingField.POINTS)}
         >очки</button>
       </div>
       <div className='leaderboard-table__rows'>
