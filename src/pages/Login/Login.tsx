@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 import { postSignIn } from '../../api/api';
+import Modal from "../../components/Modal/Modal";
 
 const Login = () => {
+  const [isGameOver, setIsGameOver] = useState(false)
   const login = useInput('', {
     isEmpty: true,
     login: {
@@ -29,6 +31,7 @@ const Login = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
     postSignIn(formMethod)
       // eslint-disable-next-line no-console
       .then((data) => console.log(data))
@@ -54,8 +57,10 @@ const Login = () => {
         </div>
       <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
               disabled={!login.inputValid || !password.inputValid}/>
+        <Button type='button' title='Game over' onClick={() => setIsGameOver(true)}/>
       </form>
       <Link className='register' to='/register'>Register</Link>
+      {isGameOver && <Modal/>}
     </div>
   );
 };

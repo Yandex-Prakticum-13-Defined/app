@@ -1,0 +1,27 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 500px;
+  background-image: url('../../img/modal_fon.jpg');
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  box-shadow: 0 8px 14px -5px #000000;
+  color: wheat;
+
+  &__title {
+    font-size: 40px;
+  }
+
+  &__link {
+    font-size: 30px;
+    font-weight: bold;
+    color: wheat;
+    text-decoration: none;
+  }
+}
