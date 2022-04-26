@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 export const useValidation = (value: string, validations: any) => {
   const [isEmpty, setIsEmpty] = useState({
