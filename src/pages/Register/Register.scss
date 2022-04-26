@@ -6,13 +6,13 @@
   margin: 15% auto;
   width: 400px;
   height: 800px;
-  background-image: url('../../img/register_fon.png');
+  background-image: url("../../img/register_fon.png");
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  box-shadow: 0 8px 14px -5px #000000;
+  box-shadow: 0 8px 14px -5px #000;
 }
 
 .form {
@@ -43,4 +43,3 @@
     border-bottom: 3px solid black;
   }
 }
-

@@ -1,0 +1,14 @@
+.leaderboard {
+  height: 100%;
+  background-image: url("../../img/leaderboard-background.png");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    font-size: 48px;
+    margin: 80px 0 50px;
+  }
+}

@@ -52,7 +52,7 @@ const Register = () => {
       // eslint-disable-next-line no-console
       .then((id) => console.log(`Пользователь с id ${id} успешно зарегистрирован!`))
       // eslint-disable-next-line no-console
-      .catch((e: any) => console.log(`Ошибка ${e}`));
+      .catch((error: any) => console.log(`Ошибка ${error}`));
   };
 
   return (

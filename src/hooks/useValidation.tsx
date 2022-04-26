@@ -9,14 +9,18 @@ export const useValidation = (value: string, validations: any) => {
   const [inputValid, setInputValid] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const validation in validations) {
+      // eslint-disable-next-line default-case
       switch (validation) {
         case 'isEmpty':
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           value
             ? setIsEmpty({ isError: false, error: '' })
             : setIsEmpty({ isError: true, error: 'Поле не может быть пустым' });
           break;
         case 'username':
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           (/^[А-ЯЁA-Z][a-zа-яё-]{1,29}$/.test(String(value)))
             ? setUsernameError({ isError: false, error: '' })
             : setUsernameError({
@@ -25,6 +29,7 @@ export const useValidation = (value: string, validations: any) => {
             });
           break;
         case 'login':
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           (/^[А-ЯЁA-Z][a-zа-яё-]{1,29}$/.test(String(value)))
             ? setLoginError({ isError: false, error: '' })
             : setLoginError({
@@ -33,6 +38,7 @@ export const useValidation = (value: string, validations: any) => {
             });
           break;
         case 'email':
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           (/^[A-Za-z0-9,.-]{1,}[@]([A-Za-z0-9,.-]{1,}[.][A-Za-z]{1,}){1,2}$/
             .test(String(value).toLowerCase()))
             ? setEmailError({ isError: false, error: '' })
@@ -42,6 +48,7 @@ export const useValidation = (value: string, validations: any) => {
             });
           break;
         case 'password':
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           (/^(?=.*?[A-ZА-ЯЁ])(?=.*?[0-9]).{8,40}$/.test(String(value)))
             ? setPasswordError({ isError: false, error: '' })
             : setPasswordError({
