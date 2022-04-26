@@ -1,11 +1,33 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import './LeaderboardTable.scss';
-import {
-  TLeaderboardData,
-  TNumberedLeaderboardData, TSortingDirection,
-  TSortingField,
-  TSortingRules
-} from 'components/LeaderboardTable/types';
+
+type TNumberedLeaderboardData = {
+  number: number;
+  image: string;
+  name: string;
+  points: number;
+};
+
+type TLeaderboardData = Omit<TNumberedLeaderboardData, 'number'>;
+
+type TSortingField = 'name' | 'points';
+
+type TSortingDirection = 'DESC' | 'ASC';
+
+type TSortingRules = {
+  field: TSortingField;
+  direction: TSortingDirection;
+};
+
+enum SortingField {
+  name = 'name',
+  points = 'points',
+}
+
+enum SortingDirection {
+  DESC = 'DESC',
+  ASC = 'ASC',
+}
 
 function LeaderboardTable() {
   const serverData: TLeaderboardData[] = [
@@ -13,32 +35,25 @@ function LeaderboardTable() {
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Анастасия', points: 2100 },
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Владимир', points: 700 }
   ];
-  const [
-    leaderboardData,
-    changeLeaderboardData
-  ] = useState<TNumberedLeaderboardData[]>([]);
-  const [sort, changeSort] = useState<TSortingRules>({
-    field: 'points',
-    direction: 'decrease'
+  const [leaderboardData, setLeaderboardData] = useState<TNumberedLeaderboardData[]>([]);
+  const [sort, setSort] = useState<TSortingRules>({
+    field: SortingField.points,
+    direction: SortingDirection.DESC
   });
 
-  useEffect(() => {
-    const sortedLeaderboardData = sortByField(serverData, 'points', 'decrease');
-    const sortedAndNumberedLeaderboardData = numberLeaderboardData(sortedLeaderboardData);
-    changeLeaderboardData(sortedAndNumberedLeaderboardData);
-  }, []);
+  useEffect(() => setLeaderboardData(prepareData(serverData)), []);
 
-  const handleSortButtonClick = (field: 'name' | 'points'): void => {
-    let direction: 'decrease' | 'increase';
+  const handleSortButtonClick = (field: TSortingField): void => {
+    let direction: TSortingDirection;
 
-    if (sort.field === field && sort.direction === 'decrease') {
-      direction = 'increase';
+    if (sort.field === field && sort.direction === SortingDirection.DESC) {
+      direction = SortingDirection.ASC;
     } else {
-      direction = 'decrease';
+      direction = SortingDirection.DESC;
     }
 
-    changeLeaderboardData([...sortByField(leaderboardData, field, direction)] as TNumberedLeaderboardData[]);
-    changeSort({
+    setLeaderboardData([...sortByField(leaderboardData, field, direction)]);
+    setSort({
       field,
       direction
     });
@@ -47,11 +62,11 @@ function LeaderboardTable() {
   return (
     <div className='leaderboard-table'>
       <div className='leaderboard-table__sort-buttons'>
-        <button className={getButtonClassName(sort, 'name')} type='button'
-                onClick={() => handleSortButtonClick('name')}
+        <button className={getButtonClassName(sort, SortingField.name)} type='button'
+                onClick={() => handleSortButtonClick(SortingField.name)}
         >имя</button>
-        <button className={getButtonClassName(sort, 'points')} type='button'
-                onClick={() => handleSortButtonClick('points')}
+        <button className={getButtonClassName(sort, SortingField.points)} type='button'
+                onClick={() => handleSortButtonClick(SortingField.points)}
         >очки</button>
       </div>
       <div className='leaderboard-table__rows'>
@@ -70,14 +85,22 @@ function LeaderboardTable() {
   );
 }
 
-function getButtonClassName(sort: TSortingRules, field: TSortingField) {
+function prepareData(serverData: TLeaderboardData[]): TNumberedLeaderboardData[] {
+  return [...serverData]
+    .sort((a, b) => b.points - a.points)
+    .map((row, i) => ({ ...row, number: i + 1 }));
+}
+
+function getButtonClassName(sort: TSortingRules, field: TSortingField): string {
   const baseClassName = `leaderboard-table__sort-button leaderboard-table__sort-button_type_${field}`;
 
   if (sort.field !== field) {
     return baseClassName;
   }
 
-  return `${baseClassName} leaderboard-table__sort-button_type_${sort.direction}`;
+  return sort.direction === 'DESC'
+    ? `${baseClassName} leaderboard-table__sort-button_type_decrease`
+    : `${baseClassName} leaderboard-table__sort-button_type_increase`;
 }
 
 function getColorClassName(number: number, className: string): string {
@@ -94,29 +117,15 @@ function getColorClassName(number: number, className: string): string {
 }
 
 function sortByField(
-  leaderboardData: TLeaderboardData[],
-  field: TSortingField,
-  direction: TSortingDirection
-): TLeaderboardData[];
-function sortByField(
   leaderboardData: TNumberedLeaderboardData[],
   field: TSortingField,
   direction: TSortingDirection
-): TNumberedLeaderboardData[];
-function sortByField(
-  leaderboardData: TLeaderboardData[] | TNumberedLeaderboardData[],
-  field: TSortingField,
-  direction: TSortingDirection
-): TLeaderboardData[] | TNumberedLeaderboardData[] {
-  if (direction === 'decrease') {
-    return leaderboardData.sort((a, b) => (a[field] < b[field] ? 1 : -1));
+): TNumberedLeaderboardData[] {
+  if (direction === SortingDirection.DESC) {
+    return [...leaderboardData].sort((a, b) => (a[field] < b[field] ? 1 : -1));
   }
 
-  return leaderboardData.sort((a, b) => (a[field] < b[field] ? -1 : 1));
-}
-
-function numberLeaderboardData(leaderboardData: TLeaderboardData[]): TNumberedLeaderboardData[] {
-  return leaderboardData.map((row, i) => ({ ...row, number: i + 1 }));
+  return [...leaderboardData].sort((a, b) => (a[field] < b[field] ? -1 : 1));
 }
 
 export default LeaderboardTable;

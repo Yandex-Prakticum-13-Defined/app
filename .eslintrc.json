@@ -7,11 +7,8 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }
-    ],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/extensions": "off",
-    "no-plusplus": "off",
-    "no-param-reassign": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "max-len": ["error", { "code": 120 }],
     /** Разрешается использовать "_" в названии объекта если это свойство стоит после this */

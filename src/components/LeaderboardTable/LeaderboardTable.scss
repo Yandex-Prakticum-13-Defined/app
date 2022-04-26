@@ -1,98 +1,118 @@
-.leaderboard-table__rows {
-  display: grid;
-  grid-template-columns: 100px 80px 200px 100px;
-  gap: 20px;
-  align-items: center;
-  position: relative;
-}
+.leaderboard-table {
+  &__rows {
+    display: grid;
+    grid-template-columns: 100px 80px 200px 100px;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+  }
 
-.leaderboard-table__number {
-  font-family: Righteous, serif;
-  font-size: 60px;
-  margin: 0;
-  text-align: right;
-}
+  &__number {
+    font-family: Righteous, serif;
+    font-size: 60px;
+    margin: 0;
+    text-align: right;
 
-.leaderboard-table__number_color_gold,
-.leaderboard-table__name_color_gold,
-.leaderboard-table__points_color_gold {
-  color: gold;
-}
+    &_color_gold {
+      color: gold;
+    }
 
-.leaderboard-table__number_color_silver,
-.leaderboard-table__name_color_silver,
-.leaderboard-table__points_color_silver {
-  color: silver;
-}
+    &_color_silver {
+      color: silver;
+    }
 
-.leaderboard-table__number_color_bronze,
-.leaderboard-table__name_color_bronze,
-.leaderboard-table__points_color_bronze {
-  color: #cd7f32;
-}
+    &_color_bronze {
+      color: #cd7f32;
+    }
+  }
 
-.leaderboard-table__image {
-  height: 80px;
-}
+  &__image {
+    height: 80px;
+  }
 
-.leaderboard-table__name {
-  font-size: 30px;
-  margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
+  &__name {
+    font-size: 30px;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
-.leaderboard-table__points {
-  font-family: Righteous, serif;
-  font-size: 30px;
-  margin: 0;
-}
+    &_color_gold {
+      color: gold;
+    }
 
-.leaderboard-table__sort-buttons {
-  display: flex;
-  margin-bottom: 10px;
-}
+    &_color_silver {
+      color: silver;
+    }
 
-.leaderboard-table__sort-button {
-  border: none;
-  padding: 0;
-  background-color: transparent;
-  font-size: 28px;
-  color: blue;
-  position: relative;
-}
+    &_color_bronze {
+      color: #cd7f32;
+    }
+  }
 
-.leaderboard-table__sort-button_type_name {
-  margin-left: 220px;
-  margin-right: 175px;
-}
+  &__points {
+    font-family: Righteous, serif;
+    font-size: 30px;
+    margin: 0;
 
-.leaderboard-table__sort-button:hover {
-  opacity: 0.5;
-  cursor: pointer;
-}
+    &_color_gold {
+      color: gold;
+    }
 
-.leaderboard-table__sort-button_type_increase::after {
-  content: "";
-  background-image: url("../../images/leaderboard-sort-button.svg");
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 5px;
-  left: 80px;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform: rotate(180deg);
-}
+    &_color_silver {
+      color: silver;
+    }
 
-.leaderboard-table__sort-button_type_decrease::after {
-  content: "";
-  background-image: url("../../images/leaderboard-sort-button.svg");
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 5px;
-  left: 80px;
-  background-position: center;
-  background-repeat: no-repeat;
+    &_color_bronze {
+      color: #cd7f32;
+    }
+  }
+
+  &__sort-buttons {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  &__sort-button {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    font-size: 28px;
+    color: blue;
+    position: relative;
+
+    &:hover {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    &_type_name {
+      margin-left: 220px;
+      margin-right: 175px;
+    }
+
+    &_type_increase::after {
+      content: "";
+      background-image: url("../../images/leaderboard-sort-button.svg");
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 5px;
+      left: 80px;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: rotate(180deg);
+    }
+
+    &_type_decrease::after {
+      content: "";
+      background-image: url("../../images/leaderboard-sort-button.svg");
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 5px;
+      left: 80px;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
 }
