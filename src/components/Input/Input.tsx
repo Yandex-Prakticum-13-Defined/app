@@ -4,12 +4,21 @@ import './Input.scss';
 interface IInput {
   className?: string;
   id?: string;
-  name: string;
+  name: string | any;
   title?: string;
   type: string;
   value?: string;
-  onChange?: () => void;
-  placeholder?: string
+  onChange?: any;
+  onBlur?: any;
+  placeholder?: string;
+  isEmpty?: IEmpty;
+  isError?: IEmpty;
+  isDirty?: boolean
+}
+
+interface IEmpty {
+  isError?: boolean;
+  error?: string;
 }
 
 const Input = ({
@@ -20,12 +29,19 @@ const Input = ({
   type,
   value,
   onChange,
-  placeholder
+  placeholder,
+  onBlur,
+  isEmpty,
+  isError,
+  isDirty
 }: IInput) => (
-    <div className='input__wrapper'>
+
+    <div className='input'>
       {title && <label htmlFor={name} className='label'>{title}</label>}
       <input className={className} id={id} name={name} type={type} value={value} onChange={onChange}
-             placeholder={placeholder}/>
+             placeholder={placeholder} onBlur={onBlur}/>
+      {isDirty && isEmpty?.isError && <div className='input__error'>{isEmpty?.error}</div>}
+      {isDirty && isError?.isError && <div className='input__error'>{isError?.error}</div>}
     </div>
 );
 

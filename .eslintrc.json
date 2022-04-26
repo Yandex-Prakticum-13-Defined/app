@@ -15,7 +15,8 @@
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     /** Обязательная пустая строка между return и предыдущим кодом */
     "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
-    "jsx-quotes": ["error", "prefer-single"]
+    "jsx-quotes": ["error", "prefer-single"],
+    "import/prefer-default-export": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"

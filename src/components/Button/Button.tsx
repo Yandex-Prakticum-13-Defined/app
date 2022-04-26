@@ -3,9 +3,10 @@ import './Button.scss';
 
 interface IButton {
   className?: string;
-  onClick?: () => void;
+  onClick?: any;
   title?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
+  disabled?: boolean
 }
 
 const Button = ({
@@ -13,10 +14,11 @@ const Button = ({
   onClick,
   title,
   type,
+  disabled
 }: IButton) => (
-    <button className={className || 'button'} onClick={onClick} type={type}>
-      {title}
-    </button>
+  <button className={className || 'button'} onClick={onClick} type={type} disabled={disabled}>
+    {title}
+  </button>
 );
 
 export default Button;

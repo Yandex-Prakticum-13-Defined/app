@@ -1,3 +1,11 @@
-.input__wrapper {
-  padding: 10px 15px;
+.input {
+  width: inherit;
+
+  &__error {
+    color: red;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    width: 100%;
+  }
 }
