@@ -21,9 +21,6 @@
     "sourceMap": false,
     "baseUrl": ".",
     "outDir": "./dist",
-    "paths": {
-      "*": ["./src/*"]
-    },
     "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"]
   }
 }

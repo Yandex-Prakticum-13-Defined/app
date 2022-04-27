@@ -13,7 +13,7 @@ interface IInput {
   placeholder?: string;
   isEmpty?: IEmpty;
   isError?: IEmpty;
-  isDirty?: boolean
+  isDirty?: boolean;
 }
 
 interface IEmpty {

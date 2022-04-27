@@ -1,5 +1,3 @@
-/** TODO: Разобраться с настройкой путей файлов и убрать ts-ignore! */
-// @ts-ignore
 import pause from '../../img/pause.png';
 
 const img = new Image();
@@ -50,9 +48,9 @@ export let step = EStep.INIT;
 type TBrickStatus = 'ACTIVE' | 'DELETED';
 
 interface IBrick {
-  x: number,
-  y: number,
-  status: TBrickStatus,
+  x: number;
+  y: number;
+  status: TBrickStatus;
 }
 
 let bricks: IBrick[][];

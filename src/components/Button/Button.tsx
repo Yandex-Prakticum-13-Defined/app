@@ -6,7 +6,7 @@ interface IButton {
   onClick?: any;
   title?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 const Button = ({
