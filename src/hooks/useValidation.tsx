@@ -73,4 +73,4 @@ export const useValidation = (value: string, validations: any) => {
     passwordError,
     inputValid
   };
-};
+}
