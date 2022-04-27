@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 import { postSignIn } from '../../api/api';
-import Modal from '../../components/Modal/Modal';
 
 const Login = () => {
-  const [isGameOver, setIsGameOver] = useState(false);
   const login = useInput('', {
     isEmpty: true,
     login: {
@@ -36,7 +34,7 @@ const Login = () => {
       // eslint-disable-next-line no-console
       .then((data) => console.log(data))
       // eslint-disable-next-line no-console
-      .catch((e: any) => console.log(`Ошибка ${e}`));
+      .catch((event: any) => console.log(`Ошибка ${event}`));
   };
 
   return (
@@ -53,14 +51,13 @@ const Login = () => {
           <Input className='form__input' name='password' type='password' placeholder='password'
                  value={password.value} onBlur={password.onBlur}
                  onChange={(e: HTMLInputElement) => password.onChange(e)}
-                 isDirty={password.isDirty} isEmpty={password.isEmpty} isError={password.passwordError}/>
+                 isDirty={password.isDirty} isEmpty={password.isEmpty}
+                 isError={password.passwordError}/>
         </div>
-      <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
-              disabled={!login.inputValid || !password.inputValid}/>
-        <Button type='button' title='Game over' onClick={() => setIsGameOver(true)}/>
+        <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
+                disabled={!login.inputValid || !password.inputValid}/>
       </form>
       <Link className='register' to='/register'>Register</Link>
-      {isGameOver && <Modal/>}
     </div>
   );
 };
