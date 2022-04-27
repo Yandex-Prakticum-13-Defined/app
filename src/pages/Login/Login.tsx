@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 import { postSignIn } from '../../api/api';
-import Modal from "../../components/Modal/Modal";
+import Modal from '../../components/Modal/Modal';
 
 const Login = () => {
-  const [isGameOver, setIsGameOver] = useState(false)
+  const [isGameOver, setIsGameOver] = useState(false);
   const login = useInput('', {
     isEmpty: true,
     login: {
