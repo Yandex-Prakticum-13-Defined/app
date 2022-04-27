@@ -1,5 +1,3 @@
-/** TODO: Убрать eslint-disable после вмерживания правила в eslintrc! */
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect } from 'react';
 import {
   ClearAll, collisionDetection,
