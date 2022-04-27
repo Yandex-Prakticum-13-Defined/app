@@ -7,9 +7,9 @@ import {
   drawBricks,
   drawLives,
   drawPaddle, drawPause,
-  drawScore, EStep,
+  drawScore, EStep, isAnimationActive,
   keyDownHandler, keySpaceHandler,
-  keyUpHandler, processCoordinates, resetGame, step
+  keyUpHandler, processCoordinates, resetGame, showCountdownAnimation, step
 } from './engine';
 import Canvas from './Canvas';
 
@@ -40,8 +40,13 @@ const Game: React.FC = () => {
         drawPaddle(ctx);
         drawScore(ctx);
         drawLives(ctx);
-        processCoordinates(ctx);
-        collisionDetection();
+
+        if (isAnimationActive()) {
+          showCountdownAnimation(ctx);
+        } else {
+          processCoordinates(ctx);
+          collisionDetection();
+        }
         break;
 
       case EStep.PAUSED:

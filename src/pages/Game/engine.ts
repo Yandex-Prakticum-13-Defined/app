@@ -19,6 +19,7 @@ const colorBallModeBoost = '#ffffff'; // Цвет мяча в режиме Boost
 const colorPaddle = '#ffffff'; // Цвет ракетки
 const colorBricks = '#3287fc'; // Цвет кирпичей
 const colorText = '#3287fc'; // Цвет надписей статистики (Score, Lives)
+const colorCountdownText = '#ffffff'; // Цвет текста обратного отсчета
 
 const ballRadius = 10; // Радиус мяча
 const paddleHeight = 10; // Высота ракетки
@@ -36,6 +37,7 @@ let brickOffsetLeft: number; // Расстояние до левого края 
 let rightPressed: boolean; // Флаг нажатия стрелки Right
 let leftPressed: boolean; // Флаг нажатия стрелки Left
 let isBoostBallModeActive: boolean; // Если true - то мяч движется быстрее чем обычно
+let framesCount: number; // Счетчик кол-ва кадров для анимации обратного отсчета
 
 export enum EStep {
   'INIT', // Инициализация (сбрасываем значения в дефолтные)
@@ -103,7 +105,7 @@ export function fillBricksRow(ctx: CanvasRenderingContext2D) {
 }
 
 /** Сбрасывает значения в дефолтные */
-export const resetGame = (ctx: CanvasRenderingContext2D) => {
+export function resetGame(ctx: CanvasRenderingContext2D) {
   x = ctx.canvas.width / 2;
   y = ctx.canvas.height - ballRadius - paddleHeight;
   paddleX = paddleX || (ctx.canvas.width - paddleWidth) / 2;
@@ -116,11 +118,12 @@ export const resetGame = (ctx: CanvasRenderingContext2D) => {
   dy = -ballSpeedNormal;
 
   fillBricksRow(ctx);
+  framesCount = 179;
   step = EStep.RUNNING;
-};
+}
 
 /** Функция обработки координат мяча и касания мяча ракетки */
-export const processCoordinates = (ctx: CanvasRenderingContext2D) => {
+export function processCoordinates(ctx: CanvasRenderingContext2D) {
   if (x + dx > ctx.canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }
@@ -150,7 +153,7 @@ export const processCoordinates = (ctx: CanvasRenderingContext2D) => {
   } else if (leftPressed && paddleX > 0) {
     paddleX -= paddleSpeed;
   }
-};
+}
 
 /** Функция обработки касания кирпича сверху и снизу */
 export function isUpDownCollision(brick: IBrick, ballTop: number, ballBottom: number) {
@@ -258,16 +261,46 @@ export function drawBricks(ctx: CanvasRenderingContext2D) {
   }
 }
 
+/**
+ * Отображает текст на экране
+ * @param ctx - Canvas context
+ * @param text - текст для отображения
+ * @param color - цвет текста
+ * @param fontSize - размер шрифта
+ * @param offsetX - смещение по оси X
+ * @param offsetY - смещение по оси Y
+ * */
+function drawText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  color: string,
+  fontSize: number,
+  offsetX: number,
+  offsetY: number
+) {
+  ctx.font = `${fontSize}px Righteous`;
+  ctx.fillStyle = color;
+  ctx.fillText(text, offsetX, offsetY);
+}
+
 /** Отображение очков */
 export function drawScore(ctx: CanvasRenderingContext2D) {
-  ctx.font = '20px Righteous';
-  ctx.fillStyle = colorText;
-  ctx.fillText(`Score: ${score}`, 15, 25);
+  drawText(ctx, `Score: ${score}`, colorText, 20, 15, 25);
 }
 
 /** Отображение жизней */
 export function drawLives(ctx: CanvasRenderingContext2D) {
-  ctx.font = '20px Righteous';
-  ctx.fillStyle = colorText;
-  ctx.fillText(`Lives: ${lives}`, ctx.canvas.width - 85, 25);
+  drawText(ctx, `Lives: ${lives}`, colorText, 20, ctx.canvas.width - 85, 25);
 }
+
+/** Отображение жизней */
+export function showCountdownAnimation(ctx: CanvasRenderingContext2D) {
+  const offsetX = ctx.canvas.width / 2 - 40;
+  const offsetY = ctx.canvas.height / 2 + 50;
+  const displayNumber = Math.ceil(framesCount / 60);
+
+  drawText(ctx, String(displayNumber), colorCountdownText, 150, offsetX, offsetY);
+  framesCount -= 1;
+}
+
+export const isAnimationActive = () => !!framesCount;
