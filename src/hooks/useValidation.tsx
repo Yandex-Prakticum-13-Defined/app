@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 export const useValidation = (value: string, validations: any) => {
   const [isEmpty, setIsEmpty] = useState({
@@ -28,6 +28,7 @@ export const useValidation = (value: string, validations: any) => {
       .forEach((validation) => {
         switch (validation) {
           case 'isEmpty':
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             value
               ? setIsEmpty({
                 isError: false,
@@ -39,6 +40,7 @@ export const useValidation = (value: string, validations: any) => {
               });
             break;
           case 'username':
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             (/^[А-ЯЁA-Z][a-zа-яё-]{1,29}$/.test(String(value)))
               ? setUsernameError({
                 isError: false,
@@ -50,6 +52,7 @@ export const useValidation = (value: string, validations: any) => {
               });
             break;
           case 'login':
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             (/^[А-ЯЁA-Z][a-zа-яё-]{1,29}$/.test(String(value)))
               ? setLoginError({
                 isError: false,
@@ -61,6 +64,7 @@ export const useValidation = (value: string, validations: any) => {
               });
             break;
           case 'email':
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             (/^[A-Za-z0-9,.-]{1,}[@]([A-Za-z0-9,.-]{1,}[.][A-Za-z]{1,}){1,2}$/
               .test(String(value)
                 .toLowerCase()))
@@ -74,6 +78,7 @@ export const useValidation = (value: string, validations: any) => {
               });
             break;
           case 'password':
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             (/^(?=.*?[A-ZА-ЯЁ])(?=.*?[0-9]).{8,40}$/.test(String(value)))
               ? setPasswordError({
                 isError: false,

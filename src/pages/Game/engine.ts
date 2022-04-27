@@ -1,4 +1,4 @@
-import pause from '../../img/pause.png';
+// import pause from '../../img/pause.png';
 
 const img = new Image();
 const brickWidth = 75; // Ширина кирпича
@@ -210,7 +210,7 @@ export function collisionDetection() {
 
 /** Функция отображения иконки паузы посередине экрана */
 export function drawPause(ctx: CanvasRenderingContext2D) {
-  img.src = pause;
+  // img.src = pause;
   ctx.drawImage(img, ctx.canvas.width / 2 - 50, ctx.canvas.height / 2 - 50, 128, 128);
 }
 
