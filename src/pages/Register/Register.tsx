@@ -3,6 +3,7 @@ import React from 'react';
 import './Register.scss';
 import { Link } from 'react-router-dom';
 import { postUser } from '../../api/api';
+import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
@@ -89,7 +90,7 @@ const Register = () => {
                 || !email.inputValid
                 || !password.inputValid}/>
       </form>
-      <Link className='register' to='/login'>Login</Link>
+      <Link className='register' to={ERoutes.LOGIN}>Login</Link>
     </div>
   );
 };
