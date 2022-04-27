@@ -1,0 +1,24 @@
+.start {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__container {
+    margin-top: 50px;
+    width: 500px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__link {
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    margin-top: 20px;
+    color: #27aedb;
+  }
+}
