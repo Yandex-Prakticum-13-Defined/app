@@ -29,9 +29,11 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
     };
   }, [draw]);
 
-  return <div ref={containerRef} className={'canvas-container'}>
-    <canvas ref={canvasRef} />
-  </div>;
+  return (
+    <div ref={containerRef} className='canvas-container'>
+      <canvas ref={canvasRef} className='canvas' />
+    </div>
+  );
 };
 
 export default Canvas;
