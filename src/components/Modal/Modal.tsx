@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import './Modal.scss';
+import './Modal.scss'
 
 const Modal = () => (
     <div className='modal'>
@@ -9,6 +9,6 @@ const Modal = () => (
       <Link className='modal__link' to='/register'>Таблица лидеров</Link>
       <Link className='modal__link' to='/game'>Повторить игру</Link>
     </div>
-);
+)
 
 export default Modal
