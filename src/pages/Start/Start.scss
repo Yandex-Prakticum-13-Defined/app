@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
 
-  &__button {
+  &__container {
     margin-top: 50px;
     width: 500px;
     height: 200px;
@@ -12,5 +12,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+  }
+
+  &__link {
+    font-weight: bold;
+      font-size: 20px;
+      text-decoration: none;
+      margin-top: 20px;
+      color: #27aedb;
   }
 }
