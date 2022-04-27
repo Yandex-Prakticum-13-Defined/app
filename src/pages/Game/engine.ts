@@ -120,32 +120,43 @@ export function resetGame(ctx: CanvasRenderingContext2D) {
   step = EStep.RUNNING;
 }
 
-/** Функция обработки координат мяча и касания мяча ракетки */
 export function processCoordinates(ctx: CanvasRenderingContext2D) {
-  if (x + dx > ctx.canvas.width - ballRadius || x + dx < ballRadius) {
-    dx = -dx;
-  }
-  if (y + dy < ballRadius) {
-    dy = -dy;
-  } else if (y + dy > ctx.canvas.height - ballRadius - paddleHeight) {
-    if (x > paddleX && x < paddleX + paddleWidth) {
-      dy = -dy;
-    } else {
-      lives -= 1;
-      if (!lives) {
-        // eslint-disable-next-line no-alert
-        alert('GAME OVER'); /** TODO: Временная мера - заменить красивую модалку! */
-        step = EStep.INIT;
-      } else {
-        x = ctx.canvas.width / 2;
-        y = ctx.canvas.height - ballRadius - paddleHeight;
-        dx = isBoostBallModeActive ? ballSpeedBoost : ballSpeedNormal;
-        dy = isBoostBallModeActive ? -ballSpeedBoost : -ballSpeedNormal;
-      }
-    }
-  }
+  const ballLeft = x - ballRadius;
+  const ballRight = x + ballRadius;
+  const ballTop = y - ballRadius;
+
   x += dx;
   y += dy;
+
+  if (ballLeft + dx < 0 || ballRight + dx > ctx.canvas.width) {
+    dx = -dx;
+  }
+
+  if (ballTop + dy < 0) {
+    dy = -dy;
+  }
+
+  checkBallCollisionWith(
+    paddleX + paddleWidth / 2,
+    ctx.canvas.height - paddleHeight / 2,
+    paddleWidth,
+    paddleHeight
+  );
+
+  if (ballTop + dy > ctx.canvas.height) {
+    lives -= 1;
+    if (!lives) {
+      // eslint-disable-next-line no-alert
+      alert('GAME OVER'); /** TODO: Временная мера - заменить красивую модалку! */
+      step = EStep.INIT;
+    } else {
+      x = ctx.canvas.width / 2;
+      y = ctx.canvas.height - ballRadius - paddleHeight;
+      dx = isBoostBallModeActive ? ballSpeedBoost : ballSpeedNormal;
+      dy = isBoostBallModeActive ? -ballSpeedBoost : -ballSpeedNormal;
+    }
+  }
+
   if (rightPressed && paddleX < ctx.canvas.width - paddleWidth) {
     paddleX += paddleSpeed;
   } else if (leftPressed && paddleX > 0) {
@@ -153,49 +164,58 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
   }
 }
 
-/** Функция обработки касания кирпича сверху и снизу */
-export function isUpDownCollision(brick: IBrick, ballTop: number, ballBottom: number) {
-  const hasCollision = ((x > brick.x && x < brick.x + brickWidth)
-    /** Обработка касания снизу */
-    && ((dy < 0 && ballTop > brick.y && ballTop < brick.y + brickHeight)
-      /** Обработка касания сверху */
-      || (dy > 0 && ballBottom > brick.y && ballBottom < brick.y + brickHeight))
-  );
-  if (hasCollision) {
-    dy = -dy;
+/**
+ * Функция обработки столкновений мяча с кирпичом либо ракеткой
+ * @param objectCenterX - координата по оси X центра объекта
+ * @param objectCenterY - координата по оси Y центра объекта
+ * @param objectWidth - ширина объекта
+ * @param objectHeight - высота объекта
+ * */
+export function checkBallCollisionWith(
+  objectCenterX: number,
+  objectCenterY: number,
+  objectWidth: number,
+  objectHeight: number
+): boolean {
+  const xDistance = Math.abs(x - objectCenterX) - objectWidth / 2;
+  const yDistance = Math.abs(y - objectCenterY) - objectHeight / 2;
+
+  if (
+    (xDistance < ballRadius && yDistance < 0)
+    || (yDistance < ballRadius && xDistance < 0)
+    || (xDistance ** 2 + yDistance ** 2 < ballRadius ** 2)
+  ) {
+    handleCollision(xDistance, yDistance);
+
+    return true;
   }
 
-  return hasCollision;
+  return false;
 }
 
-/** Функция обработки касания кирпича слева и справа */
-export function isLeftRightCollision(brick: IBrick, ballLeft: number, ballRight: number) {
-  const hasCollision = ((y > brick.y && y < brick.y + brickHeight)
-    /** Обработка касания слева */
-    && ((dx > 0 && ballRight > brick.x && ballRight < brick.x + brickWidth)
-      /** Обработка касания справа */
-      || (dx < 0 && ballLeft > brick.x && ballLeft < brick.x + brickWidth))
-  );
-  if (hasCollision) {
+function handleCollision(xDistance: number, yDistance: number): void {
+  if (xDistance < yDistance) {
+    dy = -dy;
+  } else if (xDistance === yDistance) {
+    dx = -dx;
+    dy = -dy;
+  } else {
     dx = -dx;
   }
-
-  return hasCollision;
 }
 
 /** Функция обработки касания мяча кирпичей */
 export function collisionDetection() {
-  const ballTop = y - ballRadius;
-  const ballBottom = y + ballRadius;
-  const ballLeft = x - ballRadius;
-  const ballRight = x + ballRadius;
-
   for (let r = 0; r < brickRowCount; r += 1) {
     for (let c = 0; c < brickColCount; c += 1) {
       const brick = bricks[r][c];
       if (brick.status === 'ACTIVE') {
-        if (isUpDownCollision(brick, ballTop, ballBottom)
-          || isLeftRightCollision(brick, ballLeft, ballRight)) {
+        if (checkBallCollisionWith(
+          brick.x + brickWidth / 2,
+          brick.y + brickHeight / 2,
+          brickWidth,
+          brickHeight
+        )) {
           brick.status = 'DELETED';
           score += 1;
           if (score === brickColCount * brickRowCount) {
