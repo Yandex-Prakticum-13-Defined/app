@@ -36,13 +36,13 @@ const Input = ({
   isDirty
 }: IInput) => (
 
-    <div className='input'>
-      {title && <label htmlFor={name} className='label'>{title}</label>}
-      <input className={className} id={id} name={name} type={type} value={value} onChange={onChange}
+  <div className='input'>
+    {title && <label htmlFor={name} className='label'>{title}</label>}
+    <input className={className} id={id} name={name} type={type} value={value} onChange={onChange}
              placeholder={placeholder} onBlur={onBlur}/>
-      {isDirty && isEmpty?.isError && <div className='input__error'>{isEmpty?.error}</div>}
-      {isDirty && isError?.isError && <div className='input__error'>{isError?.error}</div>}
-    </div>
+    {isDirty && isEmpty?.isError && <div className='input__error'>{isEmpty?.error}</div>}
+    {isDirty && isError?.isError && <div className='input__error'>{isError?.error}</div>}
+  </div>
 );
 
 export default Input;

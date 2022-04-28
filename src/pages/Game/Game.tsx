@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  ClearAll, collisionDetection,
+  ClearAll, bricksCollisionDetection,
   drawBall,
   drawBricks,
   drawLives,
@@ -43,7 +43,7 @@ const Game: React.FC = () => {
           showCountdownAnimation(ctx);
         } else {
           processCoordinates(ctx);
-          collisionDetection();
+          bricksCollisionDetection();
         }
         break;
 
