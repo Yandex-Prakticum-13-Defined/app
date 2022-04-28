@@ -3,7 +3,7 @@ import React from 'react';
 import './Profile.scss';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { changeUserProfile, postLogout } from '../../api/api';
+import { changeUserProfile } from '../../api/api';
 import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -61,13 +61,13 @@ const Profile = () => {
       .catch((event: any) => console.log(`Ошибка ${event}`));
   };
 
-  const handleLogout = (e: any) => {
+  const handleLogout = async (e: any) => {
     e.preventDefault();
-    postLogout()
-      .then(() => {
-        navigate(ERoutes.LOGIN);
-      })
-      .catch((event: any) => console.log(`Ошибка ${event}`));
+    // await postLogout()
+    //   .then(() => {
+    //     navigate(ERoutes.LOGIN);
+    //   })
+    //   .catch((event: any) => console.log(`Ошибка ${event}`));
   };
 
   return (

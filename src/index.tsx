@@ -4,4 +4,5 @@ import App from './App';
 import './index.scss';
 
 const root = createRoot(document.querySelector('#root')!);
+// @ts-ignore
 root.render(<App/>);

@@ -29,10 +29,10 @@ export interface IUserData {
 const API_URL = 'https://ya-praktikum.tech/api/v2';
 
 export const postLogout = () => axios.post(`${API_URL}/auth/logout`)
-  .then((response) => response);
+  .then((responses) => responses);
 
 export const getUser = () => axios.get(`${API_URL}/auth/user`)
-  .then((response) => response);
+  .then((responses) => responses);
 
 export const postUser = (userData: IRegisterData) => axios.post(`${API_URL}/auth/signup`, userData)
   .then((response) => response.data.id);
@@ -44,7 +44,7 @@ export const postSignIn = (signInData: ISignInData) => axios.post(`${API_URL}/au
 export const postProfile = (UserData: any) => axios.post(`${API_URL}/user/search`, UserData)
   .then((response) => response);
 
-export const getProfile = (id: any) => axios.post(`${API_URL}/user/${id}`, id)
+export const getProfile = (id: any) => axios.post(`${API_URL}/user/${id}`, { id })
   .then((response) => response);
 
 // export const getUser = () => axios.post(`${API_URL}/user`)
@@ -52,3 +52,7 @@ export const getProfile = (id: any) => axios.post(`${API_URL}/user/${id}`, id)
 
 export const changeUserProfile = (userData: any) => axios.put(`${API_URL}/user/profile`, userData)
   .then((response) => response);
+
+// запрос профиля
+export const postSearchUser = (signInData: any) => axios.post(`${API_URL}/user/search`, signInData)
+  .then((Responses) => Responses);
