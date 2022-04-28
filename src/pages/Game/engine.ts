@@ -1,8 +1,8 @@
-// import pause from '../../img/pause.png';
+import pause from '../../img/pause.png';
 
 const img = new Image();
 const brickWidth = 75; // Ширина кирпича
-const brickPadding = 10; // отступ кирпича
+const brickPadding = 10; // Отступ кирпича
 const brickHeight = 60; // Высота кирпича
 const brickRowCount = 3; // Кол-во строк кирпичей
 const brickOffsetTop = 40; // Смещение по Y первого ряда кирпичей от верхнего края
@@ -36,6 +36,7 @@ let rightPressed: boolean; // Флаг нажатия стрелки Right
 let leftPressed: boolean; // Флаг нажатия стрелки Left
 let isBoostBallModeActive: boolean; // Если true - то мяч движется быстрее чем обычно
 let framesCount: number; // Счетчик кол-ва кадров для анимации обратного отсчета
+let isBallInsidePaddle = false; // Флаг: было касание мячом ракетки или нет
 
 export enum EStep {
   'INIT', // Инициализация (сбрасываем значения в дефолтные)
@@ -120,6 +121,7 @@ export function resetGame(ctx: CanvasRenderingContext2D) {
   step = EStep.RUNNING;
 }
 
+/** Функция обработки координат мяча и касания мячом ракетки */
 export function processCoordinates(ctx: CanvasRenderingContext2D) {
   const ballLeft = x - ballRadius;
   const ballRight = x + ballRadius;
@@ -127,6 +129,33 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
 
   x += dx;
   y += dy;
+
+  if (rightPressed) {
+    const paddleEnd = paddleX + paddleWidth + paddleSpeed;
+
+    if (paddleEnd <= ctx.canvas.width) {
+      paddleX += paddleSpeed;
+    } else {
+      paddleX = ctx.canvas.width - paddleWidth;
+    }
+  }
+
+  if (leftPressed) {
+    const paddleStart = paddleX - paddleSpeed;
+
+    if (paddleStart >= 0) {
+      paddleX -= paddleSpeed;
+    } else {
+      paddleX = 0;
+    }
+  }
+
+  isBallInsidePaddle = checkBallCollisionWith(
+    paddleX + paddleWidth / 2,
+    ctx.canvas.height - paddleHeight / 2,
+    paddleWidth,
+    paddleHeight
+  );
 
   if (ballLeft + dx < 0 || ballRight + dx > ctx.canvas.width) {
     dx = -dx;
@@ -136,14 +165,7 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
     dy = -dy;
   }
 
-  checkBallCollisionWith(
-    paddleX + paddleWidth / 2,
-    ctx.canvas.height - paddleHeight / 2,
-    paddleWidth,
-    paddleHeight
-  );
-
-  if (ballTop + dy > ctx.canvas.height) {
+  if (ballTop >= ctx.canvas.height) {
     lives -= 1;
     if (!lives) {
       // eslint-disable-next-line no-alert
@@ -155,12 +177,6 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
       dx = isBoostBallModeActive ? ballSpeedBoost : ballSpeedNormal;
       dy = isBoostBallModeActive ? -ballSpeedBoost : -ballSpeedNormal;
     }
-  }
-
-  if (rightPressed && paddleX < ctx.canvas.width - paddleWidth) {
-    paddleX += paddleSpeed;
-  } else if (leftPressed && paddleX > 0) {
-    paddleX -= paddleSpeed;
   }
 }
 
@@ -181,9 +197,9 @@ export function checkBallCollisionWith(
   const yDistance = Math.abs(y - objectCenterY) - objectHeight / 2;
 
   if (
-    (xDistance < ballRadius && yDistance < 0)
-    || (yDistance < ballRadius && xDistance < 0)
-    || (xDistance ** 2 + yDistance ** 2 < ballRadius ** 2)
+    (xDistance <= ballRadius && yDistance <= 0)
+    || (yDistance <= ballRadius && xDistance <= 0)
+    || (xDistance ** 2 + yDistance ** 2 <= ballRadius ** 2)
   ) {
     handleCollision(xDistance, yDistance);
 
@@ -194,6 +210,10 @@ export function checkBallCollisionWith(
 }
 
 function handleCollision(xDistance: number, yDistance: number): void {
+  if (isBallInsidePaddle) {
+    return;
+  }
+
   if (xDistance < yDistance) {
     dy = -dy;
   } else if (xDistance === yDistance) {
@@ -204,8 +224,8 @@ function handleCollision(xDistance: number, yDistance: number): void {
   }
 }
 
-/** Функция обработки касания мяча кирпичей */
-export function collisionDetection() {
+/** Функция обработки касания мячом кирпичей */
+export function bricksCollisionDetection() {
   for (let r = 0; r < brickRowCount; r += 1) {
     for (let c = 0; c < brickColCount; c += 1) {
       const brick = bricks[r][c];
@@ -230,7 +250,7 @@ export function collisionDetection() {
 
 /** Функция отображения иконки паузы посередине экрана */
 export function drawPause(ctx: CanvasRenderingContext2D) {
-  // img.src = pause;
+  img.src = pause;
   ctx.drawImage(img, ctx.canvas.width / 2 - 50, ctx.canvas.height / 2 - 50, 128, 128);
 }
 

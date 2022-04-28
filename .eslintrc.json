@@ -28,7 +28,8 @@
         "delimiter": "semi",
         "requireLast": true
       }
-    }]
+    }],
+    "linebreak-style": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"
