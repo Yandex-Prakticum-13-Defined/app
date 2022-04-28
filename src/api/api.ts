@@ -31,6 +31,9 @@ const API_URL = 'https://ya-praktikum.tech/api/v2';
 export const postLogout = () => axios.post(`${API_URL}/auth/logout`)
   .then((responses) => responses);
 
+// export const postLogout = async () => axios.post(`${API_URL}/auth/logout`)
+//   .then((responses) => responses);
+
 export const getUser = () => axios.get(`${API_URL}/auth/user`)
   .then((responses) => responses);
 

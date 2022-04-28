@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Register.scss';
 import { Link } from 'react-router-dom';
-import { postUser } from '../../api/api';
+// import { postUser } from '../../api/api';
 import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -38,22 +38,22 @@ const Register = () => {
     }
   });
 
-  const formMethod = {
-    first_name: username.value,
-    second_name: 'Second',
-    login: login.value,
-    email: email.value,
-    password: password.value,
-    phone: '+7-000-000-00-00'
-  };
+  // const formMethod = {
+  //   first_name: username.value,
+  //   second_name: 'Second',
+  //   login: login.value,
+  //   email: email.value,
+  //   password: password.value,
+  //   phone: '+7-000-000-00-00'
+  // };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    postUser(formMethod)
-      // eslint-disable-next-line no-console
-      .then((id) => console.log(`Пользователь с id ${id} успешно зарегистрирован!`))
-      // eslint-disable-next-line no-console
-      .catch((error: any) => console.log(`Ошибка ${error}`));
+    // postUser(formMethod)
+    //   // eslint-disable-next-line no-console
+    //   .then((id) => console.log(`Пользователь с id ${id} успешно зарегистрирован!`))
+    //   // eslint-disable-next-line no-console
+    //   .catch((error: any) => console.log(`Ошибка ${error}`));
   };
 
   return (

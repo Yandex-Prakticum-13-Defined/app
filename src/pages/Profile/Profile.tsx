@@ -2,15 +2,15 @@ import React from 'react';
 
 import './Profile.scss';
 
-import { Link, useNavigate } from 'react-router-dom';
-import { changeUserProfile } from '../../api/api';
+import { Link } from 'react-router-dom';
+// import { changeUserProfile } from '../../api/api';
 import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 
 const Profile = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const username = useInput('', {
     isEmpty: true,
@@ -41,24 +41,24 @@ const Profile = () => {
     }
   });
 
-  const formMethod = {
-    first_name: username.value,
-    second_name: 'Second',
-    login: login.value,
-    email: email.value,
-    password: password.value,
-    phone: '+7-000-000-00-00'
-  };
+  // const formMethod = {
+  //   first_name: username.value,
+  //   second_name: 'Second',
+  //   login: login.value,
+  //   email: email.value,
+  //   password: password.value,
+  //   phone: '+7-000-000-00-00'
+  // };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    changeUserProfile(formMethod)
-      // eslint-disable-next-line no-console
-      .then(() => {
-        navigate(ERoutes.GAME);
-      })
-      // eslint-disable-next-line no-console
-      .catch((event: any) => console.log(`Ошибка ${event}`));
+    // changeUserProfile(formMethod)
+    //   // eslint-disable-next-line no-console
+    //   .then(() => {
+    //     navigate(ERoutes.GAME);
+    //   })
+    //   // eslint-disable-next-line no-console
+    //   .catch((event: any) => console.log(`Ошибка ${event}`));
   };
 
   const handleLogout = async (e: any) => {

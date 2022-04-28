@@ -5,9 +5,9 @@ import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
-import {
-  postLogout, postSignIn
-} from '../../api/api';
+// import {
+//   postLogout, postSignIn
+// } from '../../api/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ const Login = () => {
     login: login.value,
     password: password.value,
   };
+  console.log(formMethod);
   // const [u, setU] = useState({});
   //
   // useEffect(() => {
@@ -41,7 +42,7 @@ const Login = () => {
   const handleSubmit = () => {
     // e.preventDefault();
 
-    postSignIn(formMethod).then();
+    // postSignIn(formMethod).then();
 
     // const profile = await postSearchUser({ login: formMethod?.login });
     // const profile = await postSearchUser({ login: 'Testtt' });
@@ -69,10 +70,10 @@ const Login = () => {
   const handleLogout = (e: any) => {
     console.log(e);
     // e.preventDefault();
-    postLogout()
-      .then(() => {
-        navigate(ERoutes.LOGIN);
-      });
+    // postLogout()
+    //   .then(() => {
+    //     navigate(ERoutes.LOGIN);
+    //   });
   };
 
   return (
