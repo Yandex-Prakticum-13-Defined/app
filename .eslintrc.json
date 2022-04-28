@@ -31,7 +31,9 @@
         "requireLast": true
       }
     }],
-    "react/jsx-indent": [2, 2, {"indentLogicalExpressions": true, "checkAttributes":  true}]
+    "react/jsx-indent": [2, 2, {"indentLogicalExpressions": true, "checkAttributes":  true}],
+    "no-plusplus": "off",
+    "no-param-reassign": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"
