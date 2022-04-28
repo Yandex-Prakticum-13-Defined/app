@@ -18,7 +18,19 @@ module.exports = {
     compress: true,
     port: 8080,
     open: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/api/v2': {
+        changeOrigin: true,
+        target: 'https://ya-praktikum.tech',
+        cookieDomainRewrite: 'localhost',
+        onProxyReq: (proxyReq) => {
+          if (proxyReq.getHeader('origin')) {
+            proxyReq.setHeader('origin', 'https://ya-praktikum.tech');
+          }
+        }
+      }
+    },
   },
   module: {
     rules: [

@@ -1,14 +1,15 @@
 import React from 'react';
 
 import './Register.scss';
-import { Link } from 'react-router-dom';
-// import { postUser } from '../../api/api';
+import { Link, useNavigate } from 'react-router-dom';
+import { postUser } from '../../api/api';
 import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
 
 const Register = () => {
+  const navigate = useNavigate();
   const username = useInput('', {
     isEmpty: true,
     username: {
@@ -38,28 +39,30 @@ const Register = () => {
     }
   });
 
-  // const formMethod = {
-  //   first_name: username.value,
-  //   second_name: 'Second',
-  //   login: login.value,
-  //   email: email.value,
-  //   password: password.value,
-  //   phone: '+7-000-000-00-00'
-  // };
+  const formMethod = {
+    first_name: username.value,
+    second_name: 'Second',
+    login: login.value,
+    email: email.value,
+    password: password.value,
+    phone: '+7-000-000-00-00'
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // postUser(formMethod)
-    //   // eslint-disable-next-line no-console
-    //   .then((id) => console.log(`Пользователь с id ${id} успешно зарегистрирован!`))
-    //   // eslint-disable-next-line no-console
-    //   .catch((error: any) => console.log(`Ошибка ${error}`));
+    postUser(formMethod)
+      .then((id) => {
+        localStorage.id = id;
+        navigate(ERoutes.PROFILE);
+      })
+      // eslint-disable-next-line no-console
+      .catch((error: any) => console.log(`Ошибка ${error}`));
   };
 
   return (
     <div className='container'>
       <form className='form' onSubmit={handleSubmit}>
-        <h1 className='form__title'>Sign up</h1>
+        <h1 className='form__title'>Регистрация</h1>
         <div className='form__wrapper'>
           <Input className='form__input' name='username' type='text' placeholder='username'
                  value={username.value} onBlur={username.onBlur}
@@ -84,13 +87,13 @@ const Register = () => {
                  onChange={(e: HTMLInputElement) => password.onChange(e)}
                  isDirty={password.isDirty} isEmpty={password.isEmpty} isError={password.passwordError}/>
         </div>
-        <Button type='submit' title='Register' onClick={(e: any) => handleSubmit(e)}
+        <Button type='submit' title='Зарегистрироваться'
                 disabled={!username.inputValid
                 || !login.inputValid
                 || !email.inputValid
                 || !password.inputValid}/>
       </form>
-      <Link className='register' to={ERoutes.LOGIN}>Login</Link>
+      <Link className='register' to={ERoutes.LOGIN}>Авторизация</Link>
     </div>
   );
 };

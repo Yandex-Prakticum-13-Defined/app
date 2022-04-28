@@ -1,13 +1,11 @@
 import React from 'react';
 import './Login.scss';
 import { Link, useNavigate } from 'react-router-dom';
+import { postSignIn } from '../../api/api';
 import { ERoutes } from '../../App';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useInput } from '../../hooks/useInput';
-// import {
-//   postLogout, postSignIn
-// } from '../../api/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,50 +28,11 @@ const Login = () => {
     login: login.value,
     password: password.value,
   };
-  console.log(formMethod);
-  // const [u, setU] = useState({});
-  //
-  // useEffect(() => {
-  //   getUser().then((data) => setU(data));
-  // }, []);
-  //
-  // console.log('122', u);
 
   const handleSubmit = () => {
-    // e.preventDefault();
-
-    // postSignIn(formMethod).then();
-
-    // const profile = await postSearchUser({ login: formMethod?.login });
-    // const profile = await postSearchUser({ login: 'Testtt' });
-    // console.log('profile', profile);
-
-    // const profile = await postSearchUser(formMethod.login);
+    postSignIn(formMethod).then();
 
     navigate(ERoutes.PROFILE);
-
-    // async postSignIn(formMethod)
-    //   // eslint-disable-next-line no-console
-    //   .then((res) => {
-    //     console.log(res);
-    //     if (res.data === 'OK') {
-    //       getUser().then((res) => setU(res));
-    //       // console.log('ok');
-    //       // setU(user);
-    //     }
-    //     navigate(ERoutes.PROFILE);
-    //   })
-    //   // eslint-disable-next-line no-console
-    //   .catch((error: any) => console.log(`Ошибка ${error}`));
-  };
-
-  const handleLogout = (e: any) => {
-    console.log(e);
-    // e.preventDefault();
-    // postLogout()
-    //   .then(() => {
-    //     navigate(ERoutes.LOGIN);
-    //   });
   };
 
   return (
@@ -93,11 +52,10 @@ const Login = () => {
                  isDirty={password.isDirty} isEmpty={password.isEmpty}
                  isError={password.passwordError}/>
         </div>
-        <Button type='submit' title='Войти' onClick={() => handleSubmit()}
+        <Button type='submit' title='Войти'
                 disabled={!login.inputValid || !password.inputValid}/>
       </form>
       <Link className='register' to={ERoutes.REGISTER}>Регистрация</Link>
-      <Button type='button' title='Выход' onClick={(e:any) => handleLogout(e)}/>
     </div>
   );
 };
