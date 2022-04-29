@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import './Profile.scss';
 
-import { Link } from 'react-router-dom';
 import {
   changeAvatar, changeUserPassword, changeUserProfile, getProfile
 } from '../../api/api';
+
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
 import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Profile = () => {
-  // const navigate = useNavigate();
-
+  const { id } = localStorage;
   const [isProfile, setIsProfile] = useState(false);
   const [isAvatar, setIsAvatar] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
@@ -30,6 +30,7 @@ const Profile = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
+      username: '',
       first_name: '',
       login: '',
       email: '',
@@ -39,8 +40,6 @@ const Profile = () => {
       newPassword: ''
     },
   });
-
-  const { id } = localStorage;
 
   const [profile, setProfile] = useState({
     first_name: '',
@@ -67,7 +66,11 @@ const Profile = () => {
 
   const onSubmit = () => {
     // @ts-ignore
-    const { username, login, email } = getValues();
+    const {
+      username,
+      login,
+      email
+    } = getValues();
 
     changeUserProfile({
       first_name: username,
@@ -76,19 +79,25 @@ const Profile = () => {
       second_name: 'Second',
       display_name: 'Display',
       phone: '+7-000-000-00-00',
-    }).then();
+    })
+      .then();
   };
 
   const onSubmitAvatar = () => {
-    // console.log('data', data);
     const { avatar } = getValues();
-    // console.log('avatar', avatar);
 
-    changeAvatar({ avatar, type: 'image/png' }).then();
+    changeAvatar({
+      avatar,
+      type: 'image/png'
+    })
+      .then();
   };
 
   const onSubmitPassword = () => {
-    const { oldPassword, newPassword } = getValues();
+    const {
+      oldPassword,
+      newPassword
+    } = getValues();
     changeUserPassword({
       oldPassword,
       newPassword
@@ -154,7 +163,6 @@ const Profile = () => {
           disabled: !isValid,
         }}
       />}
-
       <Link className='register' onClick={() => {
         setIsAvatar(true);
         setIsProfile(false);
@@ -178,8 +186,7 @@ const Profile = () => {
                 type: 'submit',
                 title: 'Сохранить',
                 disabled: !isValid,
-              }} />
-
+              }}/>
       )}
       <Link className='register' onClick={() => {
         setIsPassword(true);
@@ -196,7 +203,6 @@ const Profile = () => {
                     type='password'
                     placeholder='введите старый пароль'
                     className='form__input'
-                    // defaultValue={profile?.email}
                     control={control}
                     rules={{
                       required: PATTERN_VALIDATION.required,
@@ -222,7 +228,7 @@ const Profile = () => {
                 type: 'submit',
                 title: 'Сохранить',
                 disabled: !isValid,
-              }} />
+              }}/>
       )}
       <Link className='register' to={ERoutes.START}>На главную</Link>
     </div>

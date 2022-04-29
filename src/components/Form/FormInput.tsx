@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import './Form.scss';
 import { useController } from 'react-hook-form';
 
-interface IInput {
+interface IFormInput {
   control?: any;
   defaultValue?: string;
   name: string;
@@ -18,7 +18,7 @@ export const FormInput = memo(({
   name,
   rules,
   ...rest
-}: IInput) => {
+}: IFormInput) => {
   const {
     field,
     formState: { errors }

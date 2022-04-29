@@ -1,60 +1,80 @@
 import React from 'react';
-import './Login.scss';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+
+import './Login.scss';
+
 import { postSignIn } from '../../api/api';
 import { ERoutes } from '../../App';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
-import { useInput } from '../../hooks/useInput';
+import Form from '../../components/Form/Form';
+import { FormInput } from '../../components/Form/FormInput';
+import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Login = () => {
   const navigate = useNavigate();
-  const login = useInput('', {
-    isEmpty: true,
-    login: {
-      isError: null,
-      error: ''
-    }
+
+  const {
+    handleSubmit,
+    formState: {
+      isValid
+    },
+    control,
+    getValues
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      login: '',
+      password: '',
+    },
   });
-  const password = useInput('', {
-    isEmpty: true,
-    password: {
-      isError: null,
-      error: ''
-    }
-  });
 
-  const formMethod = {
-    login: login.value,
-    password: password.value,
-  };
+  const onSubmit = () => {
+    const data = getValues();
+    postSignIn(data).then();
 
-  const handleSubmit = () => {
-    postSignIn(formMethod).then();
-
-    navigate(ERoutes.PROFILE);
+    navigate(ERoutes.START);
   };
 
   return (
     <div className='container'>
-      <form className='form' onSubmit={handleSubmit}>
-        <h1 className='form__title'>Авторизация</h1>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='login' type='text' placeholder='login'
-                 value={login.value} onBlur={login.onBlur}
-                 onChange={(e: HTMLInputElement) => login.onChange(e)}
-                 isDirty={login.isDirty} isEmpty={login.isEmpty} isError={login.loginError}/>
-        </div>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='password' type='password' placeholder='password'
-                 value={password.value} onBlur={password.onBlur}
-                 onChange={(e: HTMLInputElement) => password.onChange(e)}
-                 isDirty={password.isDirty} isEmpty={password.isEmpty}
-                 isError={password.passwordError}/>
-        </div>
-        <Button type='submit' title='Войти'
-                disabled={!login.inputValid || !password.inputValid}/>
-      </form>
+      <Form
+        title='Авторизация'
+        handleSubmit={handleSubmit(onSubmit)}
+        children={
+          <>
+            <FormInput
+              name='login'
+              type='text'
+              placeholder='Логин'
+              className='form__input'
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                minLength: PATTERN_VALIDATION.minLength_3,
+                maxLength: PATTERN_VALIDATION.maxLength,
+                pattern: PATTERN_VALIDATION.login,
+              }}
+            />
+            <FormInput
+              name='password'
+              type='password'
+              placeholder='введите новый пароль'
+              className='form__input'
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                pattern: PATTERN_VALIDATION.password,
+                minLength: PATTERN_VALIDATION.minLength_8
+              }}
+            />
+          </>
+        }
+        button={{
+          type: 'submit',
+          title: 'Войти',
+          disabled: !isValid,
+        }}
+      />
       <Link className='register' to={ERoutes.REGISTER}>Регистрация</Link>
     </div>
   );
