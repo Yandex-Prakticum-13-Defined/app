@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import './Button.scss';
 
 interface IButton {
   className?: string;
-  onClick?: any;
+  onClick?: MouseEventHandler;
   title?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
   disabled?: boolean;
