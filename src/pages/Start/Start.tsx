@@ -24,7 +24,7 @@ const Start = () => {
         setUserId(null);
         navigate(ERoutes.START);
       })
-      .catch((responses) => console.log(responses.data));
+      .catch();
   };
 
   return (
@@ -41,6 +41,7 @@ const Start = () => {
           <>
           <Link className='start__link' onClick={handleLogout} to='#'>Выйти</Link>
           <Link className='start__link' to={ERoutes.GAME}>Начать игру</Link>
+            <Link className='start__link' to={ERoutes.PROFILE}>Профиль</Link>
           </>
         ) : (
           <>

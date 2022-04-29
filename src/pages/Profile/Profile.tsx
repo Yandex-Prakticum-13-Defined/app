@@ -1,116 +1,230 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import './Profile.scss';
 
-import { Link, useNavigate } from 'react-router-dom';
-import { changeUserProfile, getProfile } from '../../api/api';
+import { Link } from 'react-router-dom';
+import {
+  changeAvatar, changeUserPassword, changeUserProfile, getProfile
+} from '../../api/api';
 import { ERoutes } from '../../App';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
-import { useInput } from '../../hooks/useInput';
+import Form from '../../components/Form/Form';
+import { FormInput } from '../../components/Form/FormInput';
+import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Profile = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const [isProfile, setIsProfile] = useState(false);
+  const [isAvatar, setIsAvatar] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+
+  const {
+    handleSubmit,
+    formState: {
+      isValid
+    },
+    control,
+    setValue,
+    getValues
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      first_name: '',
+      login: '',
+      email: '',
+      password: '',
+      avatar: '',
+      oldPassword: '',
+      newPassword: ''
+    },
+  });
 
   const { id } = localStorage;
-
-  useEffect(() => {
-    getProfile(Number(id)).then(({ data }) => setProfile(data));
-  }, [id]);
 
   const [profile, setProfile] = useState({
     first_name: '',
     login: '',
     email: '',
-    password: ''
+    password: '',
   });
 
-  const username = useInput(profile?.first_name, {
-    isEmpty: true,
-    username: {
-      isError: null,
-      error: ''
-    }
-  });
-  const login = useInput(profile?.login, {
-    isEmpty: true,
-    login: {
-      isError: null,
-      error: ''
-    }
-  });
-  const email = useInput(profile?.email, {
-    isEmpty: true,
-    email: {
-      isError: null,
-      error: ''
-    }
-  });
-  const password = useInput(profile?.password, {
-    isEmpty: true,
-    password: {
-      isError: null,
-      error: ''
-    }
-  });
+  useEffect(() => {
+    getProfile(Number(id))
+      .then(({ data }) => {
+        setProfile(data);
+      });
+  }, [id]);
 
-  const formMethod = {
-    first_name: username.value,
-    second_name: 'Second',
-    display_name: 'Display_name',
-    login: login.value,
-    email: email.value,
-    phone: '+7-000-000-00-00'
+  useEffect(() => {
+    // @ts-ignore
+    setValue('username', profile?.first_name);
+    // @ts-ignore
+    setValue('login', profile?.login);
+    // @ts-ignore
+    setValue('email', profile?.email);
+  }, [profile]);
+
+  const onSubmit = () => {
+    // @ts-ignore
+    const { username, login, email } = getValues();
+
+    changeUserProfile({
+      first_name: username,
+      login,
+      email,
+      second_name: 'Second',
+      display_name: 'Display',
+      phone: '+7-000-000-00-00',
+    }).then();
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    changeUserProfile(formMethod)
-      // eslint-disable-next-line no-console
-      .then(() => {
-        navigate(ERoutes.GAME);
-      })
-      // eslint-disable-next-line no-console
-      .catch((event: any) => console.log(`Ошибка ${event}`));
+  const onSubmitAvatar = () => {
+    // console.log('data', data);
+    const { avatar } = getValues();
+    // console.log('avatar', avatar);
+
+    changeAvatar({ avatar, type: 'image/png' }).then();
+  };
+
+  const onSubmitPassword = () => {
+    const { oldPassword, newPassword } = getValues();
+    changeUserPassword({
+      oldPassword,
+      newPassword
+    })
+      .then();
   };
 
   return (
     <div className='container'>
-      <form className='form' onSubmit={handleSubmit}>
-        <h1 className='form__title'>Профиль</h1>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='username' type='text' placeholder='Имя'
-                 value={ username?.value } onBlur={username.onBlur}
-                 onChange={(e: HTMLInputElement) => username.onChange(e)}
-                 isDirty={username.isDirty} isEmpty={username.isEmpty}
-                 isError={username.usernameError}/>
-        </div>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='login' type='text' placeholder='Логин'
-                 value={login.value} onBlur={login.onBlur}
-                 onChange={(e: HTMLInputElement) => login.onChange(e)}
-                 isDirty={login.isDirty} isEmpty={login.isEmpty} isError={login.loginError}/>
-        </div>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='email' type='email' placeholder='email адрес'
-                 value={email.value} onBlur={email.onBlur}
-                 onChange={(e: HTMLInputElement) => email.onChange(e)}
-                 isDirty={email.isDirty} isEmpty={email.isEmpty} isError={email.emailError}/>
-        </div>
-         <div className='form__wrapper'>
-          <Input className='form__input' name='password' type='password' placeholder='Пароль'
-                 value={password.value} onBlur={password.onBlur}
-                 onChange={(e: HTMLInputElement) => password.onChange(e)}
-                 isDirty={password.isDirty} isEmpty={password.isEmpty}
-                 isError={password.passwordError}/>
-         </div>
-        <Button type='submit' title='Сохранить'
-                disabled={!username.inputValid
-                || !login.inputValid
-                || !email.inputValid
-                || !password.inputValid}/>
-      </form>
-      <Link className='register' to={ERoutes.LOGIN}>Login</Link>
+      <Link className='register' onClick={() => {
+        setIsAvatar(false);
+        setIsProfile(true);
+        setIsPassword(false);
+      }} to='#'>Редактировать профиль</Link>
+      {isProfile && <Form
+        title='Профиль'
+        handleSubmit={handleSubmit(onSubmit)}
+        children={
+          <>
+            <FormInput
+              name='username'
+              type='text'
+              placeholder='Имя'
+              className='form__input'
+              defaultValue={profile?.first_name}
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                pattern: PATTERN_VALIDATION.name,
+              }}
+            />
+            <FormInput
+              name='login'
+              type='text'
+              placeholder='Логин'
+              className='form__input'
+              defaultValue={profile?.login}
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                minLength: PATTERN_VALIDATION.minLength_3,
+                maxLength: PATTERN_VALIDATION.maxLength,
+                pattern: PATTERN_VALIDATION.login,
+              }}
+            />
+            <FormInput
+              name='email'
+              type='email'
+              placeholder='email адрес'
+              className='form__input'
+              defaultValue={profile?.email}
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                pattern: PATTERN_VALIDATION.email,
+              }}
+            />
+          </>
+        }
+        button={{
+          type: 'submit',
+          title: 'Сохранить',
+          disabled: !isValid,
+        }}
+      />}
+
+      <Link className='register' onClick={() => {
+        setIsAvatar(true);
+        setIsProfile(false);
+        setIsPassword(false);
+      }} to='#'>Загрузить аватар</Link>
+      {isAvatar && (
+        <Form title='Загрузить аватар'
+              handleSubmit={handleSubmit(onSubmitAvatar)}
+              children={
+                <>
+                  <FormInput
+                    name='avatar'
+                    type='file'
+                    placeholder='выберете аватар'
+                    className='form__input'
+                    control={control}
+                  />
+                </>
+              }
+              button={{
+                type: 'submit',
+                title: 'Сохранить',
+                disabled: !isValid,
+              }} />
+
+      )}
+      <Link className='register' onClick={() => {
+        setIsPassword(true);
+        setIsAvatar(false);
+        setIsProfile(false);
+      }} to='#'>Изменить пароль</Link>
+      {isPassword && (
+        <Form title='Изменить пароль'
+              handleSubmit={handleSubmit(onSubmitPassword)}
+              children={
+                <>
+                  <FormInput
+                    name='oldPassword'
+                    type='password'
+                    placeholder='введите старый пароль'
+                    className='form__input'
+                    // defaultValue={profile?.email}
+                    control={control}
+                    rules={{
+                      required: PATTERN_VALIDATION.required,
+                      pattern: PATTERN_VALIDATION.password,
+                      minLength: PATTERN_VALIDATION.minLength_8
+                    }}
+                  />
+                  <FormInput
+                    name='newPassword'
+                    type='password'
+                    placeholder='введите новый пароль'
+                    className='form__input'
+                    control={control}
+                    rules={{
+                      required: PATTERN_VALIDATION.required,
+                      pattern: PATTERN_VALIDATION.password,
+                      minLength: PATTERN_VALIDATION.minLength_8
+                    }}
+                  />
+                </>
+              }
+              button={{
+                type: 'submit',
+                title: 'Сохранить',
+                disabled: !isValid,
+              }} />
+      )}
+      <Link className='register' to={ERoutes.START}>На главную</Link>
     </div>
   );
 };
