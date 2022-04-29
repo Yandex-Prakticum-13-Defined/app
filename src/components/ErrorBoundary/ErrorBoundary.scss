@@ -1,0 +1,19 @@
+.error-boundary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  &__text-container {
+    width: 300px;
+  }
+
+  &__image {
+    width: 400px;
+    height: 400px;
+  }
+
+  &__text {
+    font-family: Arial, serif;
+  }
+}

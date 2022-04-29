@@ -1,8 +1,8 @@
-// import pause from '../../img/pause.png';
+import pause from '../../img/pause.png';
 
 const img = new Image();
 const brickWidth = 75; // Ширина кирпича
-const brickPadding = 10; // отступ кирпича
+const brickPadding = 10; // Отступ кирпича
 const brickHeight = 60; // Высота кирпича
 const brickRowCount = 3; // Кол-во строк кирпичей
 const brickOffsetTop = 40; // Смещение по Y первого ряда кирпичей от верхнего края
@@ -36,6 +36,7 @@ let rightPressed: boolean; // Флаг нажатия стрелки Right
 let leftPressed: boolean; // Флаг нажатия стрелки Left
 let isBoostBallModeActive: boolean; // Если true - то мяч движется быстрее чем обычно
 let framesCount: number; // Счетчик кол-ва кадров для анимации обратного отсчета
+let isBallInsidePaddle = false; // Флаг: было касание мячом ракетки или нет
 
 export enum EStep {
   'INIT', // Инициализация (сбрасываем значения в дефолтные)
@@ -120,82 +121,121 @@ export function resetGame(ctx: CanvasRenderingContext2D) {
   step = EStep.RUNNING;
 }
 
-/** Функция обработки координат мяча и касания мяча ракетки */
+/** Функция обработки координат мяча и касания мячом ракетки */
 export function processCoordinates(ctx: CanvasRenderingContext2D) {
-  if (x + dx > ctx.canvas.width - ballRadius || x + dx < ballRadius) {
-    dx = -dx;
-  }
-  if (y + dy < ballRadius) {
-    dy = -dy;
-  } else if (y + dy > ctx.canvas.height - ballRadius - paddleHeight) {
-    if (x > paddleX && x < paddleX + paddleWidth) {
-      dy = -dy;
-    } else {
-      lives -= 1;
-      if (!lives) {
-        // eslint-disable-next-line no-alert
-        alert('GAME OVER'); /** TODO: Временная мера - заменить красивую модалку! */
-        step = EStep.INIT;
-      } else {
-        x = ctx.canvas.width / 2;
-        y = ctx.canvas.height - ballRadius - paddleHeight;
-        dx = isBoostBallModeActive ? ballSpeedBoost : ballSpeedNormal;
-        dy = isBoostBallModeActive ? -ballSpeedBoost : -ballSpeedNormal;
-      }
-    }
-  }
-  x += dx;
-  y += dy;
-  if (rightPressed && paddleX < ctx.canvas.width - paddleWidth) {
-    paddleX += paddleSpeed;
-  } else if (leftPressed && paddleX > 0) {
-    paddleX -= paddleSpeed;
-  }
-}
-
-/** Функция обработки касания кирпича сверху и снизу */
-export function isUpDownCollision(brick: IBrick, ballTop: number, ballBottom: number) {
-  const hasCollision = ((x > brick.x && x < brick.x + brickWidth)
-    /** Обработка касания снизу */
-    && ((dy < 0 && ballTop > brick.y && ballTop < brick.y + brickHeight)
-      /** Обработка касания сверху */
-      || (dy > 0 && ballBottom > brick.y && ballBottom < brick.y + brickHeight))
-  );
-  if (hasCollision) {
-    dy = -dy;
-  }
-
-  return hasCollision;
-}
-
-/** Функция обработки касания кирпича слева и справа */
-export function isLeftRightCollision(brick: IBrick, ballLeft: number, ballRight: number) {
-  const hasCollision = ((y > brick.y && y < brick.y + brickHeight)
-    /** Обработка касания слева */
-    && ((dx > 0 && ballRight > brick.x && ballRight < brick.x + brickWidth)
-      /** Обработка касания справа */
-      || (dx < 0 && ballLeft > brick.x && ballLeft < brick.x + brickWidth))
-  );
-  if (hasCollision) {
-    dx = -dx;
-  }
-
-  return hasCollision;
-}
-
-/** Функция обработки касания мяча кирпичей */
-export function collisionDetection() {
-  const ballTop = y - ballRadius;
-  const ballBottom = y + ballRadius;
   const ballLeft = x - ballRadius;
   const ballRight = x + ballRadius;
+  const ballTop = y - ballRadius;
 
+  x += dx;
+  y += dy;
+
+  if (rightPressed) {
+    const paddleEnd = paddleX + paddleWidth + paddleSpeed;
+
+    if (paddleEnd <= ctx.canvas.width) {
+      paddleX += paddleSpeed;
+    } else {
+      paddleX = ctx.canvas.width - paddleWidth;
+    }
+  }
+
+  if (leftPressed) {
+    const paddleStart = paddleX - paddleSpeed;
+
+    if (paddleStart >= 0) {
+      paddleX -= paddleSpeed;
+    } else {
+      paddleX = 0;
+    }
+  }
+
+  isBallInsidePaddle = checkBallCollisionWith(
+    paddleX + paddleWidth / 2,
+    ctx.canvas.height - paddleHeight / 2,
+    paddleWidth,
+    paddleHeight
+  );
+
+  if (ballLeft + dx < 0 || ballRight + dx > ctx.canvas.width) {
+    dx = -dx;
+  }
+
+  if (ballTop + dy < 0) {
+    dy = -dy;
+  }
+
+  if (ballTop >= ctx.canvas.height) {
+    lives -= 1;
+    if (!lives) {
+      // eslint-disable-next-line no-alert
+      alert('GAME OVER'); /** TODO: Временная мера - заменить красивую модалку! */
+      step = EStep.INIT;
+    } else {
+      x = ctx.canvas.width / 2;
+      y = ctx.canvas.height - ballRadius - paddleHeight;
+      dx = isBoostBallModeActive ? ballSpeedBoost : ballSpeedNormal;
+      dy = isBoostBallModeActive ? -ballSpeedBoost : -ballSpeedNormal;
+    }
+  }
+}
+
+/**
+ * Функция обработки столкновений мяча с кирпичом либо ракеткой
+ * @param objectCenterX - координата по оси X центра объекта
+ * @param objectCenterY - координата по оси Y центра объекта
+ * @param objectWidth - ширина объекта
+ * @param objectHeight - высота объекта
+ * */
+export function checkBallCollisionWith(
+  objectCenterX: number,
+  objectCenterY: number,
+  objectWidth: number,
+  objectHeight: number
+): boolean {
+  const xDistance = Math.abs(x - objectCenterX) - objectWidth / 2;
+  const yDistance = Math.abs(y - objectCenterY) - objectHeight / 2;
+
+  if (
+    (xDistance <= ballRadius && yDistance <= 0)
+    || (yDistance <= ballRadius && xDistance <= 0)
+    || (xDistance ** 2 + yDistance ** 2 <= ballRadius ** 2)
+  ) {
+    handleCollision(xDistance, yDistance);
+
+    return true;
+  }
+
+  return false;
+}
+
+function handleCollision(xDistance: number, yDistance: number): void {
+  if (isBallInsidePaddle) {
+    return;
+  }
+
+  if (xDistance < yDistance) {
+    dy = -dy;
+  } else if (xDistance === yDistance) {
+    dx = -dx;
+    dy = -dy;
+  } else {
+    dx = -dx;
+  }
+}
+
+/** Функция обработки касания мячом кирпичей */
+export function bricksCollisionDetection() {
   for (let r = 0; r < brickRowCount; r += 1) {
     for (let c = 0; c < brickColCount; c += 1) {
       const brick = bricks[r][c];
       if (brick.status === 'ACTIVE') {
-        if (isUpDownCollision(brick, ballTop, ballBottom)
-          || isLeftRightCollision(brick, ballLeft, ballRight)) {
+        if (checkBallCollisionWith(
+          brick.x + brickWidth / 2,
+          brick.y + brickHeight / 2,
+          brickWidth,
+          brickHeight
+        )) {
           brick.status = 'DELETED';
           score += 1;
           if (score === brickColCount * brickRowCount) {
@@ -210,7 +250,7 @@ export function collisionDetection() {
 
 /** Функция отображения иконки паузы посередине экрана */
 export function drawPause(ctx: CanvasRenderingContext2D) {
-  // img.src = pause;
+  img.src = pause;
   ctx.drawImage(img, ctx.canvas.width / 2 - 50, ctx.canvas.height / 2 - 50, 128, 128);
 }
 

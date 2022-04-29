@@ -2,7 +2,9 @@
   "extends": [
     "airbnb-base",
     "airbnb-typescript/base",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "react-app"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
@@ -19,6 +21,7 @@
     "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
     "jsx-quotes": ["error", "prefer-single"],
     "import/prefer-default-export": "off",
+    "linebreak-style": "off",
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": {
         "delimiter": "semi",
@@ -28,6 +31,16 @@
         "delimiter": "semi",
         "requireLast": true
       }
+    }],
+    "react/jsx-indent": ["error", 2, {"indentLogicalExpressions": true, "checkAttributes":  true}],
+    "react/jsx-wrap-multilines": ["error", {
+      "declaration": "parens-new-line",
+      "assignment": "parens-new-line",
+      "return": "parens-new-line",
+      "arrow": "parens-new-line",
+      "condition": "parens-new-line",
+      "logical": "parens-new-line",
+      "prop": "parens-new-line"
     }]
   },
   "parserOptions": {
