@@ -41,7 +41,9 @@
       "condition": "parens-new-line",
       "logical": "parens-new-line",
       "prop": "parens-new-line"
-    }]
+    }],
+    "no-plusplus": "off",
+    "no-param-reassign": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"
