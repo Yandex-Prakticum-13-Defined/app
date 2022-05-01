@@ -43,8 +43,9 @@ export enum EStep {
   'RUNNING', // Игра запущена
   'PAUSED', // Игра на паузе
 }
-// eslint-disable-next-line import/no-mutable-exports
 export let step = EStep.INIT;
+export let isGameOver = false;
+export let roundWin = false;
 
 type TBrickStatus = 'ACTIVE' | 'DELETED';
 
@@ -55,6 +56,10 @@ interface IBrick {
 }
 
 let bricks: IBrick[][];
+
+export function resetGameIfNeeded(isReset: boolean) {
+  step = isReset ? EStep.INIT : step;
+}
 
 /** Обработчик нажатия клавиши (событие keydown) */
 export function keyDownHandler(e: KeyboardEvent) {
@@ -107,7 +112,7 @@ export function fillBricksRow(ctx: CanvasRenderingContext2D) {
 export function resetGame(ctx: CanvasRenderingContext2D) {
   x = ctx.canvas.width / 2;
   y = ctx.canvas.height - ballRadius - paddleHeight;
-  paddleX = paddleX || (ctx.canvas.width - paddleWidth) / 2;
+  paddleX = (ctx.canvas.width - paddleWidth) / 2;
   rightPressed = false;
   leftPressed = false;
   isBoostBallModeActive = false; // Если true - то мяч движется быстрее чем обычно
@@ -118,11 +123,16 @@ export function resetGame(ctx: CanvasRenderingContext2D) {
 
   fillBricksRow(ctx);
   framesCount = 179;
+  isGameOver = false;
   step = EStep.RUNNING;
 }
 
 /** Функция обработки координат мяча и касания мячом ракетки */
 export function processCoordinates(ctx: CanvasRenderingContext2D) {
+  if (isGameOver) {
+    return;
+  }
+
   const ballLeft = x - ballRadius;
   const ballRight = x + ballRadius;
   const ballTop = y - ballRadius;
@@ -168,9 +178,8 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
   if (ballTop >= ctx.canvas.height) {
     lives -= 1;
     if (!lives) {
-      // eslint-disable-next-line no-alert
-      alert('GAME OVER'); /** TODO: Временная мера - заменить красивую модалку! */
-      step = EStep.INIT;
+      roundWin = false;
+      isGameOver = true;
     } else {
       x = ctx.canvas.width / 2;
       y = ctx.canvas.height - ballRadius - paddleHeight;
@@ -239,8 +248,8 @@ export function bricksCollisionDetection() {
           brick.status = 'DELETED';
           score += 1;
           if (score === brickColCount * brickRowCount) {
-            // eslint-disable-next-line no-alert
-            alert('YOU WIN, CONGRATS!'); /** TODO: Временная мера - заменить красивую модалку! */
+            roundWin = true;
+            isGameOver = true;
           }
         }
       }

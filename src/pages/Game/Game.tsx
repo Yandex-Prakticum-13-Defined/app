@@ -7,9 +7,9 @@ import {
   drawPaddle, drawPause,
   drawScore, EStep, isAnimationActive,
   keyDownHandler, keySpaceHandler,
-  keyUpHandler, processCoordinates, resetGame, showCountdownAnimation, step
+  keyUpHandler, processCoordinates, resetGame, showCountdownAnimation, step, resetGameIfNeeded
 } from './engine';
-import Canvas from './Canvas';
+import Canvas from './components/Canvas/Canvas';
 
 const Game: React.FC = () => {
   useEffect(() => {
@@ -25,7 +25,9 @@ const Game: React.FC = () => {
   }, []);
 
   /** Основная функция рисования */
-  const draw = (ctx: CanvasRenderingContext2D) => {
+  const draw = (ctx: CanvasRenderingContext2D, isReset: boolean) => {
+    resetGameIfNeeded(isReset);
+
     switch (step) {
       case EStep.INIT:
         resetGame(ctx);

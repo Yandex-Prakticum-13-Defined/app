@@ -43,7 +43,8 @@
       "prop": "parens-new-line"
     }],
     "no-plusplus": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "import/no-mutable-exports": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"
