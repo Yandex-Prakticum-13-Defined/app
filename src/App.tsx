@@ -10,8 +10,8 @@ import Error404 from './pages/Error/Error404';
 import Error500 from './pages/Error/Error500';
 import Leaderboard from './pages/Leaderboard/Leaderboard';
 import Forum from './pages/Forum/Forum';
-import ForumTopic from './components/ForumTopic/ForumTopic';
-import ForumTopics from './components/ForumTopics/ForumTopics';
+import ForumTopic from './pages/Forum/components/ForumTopic/ForumTopic';
+import ForumTopics from './pages/Forum/components/ForumTopics/ForumTopics';
 
 export enum ERoutes {
   'START' = '/',
@@ -21,7 +21,7 @@ export enum ERoutes {
   'LOGIN' = '/login',
   'FORUM' = '/forum',
   'ERROR_500' = '/500',
-  'FALLBACK' = '/404'
+  'FALLBACK' = '*'
 }
 
 function App() {

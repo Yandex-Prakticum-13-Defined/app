@@ -1,8 +1,8 @@
 import React from 'react';
 import './ForumMessage.scss';
-import { TTransformedMessage } from '../ForumTopic/ForumTopic';
+import { TMessage } from '../ForumTopic/ForumTopic';
 
-function ForumMessage(props: TTransformedMessage) {
+function ForumMessage(props: TMessage) {
   return (
     <div className={props.isResponse ? 'forum-message forum-message_type_response' : 'forum-message'}>
       <div className='forum-message__author-wrapper'>

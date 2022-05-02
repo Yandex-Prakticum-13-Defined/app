@@ -1,6 +1,7 @@
 import React from 'react';
 import './ForumTopics.scss';
 import ForumTopic from '../ForumTopicCard/ForumTopicCard';
+import { topics } from '../../mockData/mockTopics';
 
 export type TTopic = {
   id: string;
@@ -13,34 +14,12 @@ export type TTopic = {
 };
 
 function ForumTopics() {
-  const topics: TTopic[] = [
-    {
-      id: '1',
-      title: 'Тема о футболе',
-      authorName: 'Златан',
-      authorPicture: 'https://tinyurl.com/bdznfmzs',
-      createdAt: '2022-01-05 19:08',
-      lastMessage: 'Извиняюсь за оффтоп! Нашёл классное свойство text-overflow: ellipsis,'
-        + ' которое ставит многоточие, если сообщение не помещается в указанную ширину',
-      messagesCount: 14
-    },
-    {
-      id: '2',
-      title: 'Тема о музыке',
-      authorName: 'Алекси',
-      authorPicture: 'https://tinyurl.com/bdznfmzs',
-      createdAt: '2022-01-05 20:14',
-      lastMessage: 'Всем привет!',
-      messagesCount: 1
-    }
-  ];
-
   return (
     <div className='forum-topics'>
       <form className='forum-topics__form'>
-        <button className='forum-topics__button' type='submit'>Создать новую тему</button>
         <input className='forum-topics__input' type='text' placeholder='Введите название темы'/>
         <textarea className='forum-topics__textarea' placeholder='Введите ваше сообщение'></textarea>
+        <button className='forum-topics__button' type='submit'>Создать новую тему</button>
       </form>
       {
         topics.map((topic) => (

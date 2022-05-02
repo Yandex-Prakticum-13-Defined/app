@@ -20,5 +20,9 @@
     text-decoration: none;
     margin-top: 20px;
     color: #27aedb;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }

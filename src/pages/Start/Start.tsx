@@ -10,6 +10,8 @@ const Start = () => (
       <Link className='start__link' to='/login'>Войти</Link>
       <Link className='start__link' to='/register'>Зарегистрироваться</Link>
       <Link className='start__link' to='/game'>Начать игру</Link>
+      <Link className='start__link' to='/leaderboard'>Таблица лидеров</Link>
+      <Link className='start__link' to='/forum'>Форум</Link>
     </div>
   </div>
 );
