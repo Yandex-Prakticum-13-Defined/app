@@ -9,6 +9,9 @@ import Login from './pages/Login/Login';
 import Error404 from './pages/Error/Error404';
 import Error500 from './pages/Error/Error500';
 import Leaderboard from './pages/Leaderboard/Leaderboard';
+import Forum from './pages/Forum/Forum';
+import ForumTopic from './components/ForumTopic/ForumTopic';
+import ForumTopics from './components/ForumTopics/ForumTopics';
 
 export enum ERoutes {
   'START' = '/',
@@ -16,8 +19,9 @@ export enum ERoutes {
   'REGISTER' = '/register',
   'LEADERBOARD' = '/leaderboard',
   'LOGIN' = '/login',
-  'ERROR_404' = '/404',
-  'ERROR_500' = '/500'
+  'FORUM' = '/forum',
+  'ERROR_500' = '/500',
+  'FALLBACK' = '/404'
 }
 
 function App() {
@@ -27,10 +31,14 @@ function App() {
         <Route path={ERoutes.START} element={<Start/>}/>
         <Route path={ERoutes.GAME} element={<Game/>}/>
         <Route path={ERoutes.REGISTER} element={<Register/>}/>
-        <Route path={ERoutes.LEADERBOARD} element={<Leaderboard />}/>
+        <Route path={ERoutes.LEADERBOARD} element={<Leaderboard/>}/>
         <Route path={ERoutes.LOGIN} element={<Login/>}/>
-        <Route path={ERoutes.ERROR_404} element={<Error404/>}/>
+        <Route path={ERoutes.FORUM} element={<Forum/>}>
+          <Route path='' element={<ForumTopics/>}/>
+          <Route path=':id' element={<ForumTopic/>}/>
+        </Route>
         <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
+        <Route path={ERoutes.FALLBACK} element={<Error404/>}/>
       </Routes>
     </BrowserRouter>
   );
