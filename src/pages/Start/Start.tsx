@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import './Start.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  getUser,
   postLogout
 } from '../../api/api';
-import { ERoutes } from '../../App';
+import { AppContext, ERoutes } from '../../App';
 
 const Start = () => {
   const navigate = useNavigate();
 
-  const [userId, setUserId] = useState(null);
-  useEffect(() => {
-    getUser().then((res) => {
-      setUserId(res?.data?.id);
-      localStorage.id = res?.data?.id;
-    });
-  }, []);
+  // const [userId, setUserId] = useState(null);
+  // useEffect(() => {
+  //   getUser().then((res) => {
+  //     setUserId(res?.data?.id);
+  //     localStorage.id = res?.data?.id;
+  //   });
+  // }, []);
+
+  const { userId, setUserId } = useContext(AppContext);
 
   const handleLogout = () => {
     postLogout()
@@ -39,14 +40,14 @@ const Start = () => {
       <div className='start__container'>
         {userId ? (
           <>
-          <Link className='start__link' onClick={handleLogout} to='#'>Выйти</Link>
-          <Link className='start__link' to={ERoutes.GAME}>Начать игру</Link>
+            <Link className='start__link' onClick={handleLogout} to='#'>Выйти</Link>
+            <Link className='start__link' to={ERoutes.GAME}>Начать игру</Link>
             <Link className='start__link' to={ERoutes.PROFILE}>Профиль</Link>
           </>
         ) : (
           <>
-          <Link className='start__link' to={ERoutes.LOGIN}>Войти</Link>
-          <Link className='start__link' to={ERoutes.REGISTER}>Зарегистрироваться</Link>
+            <Link className='start__link' to={ERoutes.LOGIN}>Войти</Link>
+            <Link className='start__link' to={ERoutes.REGISTER}>Зарегистрироваться</Link>
           </>
         )}
       </div>
