@@ -4,21 +4,22 @@ import './Form.scss';
 
 import Button from '../../components/Button/Button';
 
-interface IProfile {
+interface IForm {
   title?: string;
-  children?: any;
+  children?: React.ReactNode;
   button?: any;
   handleSubmit?: any;
+  onChange?: any;
 }
 
-const Profile = ({
+const Form = ({
   title, children, button, handleSubmit
-}: IProfile) => (
-      <form className='form' onSubmit={handleSubmit}>
-        <h1 className='form__title'>{title}</h1>
-        {children}
-        <Button type={button?.type} title={button?.title} disabled={button?.disabled}/>
-      </form>
+}: IForm) => (
+  <form className='form' onSubmit={handleSubmit}>
+    <h1 className='form__title'>{title}</h1>
+    {children}
+    <Button type={button?.type} title={button?.title} disabled={button?.disabled}/>
+  </form>
 );
 
-export default Profile;
+export default Form;

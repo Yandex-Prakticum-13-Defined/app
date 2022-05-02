@@ -18,6 +18,8 @@ const Profile = () => {
   const [isProfile, setIsProfile] = useState(false);
   const [isAvatar, setIsAvatar] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const [curFile, setCurFile] = useState();
+  const [avatarName, setAvatarName] = useState('');
 
   const {
     handleSubmit,
@@ -83,14 +85,13 @@ const Profile = () => {
       .then();
   };
 
-  const onSubmitAvatar = () => {
-    const { avatar } = getValues();
-
-    changeAvatar({
-      avatar,
-      type: 'image/png'
-    })
-      .then();
+  const uploadAvatar = () => {
+    if (curFile) {
+      const formData = new FormData();
+      formData.append('avatar', curFile);
+      changeAvatar(formData)
+        .then();
+    }
   };
 
   const onSubmitPassword = () => {
@@ -112,10 +113,11 @@ const Profile = () => {
         setIsProfile(true);
         setIsPassword(false);
       }} to='#'>Редактировать профиль</Link>
-      {isProfile && <Form
+      {isProfile && (
+        <Form
         title='Профиль'
         handleSubmit={handleSubmit(onSubmit)}
-        children={
+        children={(
           <>
             <FormInput
               name='username'
@@ -156,13 +158,14 @@ const Profile = () => {
               }}
             />
           </>
-        }
+        )}
         button={{
           type: 'submit',
           title: 'Сохранить',
           disabled: !isValid,
         }}
-      />}
+      />
+      )}
       <Link className='register' onClick={() => {
         setIsAvatar(true);
         setIsProfile(false);
@@ -170,8 +173,9 @@ const Profile = () => {
       }} to='#'>Загрузить аватар</Link>
       {isAvatar && (
         <Form title='Загрузить аватар'
-              handleSubmit={handleSubmit(onSubmitAvatar)}
-              children={
+              handleSubmit={handleSubmit(uploadAvatar)}
+
+              children={(
                 <>
                   <FormInput
                     name='avatar'
@@ -179,9 +183,14 @@ const Profile = () => {
                     placeholder='выберете аватар'
                     className='form__input'
                     control={control}
+                    onChange={(e: any) => {
+                      setCurFile(e?.target?.files[0]);
+                      setAvatarName(e.target.value);
+                    }}
+                    value={avatarName}
                   />
                 </>
-              }
+              )}
               button={{
                 type: 'submit',
                 title: 'Сохранить',
@@ -196,7 +205,7 @@ const Profile = () => {
       {isPassword && (
         <Form title='Изменить пароль'
               handleSubmit={handleSubmit(onSubmitPassword)}
-              children={
+              children={(
                 <>
                   <FormInput
                     name='oldPassword'
@@ -223,7 +232,7 @@ const Profile = () => {
                     }}
                   />
                 </>
-              }
+              )}
               button={{
                 type: 'submit',
                 title: 'Сохранить',

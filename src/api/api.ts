@@ -37,7 +37,7 @@ export const postLogout = () => axios.post(`${API_URL}/auth/logout`)
   .then((response) => response);
 
 export const getUser = () => axios.get(`${API_URL}/auth/user`)
-  .then((responses) => responses);
+  .then((response) => response);
 
 export const postUser = (userData: IRegisterData) => axios.post(`${API_URL}/auth/signup`, userData)
   .then((response) => response.data.id);
@@ -51,9 +51,9 @@ export const getProfile = (id: any) => axios.get(`${API_URL}/user/${id}`, id)
 export const changeUserProfile = (userData: IUserData) => axios.put(`${API_URL}/user/profile`, userData)
   .then((response) => response);
 
-export const changeAvatar = (userData: any) => axios.put(
+export const changeAvatar = (formData: any) => axios.put(
   `${API_URL}/user/profile/avatar`,
-  userData,
+  formData,
   {
     headers: {
       'Content-Type': 'multipart/form-data'
