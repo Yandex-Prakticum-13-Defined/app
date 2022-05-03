@@ -1,27 +1,28 @@
-import pause from '../../img/pause.png';
+import pauseIcon from '../../img/pause.png';
+import brickIcon from '../../img/brick.png';
 
-const img = new Image();
-const brickWidth = 75; // Ширина кирпича
-const brickPadding = 10; // Отступ кирпича
+const imgPause = new Image();
+const imgBrick = new Image();
+const brickWidth = 120; // Ширина кирпича
+const brickPadding = 4; // Отступ кирпича
 const brickHeight = 60; // Высота кирпича
 const brickRowCount = 3; // Кол-во строк кирпичей
-const brickOffsetTop = 40; // Смещение по Y первого ряда кирпичей от верхнего края
+const brickOffsetTop = 50; // Смещение по Y первого ряда кирпичей от верхнего края
 
-const ballSpeedNormal = 2; // Скорость мяча (приращения по X и Y координатам)
-const ballSpeedBoost = 8; // Скорость мяча (при нажатой SHIFT)
-const paddleSpeed = 7; // Скорость ракетки
+const ballSpeedNormal = 3; // Скорость мяча (приращения по X и Y координатам)
+const ballSpeedBoost = ballSpeedNormal * 3; // Скорость мяча (при нажатой SHIFT)
+const paddleSpeed = ballSpeedNormal * 3; // Скорость ракетки
 
 const screenBackground = '#000000'; // Цвет заливки экрана
-const colorBallModeNormal = '#3287fc'; // Цвет мяча в обычном режиме
-const colorBallModeBoost = '#ffffff'; // Цвет мяча в режиме Boost
-const colorPaddle = '#ffffff'; // Цвет ракетки
-const colorBricks = '#3287fc'; // Цвет кирпичей
-const colorText = '#3287fc'; // Цвет надписей статистики (Score, Lives)
+const colorBallModeNormal = '#ffffff'; // Цвет мяча в обычном режиме
+const colorBallModeBoost = '#ffff77'; // Цвет мяча в режиме Boost
+const colorPaddle = '#3287fc'; // Цвет ракетки
+const colorText = '#ffffff'; // Цвет надписей статистики (Score, Lives)
 const colorCountdownText = '#ffffff'; // Цвет текста обратного отсчета
 
 const ballRadius = 10; // Радиус мяча
-const paddleHeight = 10; // Высота ракетки
-const paddleWidth = 120; // Ширина ракетки
+const paddleHeight = 12; // Высота ракетки
+const paddleWidth = 150; // Ширина ракетки
 
 let x: number; // Координата X мяча
 let y: number; // Координата Y мяча
@@ -185,6 +186,7 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
       y = ctx.canvas.height - ballRadius - paddleHeight;
       dx = isBoostBallModeActive ? ballSpeedBoost : ballSpeedNormal;
       dy = isBoostBallModeActive ? -ballSpeedBoost : -ballSpeedNormal;
+      paddleX = (ctx.canvas.width - paddleWidth) / 2;
     }
   }
 }
@@ -259,8 +261,8 @@ export function bricksCollisionDetection() {
 
 /** Функция отображения иконки паузы посередине экрана */
 export function drawPause(ctx: CanvasRenderingContext2D) {
-  img.src = pause;
-  ctx.drawImage(img, ctx.canvas.width / 2 - 50, ctx.canvas.height / 2 - 50, 128, 128);
+  imgPause.src = pauseIcon;
+  ctx.drawImage(imgPause, ctx.canvas.width / 2 - 50, ctx.canvas.height / 2 - 50, 128, 128);
 }
 
 /** Функция очистки экрана */
@@ -291,6 +293,7 @@ export function drawPaddle(ctx: CanvasRenderingContext2D) {
 
 /** Отображение кирпичей */
 export function drawBricks(ctx: CanvasRenderingContext2D) {
+  imgBrick.src = brickIcon;
   for (let c = 0; c < brickRowCount; c += 1) {
     for (let r = 0; r < brickColCount; r += 1) {
       if (bricks[c][r].status === 'ACTIVE') {
@@ -298,11 +301,7 @@ export function drawBricks(ctx: CanvasRenderingContext2D) {
         const brickY = (c * (brickHeight + brickPadding)) + brickOffsetTop;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
-        ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = colorBricks;
-        ctx.fill();
-        ctx.closePath();
+        ctx.drawImage(imgBrick, brickX, brickY, brickWidth, brickHeight);
       }
     }
   }
