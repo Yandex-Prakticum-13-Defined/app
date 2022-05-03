@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './Start.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
-  getUser,
-  logout
+  getUser
 } from '../../api/api';
 import { ERoutes } from '../../App';
+import { useAuth } from '../../hook/useAuth';
 
 const Start = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const [userId, setUserId] = useState(null);
   useEffect(() => {
@@ -20,14 +21,15 @@ const Start = () => {
   }, []);
 
   const handleLogout = () => {
-    logout()
-      .then((data) => {
-        console.log(data);
-        setUserId(null);
-        // navigate(ERoutes.START);
-      })
-      .catch((data) => console.log(data));
-    // navigate(ERoutes.START);
+    signup(() => navigate(ERoutes.START, { replace: true }));
+    // logout()
+    //   .then((data) => {
+    //     console.log(data);
+    //     setUserId(null);
+    //     // navigate(ERoutes.START);
+    //   })
+    //   .catch((data) => console.log(data));
+    // // navigate(ERoutes.START);
   };
   console.log('userId', userId);
 

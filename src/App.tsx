@@ -1,12 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  BrowserRouter, Navigate, Route, Routes, useLocation
+  BrowserRouter, Route, Routes,
 } from 'react-router-dom';
 
 import './index.scss';
-import { getUser, signIn } from './api/api';
+import { getUser } from './api/api';
 // import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Spinner from './components/Spinner/Spinner';
+import { AuthProvider } from './hoc/AuthProvider';
+import RequireAuth from './hoc/RequireAuth';
 import Start from './pages/Start/Start';
 import Game from './pages/Game/Game';
 import Register from './pages/Register/Register';
@@ -28,7 +30,7 @@ export enum ERoutes {
 }
 
 interface IAppContext {
-  userId: any;
+  userId: number | null;
   // signIn: any;
   // signout: () => void;
 }
@@ -41,24 +43,24 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [isLoader, setIsLoader] = useState(false);
 
-  const signInValue = signIn(id).then((data) => {
-    console.log(data);
-  });
+  // const signInValue = signIn(id).then((data) => {
+  //   console.log(data);
+  // });
 
   // const value = {userId, signIn}
 
-  const RequireApp = ({ children }: { children: JSX.Element; }) => {
-    const auth = React.useContext(AppContext);
-    const location = useLocation();
-    console.log('auth', auth);
-    if (!auth.userId) {
-      return (
-        <Navigate to={ERoutes.LOGIN} state={{ from: location }} replace />
-      );
-    }
-
-    return children;
-  };
+  // const RequireApp = ({ children }: { children: JSX.Element; }) => {
+  //   const auth = React.useContext(AppContext);
+  //   const location = useLocation();
+  //   console.log('auth', auth);
+  //   if (!auth.userId) {
+  //     return (
+  //       <Navigate to={ERoutes.LOGIN} state={{ from: location }} replace />
+  //     );
+  //   }
+  //
+  //   return children;
+  // };
 
   useEffect(() => {
     if (id) {
@@ -70,18 +72,18 @@ function App() {
       }).catch(() => setIsLoader(false));
     }
   }, [id]);
-  console.log('1', localStorage.getItem('id'));
-  const contextValue = useMemo(() => ({ userId, signInValue }), []);
+  // console.log('1', localStorage.getItem('id'));
+  // const contextValue = useMemo(() => ({ userId, signInValue }), []);
 
   return (
     <BrowserRouter>
-      <AppContext.Provider value={contextValue}>
+      <AuthProvider>
         {isLoader && !userId ? <Spinner />
           : (
 
             <Routes>
               <Route path={ERoutes.GAME} element={
-                <RequireApp><Game/></RequireApp>
+                <RequireAuth><Game/></RequireAuth>
                 }/>
               <Route path={ERoutes.LEADERBOARD} element={<Leaderboard/>}/>
               <Route path={ERoutes.PROFILE} element={<Profile/>}/>
@@ -93,7 +95,7 @@ function App() {
             </Routes>
           )}
         {/* <ProtectedRoute exact path={ERoutes.LOGIN} element={<Login/>}/> */}
-      </AppContext.Provider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

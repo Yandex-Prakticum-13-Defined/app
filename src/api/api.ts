@@ -21,7 +21,7 @@ export interface IPassword {
 }
 
 export interface IUserData {
-  id?: number;
+  id?: any;
   first_name?: string;
   second_name?: string;
   display_name?: string;
@@ -53,7 +53,7 @@ export const signUp = (userData: IRegisterData) => instance.post('auth/signup', 
 export const signIn = (signInData: ISignInData) => instance.post('/auth/signin', signInData)
   .then((response) => response);
 
-export const getProfile = (id: any) => instance.get(`user/${id}`)
+export const getProfile = (id: number | null) => instance.get(`user/${id}`)
   .then((response) => response);
 
 export const changeUserProfile = (userData: IUserData) => instance.put('user/profile', userData)
