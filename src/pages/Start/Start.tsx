@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Start.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  getUser
-} from '../../api/api';
 import { ERoutes } from '../../App';
 import { useAuth } from '../../hook/useAuth';
 
 const Start = () => {
   const navigate = useNavigate();
-  const { signout } = useAuth();
-
-  const [userId, setUserId] = useState(null);
-  useEffect(() => {
-    getUser().then((res) => {
-      setUserId(res?.data?.id);
-      localStorage.id = res?.data?.id;
-    });
-  }, []);
+  const { signout, isAuthenticated } = useAuth();
 
   const handleLogout = () => {
     signout(() => navigate(ERoutes.LOGIN, { replace: true }));
@@ -33,7 +22,7 @@ const Start = () => {
       <h2 className='start__subTitle'>Если не удалось отбить мячик ракеткой, то игра
         заканчивается</h2>
       <div className='start__container'>
-        {userId ? (
+        {isAuthenticated ? (
           <>
             <Link className='start__link' onClick={handleLogout} to='#'>Выйти</Link>
             <Link className='start__link' to={ERoutes.GAME}>Начать игру</Link>
