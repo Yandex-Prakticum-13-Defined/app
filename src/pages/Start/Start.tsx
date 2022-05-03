@@ -9,29 +9,19 @@ import { useAuth } from '../../hook/useAuth';
 
 const Start = () => {
   const navigate = useNavigate();
-  const { signup } = useAuth();
+  const { signout } = useAuth();
 
   const [userId, setUserId] = useState(null);
   useEffect(() => {
     getUser().then((res) => {
-      console.log('res', res);
       setUserId(res?.data?.id);
       localStorage.id = res?.data?.id;
     });
   }, []);
 
   const handleLogout = () => {
-    signup(() => navigate(ERoutes.START, { replace: true }));
-    // logout()
-    //   .then((data) => {
-    //     console.log(data);
-    //     setUserId(null);
-    //     // navigate(ERoutes.START);
-    //   })
-    //   .catch((data) => console.log(data));
-    // // navigate(ERoutes.START);
+    signout(() => navigate(ERoutes.LOGIN, { replace: true }));
   };
-  console.log('userId', userId);
 
   return (
     <div className='start'>

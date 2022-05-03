@@ -1,10 +1,10 @@
 import React, { createContext, useState } from 'react';
-import { signIn } from '../api/api';
+import { ISignInData, logout, signIn } from '../api/api';
 
 interface IAuthContextType {
   user: any;
-  signin: (user: string, callback: VoidFunction) => void;
-  signup: (callback: VoidFunction) => void;
+  signin: (user: ISignInData, callback: VoidFunction) => void;
+  signout: (callback: VoidFunction) => void;
 }
 
 export const AuthContext = createContext<IAuthContextType>(null!);
@@ -12,22 +12,21 @@ export const AuthContext = createContext<IAuthContextType>(null!);
 export const AuthProvider = ({ children }: { children: React.ReactNode; }) => {
   const [user, setUser] = useState<any>(null);
 
-  // const signin = (newUser: string, cb: VoidFunction) => {
-  //   setUser(newUser);
-  //   cb();
-  // };
-
-  const signin =  signIn(userId).then(() => {
-      setUser(userId);
+  const signin = (newUser: ISignInData, cb: VoidFunction) => {
+    signIn(newUser).then(() => {
+      setUser(newUser);
       cb();
     });
   };
-  const signup = (cb: VoidFunction) => {
-    setUser(null);
-    cb();
+
+  const signout = (cb: VoidFunction) => {
+    logout().then(() => {
+      setUser(null);
+      cb();
+    });
   };
 
-  const value = { user, signin, signup };
+  const value = { user, signin, signout };
 
   return (
     <AuthContext.Provider value={value}>

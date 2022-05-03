@@ -17,7 +17,7 @@ const Login = () => {
   // @ts-ignore
   const fromPage = location?.state?.from?.pathname || ERoutes.START;
   const { signin } = useAuth();
-  console.log('fromPage', fromPage);
+
   const {
     formState: {
       isValid
@@ -35,11 +35,9 @@ const Login = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    const user = getValues('login');
+    const user = getValues();
 
     signin(user, () => navigate(fromPage, { replace: true }));
-    // signIn(data)
-    //   .then(() => navigate(ERoutes.START));
   };
 
   return (
