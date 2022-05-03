@@ -8,12 +8,12 @@ const RequireAuth = ({ children }: any) => {
   const location = useLocation();
   const { user, isLoading } = useAuth();
 
-  if (!user) {
-    return <Navigate to={ERoutes.LOGIN} state={{ from: location }} replace />;
-  }
-
   if (isLoading) {
     return <Spinner />;
+  }
+
+  if (!user) {
+    return <Navigate to={ERoutes.LOGIN} state={{ from: location }} replace />;
   }
 
   return children;

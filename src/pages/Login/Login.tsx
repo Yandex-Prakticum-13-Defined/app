@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import './Login.scss';
-
-// import { signIn } from '../../api/api';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
@@ -32,12 +30,11 @@ const Login = () => {
     },
   });
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const user = getValues();
-
-    signin(user, () => navigate(fromPage, { replace: true }));
+    signin(user, () => navigate(fromPage || ERoutes.START, { replace: true }));
   };
 
   return (

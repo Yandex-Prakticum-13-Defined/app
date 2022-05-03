@@ -34,7 +34,7 @@ function App() {
           <Route path={ERoutes.GAME} element={
             <RequireAuth><Game/></RequireAuth>
                 }/>
-          <Route path={ERoutes.LEADERBOARD} element={<Leaderboard/>}/>
+          <Route path={ERoutes.LEADERBOARD} element={<RequireAuth><Leaderboard/></RequireAuth>}/>
           <Route path={ERoutes.PROFILE} element={<RequireAuth><Profile/></RequireAuth>}/>
           <Route path={ERoutes.START} element={<Start/>}/>
           <Route path={ERoutes.LOGIN} element={<Login/>}/>

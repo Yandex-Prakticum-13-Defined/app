@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import './Profile.scss';
 
@@ -21,6 +21,8 @@ const Profile = () => {
   const [curFile, setCurFile] = useState();
   const [avatarName, setAvatarName] = useState('');
 
+  const location = useLocation();
+  console.log(location);
   const {
     handleSubmit,
     formState: {
