@@ -6,8 +6,6 @@ import { ERoutes } from '../../App';
 const ProtectedRoute = ({ component: Component, ...restOfProps }: any) => {
   const isAuthenticated = localStorage.getItem('id');
 
-  console.log('isAuthenticated', isAuthenticated);
-
   return (
     <Route
       {...restOfProps}

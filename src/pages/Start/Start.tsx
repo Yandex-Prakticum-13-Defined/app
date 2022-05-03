@@ -1,32 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Start.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
-  postLogout
+  getUser,
+  logout
 } from '../../api/api';
-import { AppContext, ERoutes } from '../../App';
+import { ERoutes } from '../../App';
 
 const Start = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  // const [userId, setUserId] = useState(null);
-  // useEffect(() => {
-  //   getUser().then((res) => {
-  //     setUserId(res?.data?.id);
-  //     localStorage.id = res?.data?.id;
-  //   });
-  // }, []);
-
-  const { userId, setUserId } = useContext(AppContext);
+  const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    getUser().then((res) => {
+      console.log('res', res);
+      setUserId(res?.data?.id);
+      localStorage.id = res?.data?.id;
+    });
+  }, []);
 
   const handleLogout = () => {
-    postLogout()
-      .then(() => {
+    logout()
+      .then((data) => {
+        console.log(data);
         setUserId(null);
-        navigate(ERoutes.START);
+        // navigate(ERoutes.START);
       })
-      .catch();
+      .catch((data) => console.log(data));
+    // navigate(ERoutes.START);
   };
+  console.log('userId', userId);
 
   return (
     <div className='start'>

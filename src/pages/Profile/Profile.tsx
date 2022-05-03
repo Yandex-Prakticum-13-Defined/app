@@ -58,16 +58,12 @@ const Profile = () => {
   }, [id]);
 
   useEffect(() => {
-    // @ts-ignore
     setValue('username', profile?.first_name);
-    // @ts-ignore
     setValue('login', profile?.login);
-    // @ts-ignore
     setValue('email', profile?.email);
   }, [profile]);
 
   const onSubmit = () => {
-    // @ts-ignore
     const {
       username,
       login,
@@ -117,7 +113,12 @@ const Profile = () => {
         <Form
         title='Профиль'
         handleSubmit={handleSubmit(onSubmit)}
-        children={(
+        button={{
+          type: 'submit',
+          title: 'Сохранить',
+          disabled: !isValid,
+        }}
+        >
           <>
             <FormInput
               name='username'
@@ -158,13 +159,7 @@ const Profile = () => {
               }}
             />
           </>
-        )}
-        button={{
-          type: 'submit',
-          title: 'Сохранить',
-          disabled: !isValid,
-        }}
-      />
+        </Form>
       )}
       <Link className='register' onClick={() => {
         setIsAvatar(true);
@@ -174,28 +169,26 @@ const Profile = () => {
       {isAvatar && (
         <Form title='Загрузить аватар'
               handleSubmit={handleSubmit(uploadAvatar)}
-
-              children={(
-                <>
-                  <FormInput
-                    name='avatar'
-                    type='file'
-                    placeholder='выберете аватар'
-                    className='form__input'
-                    control={control}
-                    onChange={(e: any) => {
-                      setCurFile(e?.target?.files[0]);
-                      setAvatarName(e.target.value);
-                    }}
-                    value={avatarName}
-                  />
-                </>
-              )}
               button={{
                 type: 'submit',
                 title: 'Сохранить',
                 disabled: !isValid,
-              }}/>
+              }}>
+          <>
+            <FormInput
+              name='avatar'
+              type='file'
+              placeholder='выберете аватар'
+              className='form__input'
+              control={control}
+              onChange={(e: any) => {
+                setCurFile(e?.target?.files[0]);
+                setAvatarName(e.target.value);
+              }}
+              value={avatarName}
+            />
+          </>
+        </Form>
       )}
       <Link className='register' onClick={() => {
         setIsPassword(true);
@@ -205,39 +198,38 @@ const Profile = () => {
       {isPassword && (
         <Form title='Изменить пароль'
               handleSubmit={handleSubmit(onSubmitPassword)}
-              children={(
-                <>
-                  <FormInput
-                    name='oldPassword'
-                    type='password'
-                    placeholder='введите старый пароль'
-                    className='form__input'
-                    control={control}
-                    rules={{
-                      required: PATTERN_VALIDATION.required,
-                      pattern: PATTERN_VALIDATION.password,
-                      minLength: PATTERN_VALIDATION.minLength_8
-                    }}
-                  />
-                  <FormInput
-                    name='newPassword'
-                    type='password'
-                    placeholder='введите новый пароль'
-                    className='form__input'
-                    control={control}
-                    rules={{
-                      required: PATTERN_VALIDATION.required,
-                      pattern: PATTERN_VALIDATION.password,
-                      minLength: PATTERN_VALIDATION.minLength_8
-                    }}
-                  />
-                </>
-              )}
               button={{
                 type: 'submit',
                 title: 'Сохранить',
                 disabled: !isValid,
-              }}/>
+              }}>
+          <>
+            <FormInput
+              name='oldPassword'
+              type='password'
+              placeholder='введите старый пароль'
+              className='form__input'
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                pattern: PATTERN_VALIDATION.password,
+                minLength: PATTERN_VALIDATION.minLength_8
+              }}
+            />
+            <FormInput
+              name='newPassword'
+              type='password'
+              placeholder='введите новый пароль'
+              className='form__input'
+              control={control}
+              rules={{
+                required: PATTERN_VALIDATION.required,
+                pattern: PATTERN_VALIDATION.password,
+                minLength: PATTERN_VALIDATION.minLength_8
+              }}
+            />
+          </>
+        </Form>
       )}
       <Link className='register' to={ERoutes.START}>На главную</Link>
     </div>

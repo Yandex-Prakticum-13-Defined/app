@@ -14,7 +14,6 @@ interface IFormInput {
   value?: string;
 }
 
-// eslint-disable-next-line react/display-name
 export const FormInput = memo(({
   control,
   defaultValue,

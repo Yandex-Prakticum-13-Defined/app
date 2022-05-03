@@ -2,12 +2,12 @@ import React from 'react';
 
 import './Form.scss';
 
-import Button from '../../components/Button/Button';
+import Button, { IButton } from '../../components/Button/Button';
 
 interface IForm {
   title?: string;
   children?: React.ReactNode;
-  button?: any;
+  button?: IButton;
   handleSubmit?: any;
   onChange?: any;
 }

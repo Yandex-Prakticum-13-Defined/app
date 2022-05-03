@@ -28,31 +28,39 @@ export interface IUserData {
   login?: string;
   email?: string;
   phone?: string;
-  avatar?: string;
+  avatar?: BinaryData;
+  password?: string;
 }
 
-const API_URL = '/api/v2';
+const instance = axios.create({
+  withCredentials: true,
+  baseURL: 'https://ya-praktikum.tech/api/v2',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
+  },
+});
 
-export const postLogout = () => axios.post(`${API_URL}/auth/logout`)
+export const logout = () => instance.post('auth/logout')
   .then((response) => response);
 
-export const getUser = () => axios.get(`${API_URL}/auth/user`)
+export const getUser = () => instance.get('auth/user')
   .then((response) => response);
 
-export const postUser = (userData: IRegisterData) => axios.post(`${API_URL}/auth/signup`, userData)
+export const signUp = (userData: IRegisterData) => instance.post('auth/signup', userData)
   .then((response) => response.data.id);
 
-export const postSignIn = (signInData: ISignInData) => axios.post(`${API_URL}/auth/signin`, signInData)
+export const signIn = (signInData: ISignInData) => instance.post('/auth/signin', signInData)
   .then((response) => response);
 
-export const getProfile = (id: any) => axios.get(`${API_URL}/user/${id}`, id)
+export const getProfile = (id: any) => instance.get(`user/${id}`)
   .then((response) => response);
 
-export const changeUserProfile = (userData: IUserData) => axios.put(`${API_URL}/user/profile`, userData)
+export const changeUserProfile = (userData: IUserData) => instance.put('user/profile', userData)
   .then((response) => response);
 
-export const changeAvatar = (formData: any) => axios.put(
-  `${API_URL}/user/profile/avatar`,
+export const changeAvatar = (formData: any) => instance.put(
+  'user/profile/avatar',
   formData,
   {
     headers: {
@@ -62,10 +70,8 @@ export const changeAvatar = (formData: any) => axios.put(
 )
   .then((response) => response);
 
-export const changeUserPassword = (userData: IPassword) => axios.put(`${API_URL}/user/password`, userData)
+export const changeUserPassword = (userData: IPassword) => instance.put('user/password', userData)
   .then((response) => response);
 
-export const postSearchUser = (signInData: IUserData) => axios.post(
-  `${API_URL}/user/search`,
-  signInData
-).then((Responses) => Responses);
+export const searchUser = (signInData: IUserData) => instance.post('user/search', signInData)
+  .then((Responses) => Responses);

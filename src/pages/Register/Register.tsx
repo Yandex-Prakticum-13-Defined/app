@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import './Register.scss';
 
-import { postUser } from '../../api/api';
+import { signUp } from '../../api/api';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
@@ -43,7 +43,7 @@ const Register = () => {
       email,
       password
     } = getValues();
-    postUser({
+    signUp({
       ...formMethod,
       first_name: username,
       login,
@@ -62,63 +62,62 @@ const Register = () => {
       <Form
         title='Регистрация'
         handleSubmit={handleSubmit(onSubmit)}
-        children={
-          <>
-            <FormInput
-              name='username'
-              type='text'
-              placeholder='Имя'
-              className='form__input'
-              control={control}
-              rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.name,
-              }}
-            />
-            <FormInput
-              name='login'
-              type='text'
-              placeholder='Логин'
-              className='form__input'
-              control={control}
-              rules={{
-                required: PATTERN_VALIDATION.required,
-                minLength: PATTERN_VALIDATION.minLength_3,
-                maxLength: PATTERN_VALIDATION.maxLength,
-                pattern: PATTERN_VALIDATION.login,
-              }}
-            />
-            <FormInput
-              name='email'
-              type='email'
-              placeholder='email адрес'
-              className='form__input'
-              control={control}
-              rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.email,
-              }}
-            />
-            <FormInput
-              name='password'
-              type='password'
-              placeholder='введите новый пароль'
-              className='form__input'
-              control={control}
-              rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.password,
-                minLength: PATTERN_VALIDATION.minLength_8
-              }}
-            />
-          </>
-        }
         button={{
           type: 'submit',
           title: 'Зарегистрироваться',
           disabled: !isValid,
         }}
-      />
+      >
+        <>
+          <FormInput
+            name='username'
+            type='text'
+            placeholder='Имя'
+            className='form__input'
+            control={control}
+            rules={{
+              required: PATTERN_VALIDATION.required,
+              pattern: PATTERN_VALIDATION.name,
+            }}
+          />
+          <FormInput
+            name='login'
+            type='text'
+            placeholder='Логин'
+            className='form__input'
+            control={control}
+            rules={{
+              required: PATTERN_VALIDATION.required,
+              minLength: PATTERN_VALIDATION.minLength_3,
+              maxLength: PATTERN_VALIDATION.maxLength,
+              pattern: PATTERN_VALIDATION.login,
+            }}
+          />
+          <FormInput
+            name='email'
+            type='email'
+            placeholder='email адрес'
+            className='form__input'
+            control={control}
+            rules={{
+              required: PATTERN_VALIDATION.required,
+              pattern: PATTERN_VALIDATION.email,
+            }}
+          />
+          <FormInput
+            name='password'
+            type='password'
+            placeholder='введите новый пароль'
+            className='form__input'
+            control={control}
+            rules={{
+              required: PATTERN_VALIDATION.required,
+              pattern: PATTERN_VALIDATION.password,
+              minLength: PATTERN_VALIDATION.minLength_8
+            }}
+          />
+        </>
+      </Form>
       <Link className='register' to={ERoutes.LOGIN}>Авторизация</Link>
     </div>
   );

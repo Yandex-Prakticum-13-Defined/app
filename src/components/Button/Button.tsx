@@ -1,7 +1,7 @@
 import React from 'react';
 import './Button.scss';
 
-interface IButton {
+export interface IButton {
   className?: string;
   onClick?: any;
   title?: string;
