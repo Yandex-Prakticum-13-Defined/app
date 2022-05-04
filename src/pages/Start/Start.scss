@@ -1,17 +1,32 @@
 .start {
-  margin-top: 10%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  height: 100%;
+  background-image: url("../../img/leaderboard-background.png");
+  background-position: center;
+  background-size: cover;
 
   &__container {
     margin-top: 50px;
     width: 500px;
-    height: 200px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 50px;
+    font-weight: bold;
+    color: #27aedb;
+  }
+
+  &__subTitle {
+    max-width: 60%;
+    text-align: center;
   }
 
   &__link {
@@ -20,6 +35,14 @@
     text-decoration: none;
     margin-top: 20px;
     color: #27aedb;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 15px;
+    line-height: 11px;
+    border: none;
+    outline: none;
+    border-bottom: 3px solid black;
 
     &:hover {
       opacity: 0.5;

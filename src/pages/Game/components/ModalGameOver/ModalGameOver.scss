@@ -1,0 +1,32 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 500px;
+  background-image: url("../../../../img/modal-game-over.jpg");
+  box-shadow: 0 0 4px 2px #fff;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &__title {
+    font-size: 40px;
+  }
+
+  &__link {
+    font-size: 30px;
+    font-weight: bold;
+    color: #bbb;
+    text-decoration: none;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}

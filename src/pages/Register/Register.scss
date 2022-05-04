@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   margin: 15% auto;
-  width: 400px;
-  height: 800px;
+  width: 600px;
+  height: 600px;
   background-image: url("../../img/register_fon.png");
   background-repeat: no-repeat;
   -webkit-background-size: cover;
@@ -13,33 +13,4 @@
   -o-background-size: cover;
   background-size: cover;
   box-shadow: 0 8px 14px -5px #000;
-}
-
-.form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 20px;
-
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    margin: 5px auto;
-    width: 80%;
-    justify-content: flex-start;
-  }
-
-  &__input {
-    display: flex;
-    width: 100%;
-    padding: 5px 25px;
-    border-radius: 20px;
-    border: none;
-    color: inherit;
-    outline: none;
-    border-bottom: 3px solid black;
-  }
 }

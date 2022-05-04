@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Canvas.scss';
+import ModalGameOver from '../ModalGameOver/ModalGameOver';
+import { isGameOver, roundWin } from '../../engine';
 
 interface ICanvasProps {
   draw: Function;
@@ -8,6 +10,14 @@ interface ICanvasProps {
 const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [isReset, setIsReset] = useState(false);
+  const [isRoundWin, setIsRoundWin] = useState(false);
+
+  useEffect(() => {
+    setIsShowModal(isGameOver);
+    setIsRoundWin(roundWin);
+  }, [isGameOver]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -19,7 +29,9 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
     let animationFrameId: number;
 
     const render = () => {
-      draw(context);
+      setIsShowModal(isGameOver);
+      draw(context, isReset);
+      setIsReset(false);
       animationFrameId = window.requestAnimationFrame(render);
     };
     render();
@@ -27,10 +39,13 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
     return () => {
       window.cancelAnimationFrame(animationFrameId);
     };
-  }, [draw]);
+  }, [draw, isReset]);
+
+  const onResetGame = () => setIsReset(true);
 
   return (
     <div ref={containerRef} className='canvas-container'>
+      {isShowModal && <ModalGameOver isRoundWin={isRoundWin} hideModal={onResetGame}/>}
       <canvas ref={canvasRef} className='canvas' />
     </div>
   );

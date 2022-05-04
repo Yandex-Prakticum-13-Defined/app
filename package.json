@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open --hot",
     "lint": "eslint . --fix",
-    "stylelint": "npx stylelint **/*.scss",
+    "stylelint": "npx stylelint **/*.scss --fix",
     "test": "",
     "prepare": "husky install"
   },
@@ -27,6 +27,7 @@
     "axios": "0.26.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-hook-form": "7.30.0",
     "react-router-dom": "6.3.0"
   },
   "devDependencies": {

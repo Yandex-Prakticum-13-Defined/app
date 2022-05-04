@@ -1,11 +1,12 @@
-.input {
+.form-input {
   width: inherit;
 
   &__error {
+    display: flex;
+    width: 85%;
     color: red;
     margin-left: 10px;
     font-size: 14px;
     font-weight: normal;
-    width: 100%;
   }
 }

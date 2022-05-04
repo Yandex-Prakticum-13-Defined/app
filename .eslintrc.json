@@ -9,6 +9,7 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "react/display-name": "off",
     "react-hooks/exhaustive-deps": 0,
     "@typescript-eslint/comma-dangle": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
@@ -41,7 +42,10 @@
       "condition": "parens-new-line",
       "logical": "parens-new-line",
       "prop": "parens-new-line"
-    }]
+    }],
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "import/no-mutable-exports": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"
