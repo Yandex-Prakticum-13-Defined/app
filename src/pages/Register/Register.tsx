@@ -4,17 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import './Register.scss';
 
-import { signUp } from '../../api/api';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
+import Spacer from '../../components/Spacer/Spacer';
+import { useAuth } from '../../hook/useAuth';
 import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const {
-    handleSubmit,
     formState: {
       isValid
     },
@@ -36,32 +37,32 @@ const Register = () => {
     phone: '+7-000-000-00-00'
   };
 
-  const onSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const {
       username,
       login,
       email,
       password
     } = getValues();
-    signUp({
+
+    signup({
       ...formMethod,
       first_name: username,
       login,
       email,
       password
-    })
-      .then((id) => {
-        localStorage.id = id;
-        navigate(ERoutes.START);
-      })
-      .catch();
+    }, () => {
+      navigate(ERoutes.START, { replace: true });
+    });
   };
 
   return (
     <div className='container'>
       <Form
         title='Регистрация'
-        handleSubmit={handleSubmit(onSubmit)}
+        handleSubmit={handleSubmit}
         button={{
           type: 'submit',
           title: 'Зарегистрироваться',
@@ -80,6 +81,7 @@ const Register = () => {
               pattern: PATTERN_VALIDATION.name,
             }}
           />
+          <Spacer className='spacer spacer__height'/>
           <FormInput
             name='login'
             type='text'
@@ -93,6 +95,7 @@ const Register = () => {
               pattern: PATTERN_VALIDATION.login,
             }}
           />
+          <Spacer className='spacer spacer__height'/>
           <FormInput
             name='email'
             type='email'
@@ -104,6 +107,7 @@ const Register = () => {
               pattern: PATTERN_VALIDATION.email,
             }}
           />
+          <Spacer className='spacer spacer__height'/>
           <FormInput
             name='password'
             type='password'
@@ -116,6 +120,7 @@ const Register = () => {
               minLength: PATTERN_VALIDATION.minLength_8
             }}
           />
+          <Spacer className='spacer spacer__height'/>
         </>
       </Form>
       <Link className='register' to={ERoutes.LOGIN}>Авторизация</Link>

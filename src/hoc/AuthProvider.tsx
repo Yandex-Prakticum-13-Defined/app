@@ -1,21 +1,26 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, {
+  createContext, FC, useEffect, useState
+} from 'react';
 import {
-  getUser, ISignInData, logout, signIn
+  getUser, IRegisterData, ISignInData, logout, signIn, signUp
 } from '../api/api';
-// import { ERoutes } from '../App';
 
 interface IAuthContextType {
   user: { login: string; password: string; };
   signin: (user: ISignInData, callback?: VoidFunction) => void;
-  // signup: (profile: IRegisterData, callback: VoidFunction) => void;
+  signup: (profile: IRegisterData, callback?: VoidFunction) => void;
   signout: (callback?: VoidFunction) => void;
   isLoading: boolean;
   isAuthenticated: boolean;
 }
 
+type TAuthProviderProps = {
+  children?: React.ReactNode;
+};
+
 export const AuthContext = createContext<IAuthContextType>(null!);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode; }) => {
+export const AuthProvider:FC<TAuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isAuthenticated = Boolean(user);
@@ -29,10 +34,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode; }) => {
     });
   };
 
-  // const signup = (profile: IRegisterData, cb: VoidFunction) => {
-  //   signUp(profile)
-  //     .then(() => { cb(); }).catch();
-  // };
+  const signup = (profile: IRegisterData, cb?: VoidFunction) => {
+    signUp(profile)
+      .then(() => {
+        getUser().then((res) => {
+          setUser(res?.data?.id);
+        });
+        cb?.();
+      });
+  };
 
   const signout = (cb?: VoidFunction) => {
     logout().then(() => {
@@ -42,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode; }) => {
   };
 
   const value = {
-    user, signin, signout, isLoading, isAuthenticated
+    user, signin, signup, signout, isLoading, isAuthenticated
   };
 
   useEffect(() => {

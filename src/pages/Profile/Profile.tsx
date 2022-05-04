@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './Profile.scss';
 
@@ -11,6 +11,7 @@ import {
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
+import Spacer from '../../components/Spacer/Spacer';
 import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Profile = () => {
@@ -21,8 +22,6 @@ const Profile = () => {
   const [curFile, setCurFile] = useState();
   const [avatarName, setAvatarName] = useState('');
 
-  const location = useLocation();
-  console.log(location);
   const {
     handleSubmit,
     formState: {
@@ -113,13 +112,13 @@ const Profile = () => {
       }} to='#'>Редактировать профиль</Link>
       {isProfile && (
         <Form
-        title='Профиль'
-        handleSubmit={handleSubmit(onSubmit)}
-        button={{
-          type: 'submit',
-          title: 'Сохранить',
-          disabled: !isValid,
-        }}
+          title='Профиль'
+          handleSubmit={handleSubmit(onSubmit)}
+          button={{
+            type: 'submit',
+            title: 'Сохранить',
+            disabled: !isValid,
+          }}
         >
           <>
             <FormInput
@@ -134,6 +133,7 @@ const Profile = () => {
                 pattern: PATTERN_VALIDATION.name,
               }}
             />
+            <Spacer className='spacer spacer__height'/>
             <FormInput
               name='login'
               type='text'
@@ -148,6 +148,7 @@ const Profile = () => {
                 pattern: PATTERN_VALIDATION.login,
               }}
             />
+            <Spacer className='spacer spacer__height'/>
             <FormInput
               name='email'
               type='email'
@@ -160,6 +161,7 @@ const Profile = () => {
                 pattern: PATTERN_VALIDATION.email,
               }}
             />
+            <Spacer className='spacer spacer__height'/>
           </>
         </Form>
       )}
@@ -189,6 +191,7 @@ const Profile = () => {
               }}
               value={avatarName}
             />
+            <Spacer className='spacer spacer__height'/>
           </>
         </Form>
       )}
@@ -218,6 +221,7 @@ const Profile = () => {
                 minLength: PATTERN_VALIDATION.minLength_8
               }}
             />
+            <Spacer className='spacer spacer__height'/>
             <FormInput
               name='newPassword'
               type='password'
@@ -230,6 +234,7 @@ const Profile = () => {
                 minLength: PATTERN_VALIDATION.minLength_8
               }}
             />
+            <Spacer className='spacer spacer__height'/>
           </>
         </Form>
       )}

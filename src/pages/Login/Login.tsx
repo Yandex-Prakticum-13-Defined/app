@@ -6,6 +6,7 @@ import './Login.scss';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
+import Spacer from '../../components/Spacer/Spacer';
 import { useAuth } from '../../hook/useAuth';
 import { PATTERN_VALIDATION } from '../../utils/Const';
 
@@ -13,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // @ts-ignore
-  const fromPage = location?.state?.from?.pathname || ERoutes.START;
+  const fromPage = location?.state?.from?.pathname;
   const { signin } = useAuth();
 
   const {
@@ -62,6 +63,7 @@ const Login = () => {
               pattern: PATTERN_VALIDATION.login,
             }}
           />
+          <Spacer className='spacer spacer__height'/>
           <FormInput
             name='password'
             type='password'
@@ -75,6 +77,7 @@ const Login = () => {
             }}
           />
         </>
+        <Spacer className='spacer spacer__height'/>
       </Form>
       <Link className='register' to={ERoutes.REGISTER}>Регистрация</Link>
     </div>
