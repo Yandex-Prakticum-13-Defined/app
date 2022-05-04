@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './ForumTopic.scss';
 import { Link } from 'react-router-dom';
 import ForumMessage from '../ForumMessage/ForumMessage';
 import { messages } from '../../mockData/mockMessages';
+import { ERoutes } from '../../../../App';
 
 export type TMessage = {
   id: string;
@@ -13,12 +14,12 @@ export type TMessage = {
   isResponse: boolean;
 };
 
-function ForumTopic() {
+const ForumTopic: FC = () => {
   const title = 'Здесь будет название темы';
 
   return (
     <div className='forum-topic'>
-      <Link className='forum-topic__backlink' to='/forum'>На главную</Link>
+      <Link className='forum-topic__backlink' to={ERoutes.FORUM}>На главную</Link>
       <h2 className='forum-topic__title'>{title}</h2>
       {
         messages.map((message) => (
@@ -38,6 +39,6 @@ function ForumTopic() {
       </form>
     </div>
   );
-}
+};
 
 export default ForumTopic;
