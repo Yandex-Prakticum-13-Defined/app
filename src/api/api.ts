@@ -21,7 +21,7 @@ export interface IPassword {
 }
 
 export interface IUserData {
-  id?: any;
+  id?: number | string;
   first_name?: string;
   second_name?: string;
   display_name?: string;

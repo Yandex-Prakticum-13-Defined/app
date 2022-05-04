@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+
 import { ERoutes } from '../App';
 import Spinner from '../components/Spinner/Spinner';
 import { useAuth } from '../hook/useAuth';
 
-const RequireAuth = ({ children }: any) => {
+interface IRequireAuth {
+  children: JSX.Element;
+}
+
+const RequireAuth:FC<IRequireAuth> = ({ children }) => {
   const location = useLocation();
   const { user, isLoading } = useAuth();
 

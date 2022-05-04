@@ -12,10 +12,12 @@ import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/Form/FormInput';
 import Spacer from '../../components/Spacer/Spacer';
+import { useAuth } from '../../hook/useAuth';
 import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Profile = () => {
-  const { id } = localStorage;
+  const { user } = useAuth();
+
   const [isProfile, setIsProfile] = useState(false);
   const [isAvatar, setIsAvatar] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
@@ -52,11 +54,11 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    getProfile(Number(id))
+    getProfile(Number(user))
       .then(({ data }) => {
         setProfile(data);
       });
-  }, [id]);
+  }, [user]);
 
   useEffect(() => {
     setValue('username', profile?.first_name);

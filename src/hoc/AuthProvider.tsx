@@ -59,7 +59,6 @@ export const AuthProvider:FC<TAuthProviderProps> = ({ children }) => {
     setIsLoading(true);
     getUser().then((res) => {
       setUser(res?.data?.id);
-      localStorage.id = res?.data?.id;
     }).finally(() => setIsLoading(false));
   }, []);
 

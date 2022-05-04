@@ -10,7 +10,7 @@ interface IFormInput {
   type: string;
   placeholder: string;
   className?: string;
-  onChange?: any;
+  onChange?: (e: any) => void;
   value?: string;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import './Form.scss';
 
@@ -8,13 +8,13 @@ interface IForm {
   title?: string;
   children?: React.ReactNode;
   button?: IButton;
-  handleSubmit?: any;
-  onChange?: any;
+  handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+  onChange?: () => void;
 }
 
-const Form = ({
+const Form:FC<IForm> = ({
   title, children, button, handleSubmit
-}: IForm) => (
+}) => (
   <form className='form' onSubmit={handleSubmit}>
     <h1 className='form__title'>{title}</h1>
     {children}
