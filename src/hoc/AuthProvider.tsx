@@ -2,11 +2,11 @@ import React, {
   createContext, FC, useEffect, useState
 } from 'react';
 import {
-  getUser, IRegisterData, ISignInData, logout, signIn, signUp
+  getUser, IRegisterData, ISignInData, IUserData, logout, signIn, signUp
 } from '../api/api';
 
 interface IAuthContextType {
-  user: { login: string; password: string; };
+  user: IUserData;
   signin: (user: ISignInData, callback?: VoidFunction) => void;
   signup: (profile: IRegisterData, callback?: VoidFunction) => void;
   signout: (callback?: VoidFunction) => void;
@@ -28,7 +28,7 @@ export const AuthProvider:FC<TAuthProviderProps> = ({ children }) => {
   const signin = (newUser: ISignInData, cb?: VoidFunction) => {
     signIn(newUser).then(() => {
       getUser().then((res) => {
-        setUser(res?.data?.id);
+        setUser(res?.data);
       });
       cb?.();
     });
@@ -38,7 +38,7 @@ export const AuthProvider:FC<TAuthProviderProps> = ({ children }) => {
     signUp(profile)
       .then(() => {
         getUser().then((res) => {
-          setUser(res?.data?.id);
+          setUser(res?.data);
         });
         cb?.();
       });
@@ -58,7 +58,7 @@ export const AuthProvider:FC<TAuthProviderProps> = ({ children }) => {
   useEffect(() => {
     setIsLoading(true);
     getUser().then((res) => {
-      setUser(res?.data?.id);
+      setUser(res?.data);
     }).finally(() => setIsLoading(false));
   }, []);
 

@@ -6,7 +6,7 @@ import './Register.scss';
 
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
-import { FormInput } from '../../components/Form/FormInput';
+import { FormInput } from '../../components/FormInput/FormInput';
 import Spacer from '../../components/Spacer/Spacer';
 import { useAuth } from '../../hook/useAuth';
 import { PATTERN_VALIDATION } from '../../utils/Const';

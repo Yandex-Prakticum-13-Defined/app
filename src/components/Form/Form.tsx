@@ -16,7 +16,7 @@ const Form:FC<IForm> = ({
   title, children, button, handleSubmit
 }) => (
   <form className='form' onSubmit={handleSubmit}>
-    <h1 className='form__title'>{title}</h1>
+    {title && <h1 className='form__title'>{title}</h1>}
     {children}
     <Button type={button?.type} title={button?.title} disabled={button?.disabled}/>
   </form>

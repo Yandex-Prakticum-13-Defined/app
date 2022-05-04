@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 
 import './index.scss';
+import Authorized from './hoc/Authorized';
 import { AuthProvider } from './hoc/AuthProvider';
 import RequireAuth from './hoc/RequireAuth';
 import Start from './pages/Start/Start';
@@ -37,8 +38,8 @@ function App() {
           <Route path={ERoutes.LEADERBOARD} element={<RequireAuth><Leaderboard/></RequireAuth>}/>
           <Route path={ERoutes.PROFILE} element={<RequireAuth><Profile/></RequireAuth>}/>
           <Route path={ERoutes.START} element={<Start/>}/>
-          <Route path={ERoutes.LOGIN} element={<Login/>}/>
-          <Route path={ERoutes.REGISTER} element={<Register/>}/>
+          <Route path={ERoutes.LOGIN} element={<Authorized><Login/></Authorized>}/>
+          <Route path={ERoutes.REGISTER} element={<Authorized><Register/></Authorized>}/>
           <Route path={ERoutes.ERROR_404} element={<Error404/>}/>
           <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
         </Routes>

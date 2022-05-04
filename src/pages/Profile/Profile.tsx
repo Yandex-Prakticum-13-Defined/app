@@ -9,8 +9,9 @@ import {
 } from '../../api/api';
 
 import { ERoutes } from '../../App';
+import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
-import { FormInput } from '../../components/Form/FormInput';
+import { FormInput } from '../../components/FormInput/FormInput';
 import Spacer from '../../components/Spacer/Spacer';
 import { useAuth } from '../../hook/useAuth';
 import { PATTERN_VALIDATION } from '../../utils/Const';
@@ -54,7 +55,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    getProfile(Number(user))
+    getProfile(Number(user?.id))
       .then(({ data }) => {
         setProfile(data);
       });
@@ -107,11 +108,14 @@ const Profile = () => {
 
   return (
     <div className='container'>
-      <Link className='register' onClick={() => {
-        setIsAvatar(false);
-        setIsProfile(true);
-        setIsPassword(false);
-      }} to='#'>Редактировать профиль</Link>
+      <Button
+        title='Редактировать профиль'
+        className='profile__button'
+        onClick={() => {
+          setIsAvatar(false);
+          setIsProfile(true);
+          setIsPassword(false);
+        }}/>
       {isProfile && (
         <Form
           title='Профиль'
@@ -167,11 +171,13 @@ const Profile = () => {
           </>
         </Form>
       )}
-      <Link className='register' onClick={() => {
-        setIsAvatar(true);
-        setIsProfile(false);
-        setIsPassword(false);
-      }} to='#'>Загрузить аватар</Link>
+      <Button
+        title='Загрузить аватар'
+        className='profile__button' onClick={() => {
+          setIsAvatar(true);
+          setIsProfile(false);
+          setIsPassword(false);
+        }}/>
       {isAvatar && (
         <Form title='Загрузить аватар'
               handleSubmit={handleSubmit(uploadAvatar)}
@@ -197,11 +203,14 @@ const Profile = () => {
           </>
         </Form>
       )}
-      <Link className='register' onClick={() => {
-        setIsPassword(true);
-        setIsAvatar(false);
-        setIsProfile(false);
-      }} to='#'>Изменить пароль</Link>
+      <Button
+        title='Изменить пароль'
+        className='profile__button'
+         onClick={() => {
+           setIsPassword(true);
+           setIsAvatar(false);
+           setIsProfile(false);
+         }} />
       {isPassword && (
         <Form title='Изменить пароль'
               handleSubmit={handleSubmit(onSubmitPassword)}

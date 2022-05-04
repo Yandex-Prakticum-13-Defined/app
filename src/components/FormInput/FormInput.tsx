@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import './Form.scss';
+import './FormInput.scss';
 import { useController } from 'react-hook-form';
 
 interface IFormInput {
@@ -34,7 +34,7 @@ export const FormInput = memo(({
   return (
     <>
       <input {...field} {...rest} />
-      {errors && <span className='input__error'>{errors[name]?.message}</span>}
+      {errors && <span className='form-input__error'>{errors[name]?.message}</span>}
     </>
   );
 });
