@@ -1,62 +1,85 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import './Login.scss';
-import { Link } from 'react-router-dom';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
-import { useInput } from '../../hooks/useInput';
-import { postSignIn } from '../../api/api';
+import { ERoutes } from '../../App';
+import Form from '../../components/Form/Form';
+import { FormInput } from '../../components/FormInput/FormInput';
+import Spacer from '../../components/Spacer/Spacer';
+import { useAuth } from '../../hook/useAuth';
+import { PATTERN_VALIDATION } from '../../utils/Const';
 
 const Login = () => {
-  const login = useInput('', {
-    isEmpty: true,
-    login: {
-      isError: null,
-      error: ''
-    }
-  });
-  const password = useInput('', {
-    isEmpty: true,
-    password: {
-      isError: null,
-      error: ''
-    }
+  const navigate = useNavigate();
+  const location = useLocation();
+  // @ts-ignore
+  const fromPage = location?.state?.from?.pathname;
+  const { signin } = useAuth();
+
+  const {
+    formState: {
+      isValid
+    },
+    control,
+    getValues
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      login: '',
+      password: '',
+    },
   });
 
-  const formMethod = {
-    login: login.value,
-    password: password.value,
-  };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    postSignIn(formMethod)
-      // eslint-disable-next-line no-console
-      .then((data) => console.log(data))
-      // eslint-disable-next-line no-console
-      .catch((error: any) => console.log(`Ошибка ${error}`));
+    const user = getValues();
+    signin(user, () => navigate(fromPage || ERoutes.START, { replace: true }));
   };
 
   return (
     <div className='container'>
-      <form className='form' onSubmit={handleSubmit}>
-        <h1 className='form__title'>Welcome</h1>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='login' type='text' placeholder='login'
-                 value={login.value} onBlur={login.onBlur}
-                 onChange={(e: HTMLInputElement) => login.onChange(e)}
-                 isDirty={login.isDirty} isEmpty={login.isEmpty} isError={login.loginError}/>
-        </div>
-        <div className='form__wrapper'>
-          <Input className='form__input' name='password' type='password' placeholder='password'
-                 value={password.value} onBlur={password.onBlur}
-                 onChange={(e: HTMLInputElement) => password.onChange(e)}
-                 isDirty={password.isDirty} isEmpty={password.isEmpty}
-                 isError={password.passwordError}/>
-        </div>
-        <Button type='submit' title='Login' onClick={(e: any) => handleSubmit(e)}
-                disabled={!login.inputValid || !password.inputValid}/>
-      </form>
-      <Link className='register' to='/register'>Register</Link>
+      <Form
+        title='Авторизация'
+        handleSubmit={handleSubmit}
+        button={{
+          type: 'submit',
+          title: 'Войти',
+          disabled: !isValid,
+        }}
+      >
+        <>
+          <FormInput
+            name='login'
+            type='text'
+            placeholder='Логин'
+            className='form__input'
+            control={control}
+            rules={{
+              required: PATTERN_VALIDATION.required,
+              minLength: PATTERN_VALIDATION.minLength_3,
+              maxLength: PATTERN_VALIDATION.maxLength,
+              pattern: PATTERN_VALIDATION.login,
+            }}
+          />
+          <Spacer className='spacer spacer__height'/>
+          <FormInput
+            name='password'
+            type='password'
+            placeholder='введите новый пароль'
+            className='form__input'
+            control={control}
+            rules={{
+              required: PATTERN_VALIDATION.required,
+              pattern: PATTERN_VALIDATION.password,
+              minLength: PATTERN_VALIDATION.minLength_8
+            }}
+          />
+        </>
+        <Spacer className='spacer spacer__height'/>
+      </Form>
+      <Link className='register' to={ERoutes.REGISTER}>Регистрация</Link>
     </div>
   );
 };
