@@ -42,7 +42,7 @@ function App() {
           }/>
           <Route path={ERoutes.LEADERBOARD} element={<RequireAuth><Leaderboard/></RequireAuth>}/>
           <Route path={ERoutes.PROFILE} element={<RequireAuth><Profile/></RequireAuth>}/>
-          <Route path={ERoutes.FORUM} element={<Forum/>}>
+          <Route path={ERoutes.FORUM} element={<RequireAuth><Forum/></RequireAuth>}>
             <Route path='' element={<ForumTopics/>}/>
             <Route path=':id' element={<ForumTopic/>}/>
           </Route>
