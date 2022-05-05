@@ -19,9 +19,9 @@
   }
 
   &__title {
-  font-size: 50px;
-  font-weight: bold;
-  color: #27aedb;
+    font-size: 50px;
+    font-weight: bold;
+    color: #27aedb;
   }
 
   &__subTitle {
@@ -39,13 +39,13 @@
     text-align: center;
     cursor: pointer;
     border-radius: 15px;
-    font-weight: 500;
-    font-size: 30px;
     line-height: 11px;
-    text-decoration: none;
     border: none;
     outline: none;
     border-bottom: 3px solid black;
-  }
 
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }

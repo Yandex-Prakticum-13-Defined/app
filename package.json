@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open --hot",
     "lint": "eslint . --fix",
-    "stylelint": "npx stylelint **/*.scss",
+    "stylelint": "npx stylelint **/*.scss --fix",
     "test": "",
     "prepare": "husky install"
   },

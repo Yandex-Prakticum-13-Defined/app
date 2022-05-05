@@ -1,0 +1,48 @@
+.forum-topic {
+  width: 100%;
+  min-height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  &__backlink {
+    font-size: 20px;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    &:visited {
+      color: black;
+    }
+  }
+
+  &__title {
+    margin: 20px 0;
+  }
+
+  &__form {
+    width: 100%;
+    display: flex;
+  }
+
+  &__button {
+    width: 10%;
+    font-size: 20px;
+    border: none;
+    background-color: #f0f4f7;
+    border-radius: 10px;
+    align-self: flex-end;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+
+  &__textarea {
+    width: 90%;
+    border: none;
+    height: 100px;
+    margin-right: 10px;
+  }
+}
