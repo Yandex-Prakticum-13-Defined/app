@@ -4,15 +4,18 @@ const DYNAMIC_CACHE_NAME = `d-${CACHE_NAME}`;
 
 const URLS = [
   '/',
-  '/sw',
+  '/sw.js',
+  '/app.css',
+  '/app.js',
   '/index.html',
   '/game',
+  '/forum',
   '/register',
   '/leaderboard',
   '/login',
   '/profile',
   '/Error404',
-  '/Error500'
+  '/Error500',
 ];
 
 // eslint-disable-next-line no-restricted-globals
