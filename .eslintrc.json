@@ -1,7 +1,9 @@
 {
   "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb-typescript",
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
     "react-app"
@@ -9,20 +11,28 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "react/display-name": "off",
-    "react-hooks/exhaustive-deps": 0,
+    // Отключенные правила:
     "@typescript-eslint/comma-dangle": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/extensions": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "max-len": ["error", { "code": 120 }],
-    /** Разрешается использовать "_" в названии объекта если это свойство стоит после this */
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
-    /** Обязательная пустая строка между return и предыдущим кодом */
-    "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
-    "jsx-quotes": ["error", "prefer-single"],
     "import/prefer-default-export": "off",
     "linebreak-style": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "import/no-mutable-exports": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/no-cycle": "off",
+    "react/require-default-props": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-props-no-spreading": "off",
+    // Добавленные правила:
+    "max-len": ["error", { "code": 120 }],
+    "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
+    "jsx-quotes": ["error", "prefer-single"],
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": {
         "delimiter": "semi",
@@ -43,9 +53,9 @@
       "logical": "parens-new-line",
       "prop": "parens-new-line"
     }],
-    "no-plusplus": "off",
-    "no-param-reassign": "off",
-    "import/no-mutable-exports": "off"
+    "react/function-component-definition": ["error", {"namedComponents": "arrow-function"}],
+    "import/order": ["error", {"newlines-between": "never"}],
+    "@typescript-eslint/no-explicit-any": "error"
   },
   "parserOptions": {
     "project": "./tsconfig.json"

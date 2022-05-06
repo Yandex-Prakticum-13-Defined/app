@@ -19,9 +19,9 @@
   }
 
   &__title {
-  font-size: 50px;
-  font-weight: bold;
-  color: #27aedb;
+    font-size: 50px;
+    font-weight: bold;
+    color: #27aedb;
   }
 
   &__subTitle {
@@ -30,7 +30,7 @@
   }
 
   &__link {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 20px;
     text-decoration: none;
     margin-top: 20px;
@@ -39,13 +39,9 @@
     text-align: center;
     cursor: pointer;
     border-radius: 15px;
-    font-weight: 500;
-    font-size: 30px;
     line-height: 11px;
-    text-decoration: none;
     border: none;
     outline: none;
     border-bottom: 3px solid black;
   }
-
 }

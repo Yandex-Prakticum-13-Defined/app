@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-
 import { ERoutes } from '../App';
 import Spinner from '../components/Spinner/Spinner';
 import { useAuth } from '../hook/useAuth';

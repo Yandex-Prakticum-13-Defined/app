@@ -1,15 +1,12 @@
 import React, { FC } from 'react';
-
 import './Form.scss';
-
-import Button, { IButton } from '../../components/Button/Button';
+import Button, { IButton } from '../Button/Button';
 
 interface IForm {
   title?: string;
   children?: React.ReactNode;
   button?: IButton;
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
-  onChange?: () => void;
 }
 
 const Form:FC<IForm> = ({
@@ -18,7 +15,7 @@ const Form:FC<IForm> = ({
   <form className='form' onSubmit={handleSubmit}>
     {title && <h1 className='form__title'>{title}</h1>}
     {children}
-    <Button type={button?.type} title={button?.title} disabled={button?.disabled}/>
+    <Button type='submit' title={button?.title} disabled={button?.disabled} />
   </form>
 );
 

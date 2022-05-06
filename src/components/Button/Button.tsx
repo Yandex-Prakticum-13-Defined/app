@@ -5,7 +5,7 @@ export interface IButton {
   className?: string;
   onClick?: () => void;
   title?: string;
-  type?: 'button' | 'submit' | 'reset' | undefined;
+  type: 'button' | 'submit' | 'reset';
   disabled?: boolean;
 }
 
@@ -16,6 +16,7 @@ const Button:FC<IButton> = ({
   type,
   disabled
 }) => (
+  // eslint-disable-next-line react/button-has-type
   <button className={className || 'button'} onClick={onClick} type={type} disabled={disabled}>
     {title}
   </button>

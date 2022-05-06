@@ -1,5 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TCompareFn = (a: any, b: any) => number;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function defaultCompareFn(a: any, b: any): -1 | 0 | 1 {
   if (a < b) {
     return -1;

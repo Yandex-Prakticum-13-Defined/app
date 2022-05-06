@@ -1,10 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-
-import './Register.scss';
-
 import { ERoutes } from '../../App';
+import './Register.scss';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/FormInput/FormInput';
 import Spacer from '../../components/Spacer/Spacer';
@@ -81,7 +79,7 @@ const Register = () => {
               pattern: PATTERN_VALIDATION.name,
             }}
           />
-          <Spacer className='spacer spacer__height'/>
+          <Spacer className='spacer spacer__height' />
           <FormInput
             name='login'
             type='text'
@@ -95,7 +93,7 @@ const Register = () => {
               pattern: PATTERN_VALIDATION.login,
             }}
           />
-          <Spacer className='spacer spacer__height'/>
+          <Spacer className='spacer spacer__height' />
           <FormInput
             name='email'
             type='email'
@@ -107,7 +105,7 @@ const Register = () => {
               pattern: PATTERN_VALIDATION.email,
             }}
           />
-          <Spacer className='spacer spacer__height'/>
+          <Spacer className='spacer spacer__height' />
           <FormInput
             name='password'
             type='password'
@@ -120,7 +118,7 @@ const Register = () => {
               minLength: PATTERN_VALIDATION.minLength_8
             }}
           />
-          <Spacer className='spacer spacer__height'/>
+          <Spacer className='spacer spacer__height' />
         </>
       </Form>
       <Link className='register' to={ERoutes.LOGIN}>Авторизация</Link>

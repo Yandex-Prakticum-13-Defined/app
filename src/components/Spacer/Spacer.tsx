@@ -6,7 +6,7 @@ interface ISpacer {
 }
 
 const Spacer: FC<ISpacer> = ({ className }) => (
-  <div className={className}/>
+  <div className={className} />
 );
 
 export default Spacer;

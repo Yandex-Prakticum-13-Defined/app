@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component<IErrorBoundaryProps, IErrorBoundary
     if (this.state.hasError) {
       return (
         <div className='error-boundary'>
-          <img src={image} alt={'Ошибка!'} className='error-boundary__image' />
+          <img src={image} alt='Ошибка!' className='error-boundary__image' />
           <div className='error-boundary__text-container'>
             <h2 className='error-boundary__text'>Что-то пошло не так...</h2>
             <p className='error-boundary__text'>Попробуйте перейти на главную или перезагрузить страницу</p>

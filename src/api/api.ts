@@ -59,6 +59,7 @@ export const getProfile = (id: number | null) => instance.get(`user/${id}`)
 export const changeUserProfile = (userData: IUserData) => instance.put('user/profile', userData)
   .then((response) => response);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const changeAvatar = (formData: any) => instance.put(
   'user/profile/avatar',
   formData,

@@ -4,6 +4,7 @@ import ModalGameOver from '../ModalGameOver/ModalGameOver';
 import { isGameOver, roundWin } from '../../engine';
 
 interface ICanvasProps {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   draw: Function;
 }
 
@@ -20,7 +21,9 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
   }, [isGameOver]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const canvas = canvasRef.current!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const container = containerRef.current!;
     canvas.height = container.clientHeight;
     canvas.width = container.clientWidth;
@@ -45,7 +48,7 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
 
   return (
     <div ref={containerRef} className='canvas-container'>
-      {isShowModal && <ModalGameOver isRoundWin={isRoundWin} hideModal={onResetGame}/>}
+      {isShowModal && <ModalGameOver isRoundWin={isRoundWin} hideModal={onResetGame} />}
       <canvas ref={canvasRef} className='canvas' />
     </div>
   );

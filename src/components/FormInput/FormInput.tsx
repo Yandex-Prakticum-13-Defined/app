@@ -3,13 +3,16 @@ import './FormInput.scss';
 import { useController } from 'react-hook-form';
 
 interface IFormInput {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control?: any;
   defaultValue?: string;
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rules?: any;
   type: string;
   placeholder: string;
   className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange?: (e: any) => void;
   value?: string;
 }
