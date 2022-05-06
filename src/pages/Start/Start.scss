@@ -43,5 +43,9 @@
     border: none;
     outline: none;
     border-bottom: 3px solid black;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }

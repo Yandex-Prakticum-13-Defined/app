@@ -30,6 +30,8 @@ const Start = () => {
             <Link className='start__link' onClick={handleLogout} to='#'>Выйти</Link>
             <Link className='start__link' to={ERoutes.GAME}>Начать игру</Link>
             <Link className='start__link' to={ERoutes.PROFILE}>Профиль</Link>
+            <Link className='start__link' to={ERoutes.LEADERBOARD}>Таблица лидеров</Link>
+            <Link className='start__link' to={ERoutes.FORUM}>Форум</Link>
           </>
         ) : (
           <>
