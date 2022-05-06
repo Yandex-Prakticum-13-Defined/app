@@ -4,10 +4,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    app: './src/index.tsx',
+    sw: './src/sw.js',
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].js',
     publicPath: '/'
   },
   resolve: {

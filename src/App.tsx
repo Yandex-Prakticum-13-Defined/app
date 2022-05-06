@@ -29,6 +29,18 @@ export enum ERoutes {
   'FALLBACK' = '*'
 }
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
+      // eslint-disable-next-line
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, (err) => {
+      // eslint-disable-next-line
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+
 function App() {
   return (
     <BrowserRouter>
