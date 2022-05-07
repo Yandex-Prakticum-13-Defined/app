@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { FC, FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Register.scss';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
-import { FormInput } from '../../components/FormInput/FormInput';
-import Spacer from '../../components/Spacer/Spacer';
+import { Input } from '../../components/Input/Input';
 import { useAuth } from '../../hook/useAuth';
-import { PATTERN_VALIDATION } from '../../utils/constants/validation';
+import { VALIDATION } from '../../utils/constants/validation';
 
-const Register = () => {
+const Register: FC = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
 
@@ -35,7 +34,7 @@ const Register = () => {
     phone: '+7-000-000-00-00'
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const {
@@ -57,7 +56,7 @@ const Register = () => {
   };
 
   return (
-    <div className='container'>
+    <section className='register'>
       <Form
         title='Регистрация'
         handleSubmit={handleSubmit}
@@ -66,63 +65,54 @@ const Register = () => {
           title: 'Зарегистрироваться',
           disabled: !isValid,
         }}
+        linkTo={ERoutes.LOGIN}
+        linkText='Авторизация'
       >
-        <>
-          <FormInput
-            name='username'
-            type='text'
-            placeholder='Имя'
-            className='form__input'
-            control={control}
-            rules={{
-              required: PATTERN_VALIDATION.required,
-              pattern: PATTERN_VALIDATION.name,
-            }}
-          />
-          <Spacer className='spacer spacer__height'/>
-          <FormInput
-            name='login'
-            type='text'
-            placeholder='Логин'
-            className='form__input'
-            control={control}
-            rules={{
-              required: PATTERN_VALIDATION.required,
-              minLength: PATTERN_VALIDATION.minLength_3,
-              maxLength: PATTERN_VALIDATION.maxLength,
-              pattern: PATTERN_VALIDATION.login,
-            }}
-          />
-          <Spacer className='spacer spacer__height'/>
-          <FormInput
-            name='email'
-            type='email'
-            placeholder='email адрес'
-            className='form__input'
-            control={control}
-            rules={{
-              required: PATTERN_VALIDATION.required,
-              pattern: PATTERN_VALIDATION.email,
-            }}
-          />
-          <Spacer className='spacer spacer__height'/>
-          <FormInput
-            name='password'
-            type='password'
-            placeholder='введите новый пароль'
-            className='form__input'
-            control={control}
-            rules={{
-              required: PATTERN_VALIDATION.required,
-              pattern: PATTERN_VALIDATION.password,
-              minLength: PATTERN_VALIDATION.minLength_8
-            }}
-          />
-          <Spacer className='spacer spacer__height'/>
-        </>
+        <Input
+          name='username'
+          type='text'
+          placeholder='Имя'
+          control={control}
+          rules={{
+            required: VALIDATION.required,
+            pattern: VALIDATION.name,
+          }}
+        />
+        <Input
+          name='login'
+          type='text'
+          placeholder='Логин'
+          control={control}
+          rules={{
+            required: VALIDATION.required,
+            minLength: VALIDATION.minLength_3,
+            maxLength: VALIDATION.maxLength_20,
+            pattern: VALIDATION.login,
+          }}
+        />
+        <Input
+          name='email'
+          type='email'
+          placeholder='Email'
+          control={control}
+          rules={{
+            required: VALIDATION.required,
+            pattern: VALIDATION.email,
+          }}
+        />
+        <Input
+          name='password'
+          type='password'
+          placeholder='Пароль'
+          control={control}
+          rules={{
+            required: VALIDATION.required,
+            pattern: VALIDATION.password,
+            minLength: VALIDATION.minLength_8
+          }}
+        />
       </Form>
-      <Link className='register' to={ERoutes.LOGIN}>Авторизация</Link>
-    </div>
+    </section>
   );
 };
 

@@ -1,16 +1,5 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 15% auto;
-  width: 600px;
-  height: 600px;
-  background-image: url("../../img/register_fon.png");
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  box-shadow: 0 8px 14px -5px #000;
+@import "../../mixins";
+
+.register {
+  @include centered-content;
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import './Profile.scss';
 import {
   changeAvatar, changeUserPassword, changeUserProfile, getProfile
@@ -8,15 +7,14 @@ import {
 import { ERoutes } from '../../App';
 import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
-import { FormInput } from '../../components/FormInput/FormInput';
-import Spacer from '../../components/Spacer/Spacer';
+import { Input } from '../../components/Input/Input';
 import { useAuth } from '../../hook/useAuth';
-import { PATTERN_VALIDATION } from '../../utils/constants/validation';
+import { VALIDATION } from '../../utils/constants/validation';
 
 const Profile = () => {
   const { user } = useAuth();
 
-  const [isProfile, setIsProfile] = useState(false);
+  const [isProfile, setIsProfile] = useState(true);
   const [isAvatar, setIsAvatar] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [curFile, setCurFile] = useState();
@@ -104,96 +102,103 @@ const Profile = () => {
   };
 
   return (
-    <div className='container'>
-      <Button
-        title='Редактировать профиль'
-        className='profile__button'
-        onClick={() => {
-          setIsAvatar(false);
-          setIsProfile(true);
-          setIsPassword(false);
-        }}
-      />
-      {isProfile && (
-        <Form
-          title='Профиль'
-          handleSubmit={handleSubmit(onSubmit)}
-          button={{
-            type: 'submit',
-            title: 'Сохранить',
-            disabled: !isValid,
+    <section className='profile'>
+      <div className='profile__container'>
+        <Button
+          title='Редактировать профиль'
+          onClick={() => {
+            setIsAvatar(false);
+            setIsProfile(true);
+            setIsPassword(false);
           }}
-        >
-          <>
-            <FormInput
+          type='button'
+          disabled={isProfile}
+        />
+        <Button
+          title='Загрузить аватар'
+          onClick={() => {
+            setIsAvatar(true);
+            setIsProfile(false);
+            setIsPassword(false);
+          }}
+          type='button'
+          disabled={isAvatar}
+        />
+        <Button
+          title='Изменить пароль'
+          onClick={() => {
+            setIsPassword(true);
+            setIsAvatar(false);
+            setIsProfile(false);
+          }}
+          type='button'
+          disabled={isPassword}
+        />
+        {isProfile && (
+          <Form
+            title='Редактировать профиль'
+            handleSubmit={handleSubmit(onSubmit)}
+            button={{
+              type: 'submit',
+              title: 'Сохранить',
+              disabled: !isValid,
+            }}
+            linkTo={ERoutes.START}
+            linkText='На главную'
+          >
+            <Input
               name='username'
               type='text'
               placeholder='Имя'
-              className='form__input'
               defaultValue={profile?.first_name}
               control={control}
               rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.name,
+                required: VALIDATION.required,
+                pattern: VALIDATION.name,
               }}
             />
-            <Spacer className='spacer spacer__height'/>
-            <FormInput
+            <Input
               name='login'
               type='text'
               placeholder='Логин'
-              className='form__input'
               defaultValue={profile?.login}
               control={control}
               rules={{
-                required: PATTERN_VALIDATION.required,
-                minLength: PATTERN_VALIDATION.minLength_3,
-                maxLength: PATTERN_VALIDATION.maxLength,
-                pattern: PATTERN_VALIDATION.login,
+                required: VALIDATION.required,
+                minLength: VALIDATION.minLength_3,
+                maxLength: VALIDATION.maxLength_20,
+                pattern: VALIDATION.login,
               }}
             />
-            <Spacer className='spacer spacer__height'/>
-            <FormInput
+            <Input
               name='email'
               type='email'
-              placeholder='email адрес'
-              className='form__input'
+              placeholder='Email'
               defaultValue={profile?.email}
               control={control}
               rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.email,
+                required: VALIDATION.required,
+                pattern: VALIDATION.email,
               }}
             />
-            <Spacer className='spacer spacer__height'/>
-          </>
-        </Form>
-      )}
-      <Button
-        title='Загрузить аватар'
-        className='profile__button'
-        onClick={() => {
-          setIsAvatar(true);
-          setIsProfile(false);
-          setIsPassword(false);
-        }}
-      />
-      {isAvatar && (
-        <Form
-          title='Загрузить аватар'
-          handleSubmit={handleSubmit(uploadAvatar)}
-          button={{
-            type: 'submit',
-            title: 'Сохранить',
-            disabled: !isValid,
-          }}
-        >
-          <>
-            <FormInput
+          </Form>
+        )}
+        {isAvatar && (
+          <Form
+            title='Загрузить аватар'
+            handleSubmit={handleSubmit(uploadAvatar)}
+            button={{
+              type: 'submit',
+              title: 'Сохранить',
+              disabled: !isValid,
+            }}
+            linkTo={ERoutes.START}
+            linkText='На главную'
+          >
+            <Input
               name='avatar'
               type='file'
-              placeholder='выберете аватар'
-              className='form__input'
+              placeholder='Выберите аватар'
               control={control}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(e: any) => {
@@ -202,61 +207,46 @@ const Profile = () => {
               }}
               value={avatarName}
             />
-            <Spacer className='spacer spacer__height'/>
-          </>
-        </Form>
-      )}
-      <Button
-        title='Изменить пароль'
-        className='profile__button'
-        onClick={() => {
-          setIsPassword(true);
-          setIsAvatar(false);
-          setIsProfile(false);
-        }}
-      />
-      {isPassword && (
-        <Form
-          title='Изменить пароль'
-          handleSubmit={handleSubmit(onSubmitPassword)}
-          button={{
-            type: 'submit',
-            title: 'Сохранить',
-            disabled: !isValid,
-          }}
-        >
-          <>
-            <FormInput
+          </Form>
+        )}
+        {isPassword && (
+          <Form
+            title='Изменить пароль'
+            handleSubmit={handleSubmit(onSubmitPassword)}
+            button={{
+              type: 'submit',
+              title: 'Сохранить',
+              disabled: !isValid,
+            }}
+            linkTo={ERoutes.START}
+            linkText='На главную'
+          >
+            <Input
               name='oldPassword'
               type='password'
-              placeholder='введите старый пароль'
-              className='form__input'
+              placeholder='Введите старый пароль'
               control={control}
               rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.password,
-                minLength: PATTERN_VALIDATION.minLength_8
+                required: VALIDATION.required,
+                pattern: VALIDATION.password,
+                minLength: VALIDATION.minLength_8
               }}
             />
-            <Spacer className='spacer spacer__height'/>
-            <FormInput
+            <Input
               name='newPassword'
               type='password'
-              placeholder='введите новый пароль'
-              className='form__input'
+              placeholder='Введите новый пароль'
               control={control}
               rules={{
-                required: PATTERN_VALIDATION.required,
-                pattern: PATTERN_VALIDATION.password,
-                minLength: PATTERN_VALIDATION.minLength_8
+                required: VALIDATION.required,
+                pattern: VALIDATION.password,
+                minLength: VALIDATION.minLength_8
               }}
             />
-            <Spacer className='spacer spacer__height'/>
-          </>
-        </Form>
-      )}
-      <Link className='register' to={ERoutes.START}>На главную</Link>
-    </div>
+          </Form>
+        )}
+      </div>
+    </section>
   );
 };
 

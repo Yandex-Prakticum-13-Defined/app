@@ -1,20 +1,28 @@
 .form {
-  width: 100%;
+  width: 600px;
+  height: 600px;
+  box-shadow: 0 8px 14px -5px #000;
+  padding: 50px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-weight: bold;
   font-size: 20px;
 
-  &__input {
-    display: flex;
-    width: 80%;
-    padding: 5px 25px;
-    border-radius: 20px;
-    border: none;
-    color: inherit;
-    outline: none;
-    border-bottom: 3px solid black;
+  &__title {
+    margin: 0 0 30px;
+    text-align: center;
+  }
+
+  &__link {
+    align-self: center;
+    margin-top: 40px;
+    text-decoration: none;
+    color: #27aedb;
+    font-size: 20px;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }
