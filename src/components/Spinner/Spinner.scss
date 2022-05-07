@@ -24,15 +24,6 @@
   background: #e0e0e0;
   z-index: 1001;
 
-  &_loaded {
-    display: none;
-  }
-
-  &_hiding {
-    transition: 0.3s opacity;
-    opacity: 0;
-  }
-
   &__row {
     position: relative;
     top: 50%;

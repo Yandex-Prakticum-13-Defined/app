@@ -1,0 +1,13 @@
+.input {
+  padding: 5px 25px;
+  border: none;
+  border-bottom: 3px solid black;
+  border-radius: 20px;
+
+  &__error {
+    color: red;
+    margin-left: 10px;
+    font-size: 14px;
+    height: 33px;
+  }
+}

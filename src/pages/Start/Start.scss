@@ -1,32 +1,25 @@
-.start {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-image: url("../../img/leaderboard-background.png");
-  background-position: center;
-  background-size: cover;
+@import "../../mixins";
 
-  &__container {
-    margin-top: 50px;
-    width: 500px;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
+.start {
+  @include centered-content;
 
   &__title {
+    margin: 0 0 30px;
     font-size: 50px;
-    font-weight: bold;
     color: #27aedb;
   }
 
-  &__subTitle {
+  &__text {
+    margin: 0;
+    font-size: 24px;
     max-width: 60%;
     text-align: center;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__link {
@@ -35,16 +28,14 @@
     text-decoration: none;
     margin-top: 20px;
     color: #27aedb;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
+    padding: 10px;
     border-radius: 15px;
-    line-height: 11px;
     border: none;
-    outline: none;
     border-bottom: 3px solid black;
+    background: none;
 
     &:hover {
+      cursor: pointer;
       opacity: 0.5;
     }
   }

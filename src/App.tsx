@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.scss';
-import Authorized from './hoc/Authorized';
-import { AuthProvider } from './hoc/AuthProvider';
-import RequireAuth from './hoc/RequireAuth';
+import Auth from './hoc/Auth';
 import Start from './pages/Start/Start';
 import Game from './pages/Game/Game';
 import Register from './pages/Register/Register';
@@ -30,22 +28,20 @@ export enum ERoutes {
 
 const App: FC = () => (
   <BrowserRouter>
-    <AuthProvider>
-      <Routes>
-        <Route path={ERoutes.START} element={<Start/>}/>
-        <Route path={ERoutes.REGISTER} element={<Authorized><Register/></Authorized>}/>
-        <Route path={ERoutes.LOGIN} element={<Authorized><Login/></Authorized>}/>
-        <Route path={ERoutes.GAME} element={<RequireAuth><Game/></RequireAuth>}/>
-        <Route path={ERoutes.LEADERBOARD} element={<RequireAuth><Leaderboard/></RequireAuth>}/>
-        <Route path={ERoutes.PROFILE} element={<RequireAuth><Profile/></RequireAuth>}/>
-        <Route path={ERoutes.FORUM} element={<RequireAuth><Forum/></RequireAuth>}>
-          <Route path='' element={<ForumTopics/>}/>
-          <Route path=':id' element={<ForumTopic/>}/>
-        </Route>
-        <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
-        <Route path={ERoutes.FALLBACK} element={<Error404/>}/>
-      </Routes>
-    </AuthProvider>
+    <Routes>
+      <Route path={ERoutes.START} element={<Auth><Start/></Auth>}/>
+      <Route path={ERoutes.REGISTER} element={<Auth><Register/></Auth>}/>
+      <Route path={ERoutes.LOGIN} element={<Auth><Login/></Auth>}/>
+      <Route path={ERoutes.GAME} element={<Auth><Game/></Auth>}/>
+      <Route path={ERoutes.LEADERBOARD} element={<Auth><Leaderboard/></Auth>}/>
+      <Route path={ERoutes.PROFILE} element={<Auth><Profile/></Auth>}/>
+      <Route path={ERoutes.FORUM} element={<Auth><Forum/></Auth>}>
+        <Route path='' element={<ForumTopics/>}/>
+        <Route path=':id' element={<ForumTopic/>}/>
+      </Route>
+      <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
+      <Route path={ERoutes.FALLBACK} element={<Error404/>}/>
+    </Routes>
   </BrowserRouter>
 );
 

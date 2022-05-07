@@ -21,7 +21,7 @@ export interface IPassword {
 }
 
 export interface IUserData {
-  id?: number | string;
+  id?: number;
   first_name?: string;
   second_name?: string;
   display_name?: string;
@@ -32,35 +32,38 @@ export interface IUserData {
   password?: string;
 }
 
-const instance = axios.create({
+export const baseURL = 'https://ya-praktikum.tech/api/v2';
+
+export const instance = axios.create({
   withCredentials: true,
-  baseURL: 'https://ya-praktikum.tech/api/v2',
+  baseURL,
   headers: {
-    Accept: 'application/json',
     'Content-Type': 'application/json; charset=utf-8',
   },
 });
 
-export const logout = () => instance.post('auth/logout')
-  .then((response) => response);
+export const logOut = async (): Promise<string> => {
+  const response = await instance.post('auth/logout');
 
-export const getUser = () => instance.get('auth/user')
-  .then((response) => response);
+  return response.data;
+};
+
+export const getUser = async (): Promise<IUserData> => {
+  const response = await instance.get('auth/user');
+
+  return response.data;
+};
 
 export const signUp = (userData: IRegisterData) => instance.post('auth/signup', userData)
   .then((response) => response.data.id);
 
-export const signIn = (signInData: ISignInData) => instance.post('/auth/signin', signInData)
-  .then((response) => response);
-
-export const getProfile = (id: number | null) => instance.get(`user/${id}`)
-  .then((response) => response);
+export const signIn = (signInData: ISignInData): Promise<string> => instance.post('/auth/signin', signInData)
+  .then((response) => response.data);
 
 export const changeUserProfile = (userData: IUserData) => instance.put('user/profile', userData)
   .then((response) => response);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const changeAvatar = (formData: any) => instance.put(
+export const changeAvatar = (formData: FormData) => instance.put(
   'user/profile/avatar',
   formData,
   {

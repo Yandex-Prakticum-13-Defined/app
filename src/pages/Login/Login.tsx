@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { FC, FormEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Login.scss';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
-import { FormInput } from '../../components/FormInput/FormInput';
-import Spacer from '../../components/Spacer/Spacer';
-import { useAuth } from '../../hook/useAuth';
-import { PATTERN_VALIDATION } from '../../utils/constants/validation';
+import { Input } from '../../components/Input/Input';
+import { VALIDATION } from '../../utils/constants/validation';
+import { signIn } from '../../api/api';
+import { useAppDispatch } from '../../hook/useAppDispatch';
+import { getUser } from '../../store/slice/userSlice';
+import { useAppSelector } from '../../hook/useAppSelector';
 
-const Login = () => {
+interface ILocationState {
+  from: {
+    pathname: string;
+  };
+}
+
+const Login: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const fromPage = location?.state?.from?.pathname;
-  const { signin } = useAuth();
+  const state = location.state as ILocationState;
+  const userId = useAppSelector((rootState) => rootState.user.data.id);
+  const status = useAppSelector((rootState) => rootState.user.status); // Статус запроса /user
+  const pageFrom = state?.from?.pathname === ERoutes.LOGIN ? undefined : state?.from?.pathname;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!userId && status === 'IDLE') {
+      dispatch(getUser());
+    }
+  }, []);
 
   const {
     formState: {
@@ -31,15 +46,19 @@ const Login = () => {
     },
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const user = getValues();
-    signin(user, () => navigate(fromPage || ERoutes.START, { replace: true }));
+    const response = await signIn(user);
+
+    if (response === 'OK') {
+      dispatch(getUser());
+      navigate(pageFrom || ERoutes.START, { replace: true });
+    }
   };
 
   return (
-    <div className='container'>
+    <section className='login'>
       <Form
         title='Авторизация'
         handleSubmit={handleSubmit}
@@ -48,39 +67,34 @@ const Login = () => {
           title: 'Войти',
           disabled: !isValid,
         }}
+        linkTo={ERoutes.REGISTER}
+        linkText='Регистрация'
       >
-        <>
-          <FormInput
-            name='login'
-            type='text'
-            placeholder='Логин'
-            className='form__input'
-            control={control}
-            rules={{
-              required: PATTERN_VALIDATION.required,
-              minLength: PATTERN_VALIDATION.minLength_3,
-              maxLength: PATTERN_VALIDATION.maxLength,
-              pattern: PATTERN_VALIDATION.login,
-            }}
-          />
-          <Spacer className='spacer spacer__height'/>
-          <FormInput
-            name='password'
-            type='password'
-            placeholder='введите новый пароль'
-            className='form__input'
-            control={control}
-            rules={{
-              required: PATTERN_VALIDATION.required,
-              pattern: PATTERN_VALIDATION.password,
-              minLength: PATTERN_VALIDATION.minLength_8
-            }}
-          />
-        </>
-        <Spacer className='spacer spacer__height'/>
+        <Input
+          name='login'
+          type='text'
+          placeholder='Логин'
+          control={control}
+          rules={{
+            required: VALIDATION.required,
+            minLength: VALIDATION.minLength_3,
+            maxLength: VALIDATION.maxLength_20,
+            pattern: VALIDATION.login,
+          }}
+        />
+        <Input
+          name='password'
+          type='password'
+          placeholder='Пароль'
+          control={control}
+          rules={{
+            required: VALIDATION.required,
+            pattern: VALIDATION.password,
+            minLength: VALIDATION.minLength_8
+          }}
+        />
       </Form>
-      <Link className='register' to={ERoutes.REGISTER}>Регистрация</Link>
-    </div>
+    </section>
   );
 };
 

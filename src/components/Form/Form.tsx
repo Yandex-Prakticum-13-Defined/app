@@ -1,21 +1,26 @@
-import React, { FC } from 'react';
+import React, { FC, FormEvent, ReactNode } from 'react';
 import './Form.scss';
+import { Link } from 'react-router-dom';
 import Button, { IButton } from '../Button/Button';
+import { ERoutes } from '../../App';
 
 interface IForm {
-  title?: string;
-  children: React.ReactNode;
+  title: string;
+  children: ReactNode;
   button: IButton;
-  handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  linkTo: ERoutes;
+  linkText: string;
 }
 
 const Form: FC<IForm> = ({
-  title, children, button, handleSubmit
+  title, children, button, handleSubmit, linkTo, linkText
 }) => (
   <form className='form' onSubmit={handleSubmit}>
-    {title && <h1 className='form__title'>{title}</h1>}
+    <h1 className='form__title'>{title}</h1>
     {children}
-    <Button type={button?.type} title={button?.title} disabled={button?.disabled}/>
+    <Button type='submit' title={button.title} disabled={button.disabled}/>
+    <Link className='form__link' to={linkTo}>{linkText}</Link>
   </form>
 );
 
