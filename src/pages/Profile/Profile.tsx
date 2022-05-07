@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-
 import './Profile.scss';
-
 import {
   changeAvatar, changeUserPassword, changeUserProfile, getProfile
 } from '../../api/api';
-
 import { ERoutes } from '../../App';
 import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
@@ -115,7 +112,8 @@ const Profile = () => {
           setIsAvatar(false);
           setIsProfile(true);
           setIsPassword(false);
-        }}/>
+        }}
+      />
       {isProfile && (
         <Form
           title='Профиль'
@@ -173,19 +171,23 @@ const Profile = () => {
       )}
       <Button
         title='Загрузить аватар'
-        className='profile__button' onClick={() => {
+        className='profile__button'
+        onClick={() => {
           setIsAvatar(true);
           setIsProfile(false);
           setIsPassword(false);
-        }}/>
+        }}
+      />
       {isAvatar && (
-        <Form title='Загрузить аватар'
-              handleSubmit={handleSubmit(uploadAvatar)}
-              button={{
-                type: 'submit',
-                title: 'Сохранить',
-                disabled: !isValid,
-              }}>
+        <Form
+          title='Загрузить аватар'
+          handleSubmit={handleSubmit(uploadAvatar)}
+          button={{
+            type: 'submit',
+            title: 'Сохранить',
+            disabled: !isValid,
+          }}
+        >
           <>
             <FormInput
               name='avatar'
@@ -193,6 +195,7 @@ const Profile = () => {
               placeholder='выберете аватар'
               className='form__input'
               control={control}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(e: any) => {
                 setCurFile(e?.target?.files[0]);
                 setAvatarName(e.target.value);
@@ -206,19 +209,22 @@ const Profile = () => {
       <Button
         title='Изменить пароль'
         className='profile__button'
-         onClick={() => {
-           setIsPassword(true);
-           setIsAvatar(false);
-           setIsProfile(false);
-         }} />
+        onClick={() => {
+          setIsPassword(true);
+          setIsAvatar(false);
+          setIsProfile(false);
+        }}
+      />
       {isPassword && (
-        <Form title='Изменить пароль'
-              handleSubmit={handleSubmit(onSubmitPassword)}
-              button={{
-                type: 'submit',
-                title: 'Сохранить',
-                disabled: !isValid,
-              }}>
+        <Form
+          title='Изменить пароль'
+          handleSubmit={handleSubmit(onSubmitPassword)}
+          button={{
+            type: 'submit',
+            title: 'Сохранить',
+            disabled: !isValid,
+          }}
+        >
           <>
             <FormInput
               name='oldPassword'

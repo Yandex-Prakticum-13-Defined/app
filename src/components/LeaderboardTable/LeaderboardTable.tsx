@@ -29,7 +29,7 @@ enum SortingDirection {
   ASC = 'ASC',
 }
 
-function LeaderboardTable() {
+const LeaderboardTable = () => {
   const serverData: TLeaderboardData[] = [
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Сергей', points: 1400 },
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Анастасия', points: 2100 },
@@ -60,12 +60,20 @@ function LeaderboardTable() {
   return (
     <div className='leaderboard-table'>
       <div className='leaderboard-table__sort-buttons'>
-        <button className={getButtonClassName(sort, SortingField.NAME)} type='button'
-                onClick={() => handleSortButtonClick(SortingField.NAME)}
-        >имя</button>
-        <button className={getButtonClassName(sort, SortingField.POINTS)} type='button'
-                onClick={() => handleSortButtonClick(SortingField.POINTS)}
-        >очки</button>
+        <button
+          className={getButtonClassName(sort, SortingField.NAME)}
+          type='button'
+          onClick={() => handleSortButtonClick(SortingField.NAME)}
+        >
+          имя
+        </button>
+        <button
+          className={getButtonClassName(sort, SortingField.POINTS)}
+          type='button'
+          onClick={() => handleSortButtonClick(SortingField.POINTS)}
+        >
+          очки
+        </button>
       </div>
       <div className='leaderboard-table__rows'>
         {
@@ -81,7 +89,7 @@ function LeaderboardTable() {
       </div>
     </div>
   );
-}
+};
 
 function prepareData(serverData: TLeaderboardData[]): TNumberedLeaderboardData[] {
   return [...serverData]

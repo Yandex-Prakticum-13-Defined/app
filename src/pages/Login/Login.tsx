@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
 import './Login.scss';
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
@@ -13,6 +12,7 @@ import { PATTERN_VALIDATION } from '../../utils/Const';
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const fromPage = location?.state?.from?.pathname;
   const { signin } = useAuth();
