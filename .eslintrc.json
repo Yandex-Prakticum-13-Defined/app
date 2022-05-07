@@ -23,12 +23,11 @@
     "no-param-reassign": "off",
     "import/no-mutable-exports": "off",
     "react-hooks/exhaustive-deps": "off",
-//    "react/display-name": "off",
     "@typescript-eslint/no-var-requires": "off",
     "react/jsx-tag-spacing": ["error", { "beforeSelfClosing": "never" }],
     "react/require-default-props": "off",
     "react/destructuring-assignment": "off",
-    "import/no-cycle": "off", // ВРЕМЕННО!!!
+    "import/no-cycle": "off",
     // Добавленные правила:
     "max-len": ["error", { "code": 120 }],
     "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],

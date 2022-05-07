@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import './Leaderboard.scss';
-import LeaderboardTable from '../../components/LeaderboardTable/LeaderboardTable';
+import LeaderboardTable from './components/LeaderboardTable/LeaderboardTable';
 
 const Leaderboard: FC = () => (
   <section className='leaderboard'>

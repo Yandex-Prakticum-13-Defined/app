@@ -1,4 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, {
+  Fragment, useState, useEffect, FC
+} from 'react';
 import './LeaderboardTable.scss';
 
 type TNumberedLeaderboardData = {
@@ -29,7 +31,7 @@ enum SortingDirection {
   ASC = 'ASC',
 }
 
-const LeaderboardTable = () => {
+const LeaderboardTable: FC = () => {
   const serverData: TLeaderboardData[] = [
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Сергей', points: 1400 },
     { image: 'https://tinyurl.com/bdznfmzs', name: 'Анастасия', points: 2100 },

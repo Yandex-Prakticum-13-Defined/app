@@ -5,7 +5,7 @@ export interface IButton {
   className?: string;
   onClick?: () => void;
   title?: string;
-  type: 'button' | 'submit' | 'reset';
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { sortOverload } from '../utils/sortOverload';
+import { sortOverload } from './utils/sortOverload';
 import App from './App';
 import './index.scss';
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
