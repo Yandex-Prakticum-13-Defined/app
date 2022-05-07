@@ -1,4 +1,4 @@
-export const PATTERN_VALIDATION = {
+export const VALIDATION = {
   required: 'Поле не может быть пустым',
   name: {
     value: /^[A-ZА-ЯЁ]+[A_Za-zА-Яа-яЁё-]+/,
@@ -28,7 +28,7 @@ export const PATTERN_VALIDATION = {
     value: 3,
     message: 'Минимальное количество символов: 3'
   },
-  maxLength: {
+  maxLength_20: {
     value: 20,
     message: 'Максимальное количество символов: 20'
   }

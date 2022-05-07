@@ -1,7 +1,5 @@
-.register {
-  font-weight: bold;
-  font-size: 20px;
-  text-decoration: none;
-  margin-top: 20px;
-  color: #27aedb;
+@import "../../mixins";
+
+.login {
+  @include centered-content;
 }

@@ -1,11 +1,12 @@
+@import "../../mixins";
+
 .profile {
-  &__button {
-    font-weight: bold;
-    font-size: 20px;
-    text-decoration: none;
-    margin-top: 20px;
-    color: #27aedb;
-    background: none;
-    border: none;
+  @include centered-content;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }

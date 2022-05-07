@@ -1,14 +1,18 @@
 .button {
-  padding: 15px;
-  text-align: center;
-  cursor: pointer;
+  padding: 10px;
+  box-sizing: border-box;
   border-radius: 15px;
-  font-weight: 500;
   font-size: 30px;
-  line-height: 11px;
-  text-decoration: none;
   border: none;
-  outline: none;
   border-bottom: 3px solid black;
   background: none;
+
+  &:enabled {
+    color: #27aedb;
+  }
+
+  &:enabled:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 }
