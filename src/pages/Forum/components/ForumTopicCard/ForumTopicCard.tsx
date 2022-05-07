@@ -12,12 +12,21 @@ const ForumTopicCard: FC<TTopic> = (props) => (
       <p className='forum-topic-card__title'>{props.title}</p>
       <p className='forum-topic-card__creation'>
         Пользователь
-        <span className='forum-topic-card__author-name'> {props.authorName} </span>
+        <span className='forum-topic-card__author-name'>
+          {' '}
+          {props.authorName}
+          {' '}
+        </span>
         создал
-        <span className='forum-topic-card__date'> {props.createdAt}</span>
+        <span className='forum-topic-card__date'>
+          {' '}
+          {props.createdAt}
+        </span>
       </p>
       <p className='forum-topic-card__last-message-wrapper'>
-        Последнее сообщение: <span className='forum-topic-card__last-message'>{props.lastMessage}</span>
+        Последнее сообщение:
+        {' '}
+        <span className='forum-topic-card__last-message'>{props.lastMessage}</span>
       </p>
     </div>
     <div className='forum-topic-card__messages-count-wrapper'>

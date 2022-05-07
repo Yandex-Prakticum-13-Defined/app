@@ -1,6 +1,6 @@
-export type TCompareFn = (a: any, b: any) => number;
+export type TCompareFn<T extends string | number> = (a: T, b: T) => number;
 
-export function defaultCompareFn(a: any, b: any): -1 | 0 | 1 {
+export function defaultCompareFn<T extends string | number>(a: T, b: T): -1 | 0 | 1 {
   if (a < b) {
     return -1;
   }
@@ -12,7 +12,7 @@ export function defaultCompareFn(a: any, b: any): -1 | 0 | 1 {
   return 0;
 }
 
-function quickSort<T>(arr: T[], compareFn: TCompareFn = defaultCompareFn): T[] {
+function quickSort<T>(arr: T[], compareFn: TCompareFn<string | number> = defaultCompareFn): T[] {
   function recursiveSort(start: number, end: number) {
     if (end <= start) {
       return;
@@ -22,7 +22,10 @@ function quickSort<T>(arr: T[], compareFn: TCompareFn = defaultCompareFn): T[] {
     let pivotIndex = start;
 
     for (let i = start; i < end; i++) {
-      const comparisonResult = compareFn(arr[i], pivotValue);
+      const comparisonResult = compareFn(
+        arr[i] as unknown as string | number,
+        pivotValue as unknown as string | number
+      );
 
       if (comparisonResult < 0) {
         if (pivotIndex !== i) {

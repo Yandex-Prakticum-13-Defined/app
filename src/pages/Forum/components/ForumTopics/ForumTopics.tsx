@@ -22,14 +22,15 @@ const ForumTopics: FC = () => (
     </form>
     {
         topics.map((topic) => (
-          <ForumTopic key={topic.id}
-                          id={topic.id}
-                          title={topic.title}
-                          authorName={topic.authorName}
-                          authorPicture={topic.authorPicture}
-                          createdAt={topic.createdAt}
-                          lastMessage={topic.lastMessage}
-                          messagesCount={topic.messagesCount}
+          <ForumTopic
+            key={topic.id}
+            id={topic.id}
+            title={topic.title}
+            authorName={topic.authorName}
+            authorPicture={topic.authorPicture}
+            createdAt={topic.createdAt}
+            lastMessage={topic.lastMessage}
+            messagesCount={topic.messagesCount}
           />
         ))
       }

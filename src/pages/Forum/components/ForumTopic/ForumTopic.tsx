@@ -23,13 +23,14 @@ const ForumTopic: FC = () => {
       <h2 className='forum-topic__title'>{title}</h2>
       {
         messages.map((message) => (
-          <ForumMessage key={message.id}
-                        id={message.id}
-                        authorName={message.authorName}
-                        authorPicture={message.authorPicture}
-                        date={message.date}
-                        text={message.text}
-                        isResponse={message.isResponse}
+          <ForumMessage
+            key={message.id}
+            id={message.id}
+            authorName={message.authorName}
+            authorPicture={message.authorPicture}
+            date={message.date}
+            text={message.text}
+            isResponse={message.isResponse}
           />
         ))
       }

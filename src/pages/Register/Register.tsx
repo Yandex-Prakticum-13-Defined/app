@@ -1,15 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-
 import './Register.scss';
-
 import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { FormInput } from '../../components/FormInput/FormInput';
 import Spacer from '../../components/Spacer/Spacer';
 import { useAuth } from '../../hook/useAuth';
-import { PATTERN_VALIDATION } from '../../utils/Const';
+import { PATTERN_VALIDATION } from '../../utils/constants/validation';
 
 const Register = () => {
   const navigate = useNavigate();

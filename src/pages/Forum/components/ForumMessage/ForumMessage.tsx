@@ -11,7 +11,10 @@ const ForumMessage: FC<TMessage> = (props) => (
     <div className='forum-message__text-wrapper'>
       <div className='forum-message__info'>
         <p className='forum-message__date'>{props.date}</p>
-        <p className='forum-message__id'>#{props.id}</p>
+        <p className='forum-message__id'>
+          #
+          {props.id}
+        </p>
       </div>
       <p className='forum-message__text'>{props.text}</p>
     </div>

@@ -58,7 +58,7 @@ const Game: React.FC = () => {
     }
   };
 
-  return <Canvas draw={draw} />;
+  return <Canvas draw={draw}/>;
 };
 
 export default Game;

@@ -62,12 +62,20 @@ const LeaderboardTable: FC = () => {
   return (
     <div className='leaderboard-table'>
       <div className='leaderboard-table__sort-buttons'>
-        <button className={getButtonClassName(sort, SortingField.NAME)} type='button'
-                onClick={() => handleSortButtonClick(SortingField.NAME)}
-        >имя</button>
-        <button className={getButtonClassName(sort, SortingField.POINTS)} type='button'
-                onClick={() => handleSortButtonClick(SortingField.POINTS)}
-        >очки</button>
+        <button
+          className={getButtonClassName(sort, SortingField.NAME)}
+          type='button'
+          onClick={() => handleSortButtonClick(SortingField.NAME)}
+        >
+          имя
+        </button>
+        <button
+          className={getButtonClassName(sort, SortingField.POINTS)}
+          type='button'
+          onClick={() => handleSortButtonClick(SortingField.POINTS)}
+        >
+          очки
+        </button>
       </div>
       <div className='leaderboard-table__rows'>
         {
