@@ -7,7 +7,7 @@ import {
   drawPaddle, drawPause,
   drawScore, EStep, isAnimationActive,
   keyDownHandler, keySpaceHandler,
-  keyUpHandler, processCoordinates, resetGame, showCountdownAnimation, step, resetGameIfNeeded
+  keyUpHandler, processCoordinates, resetGame, showCountdownAnimation, step, resetGameIfNeeded, calcFrameTime
 } from './engine';
 import Canvas from './components/Canvas/Canvas';
 
@@ -40,6 +40,7 @@ const Game: React.FC = () => {
         drawPaddle(ctx);
         drawScore(ctx);
         drawLives(ctx);
+        calcFrameTime();
 
         if (isAnimationActive()) {
           showCountdownAnimation(ctx);
