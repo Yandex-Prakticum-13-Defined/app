@@ -5,6 +5,7 @@ import './index.scss';
 import Authorized from './hoc/Authorized';
 import { AuthProvider } from './hoc/AuthProvider';
 import RequireAuth from './hoc/RequireAuth';
+import Offline from './pages/Offline/Offline';
 import Start from './pages/Start/Start';
 import Game from './pages/Game/Game';
 import Register from './pages/Register/Register';
@@ -26,7 +27,8 @@ export enum ERoutes {
   'PROFILE' = '/profile',
   'FORUM' = '/forum',
   'ERROR_500' = '/500',
-  'FALLBACK' = '*'
+  'FALLBACK' = '*',
+  'OFFLINE' = '/offline'
 }
 
 if ('serviceWorker' in navigator) {
@@ -60,6 +62,7 @@ function App() {
           </Route>
           <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
           <Route path={ERoutes.FALLBACK} element={<Error404/>}/>
+          <Route path={ERoutes.OFFLINE} element={<Offline />}/>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

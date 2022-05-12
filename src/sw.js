@@ -1,4 +1,19 @@
-const CACHE_NAME = 'app-v1';
+import brick from './img/brick.png';
+import registerFon from './img/register_fon.png';
+import leaderboardFon from './img/leaderboard-background.png';
+
+// import leaderboardSort from './img/leaderboard-sort-button.svg';
+// @ts-ignore
+// import modalGameOver from './img/modal-game-over.jpg';
+import pause from './img/pause.png';
+import goneWrong from './img/something-gone-wrong.png';
+
+// type TConfig = {
+//   onSuccess?: (registration: ServiceWorkerRegistration) => void;
+//   onUpdate?: (registration: ServiceWorkerRegistration) => void;
+// };
+
+const CACHE_NAME = 'app-v2';
 const STATIC_CACHE_NAME = `s-${CACHE_NAME}`;
 const DYNAMIC_CACHE_NAME = `d-${CACHE_NAME}`;
 
@@ -16,6 +31,16 @@ const URLS = [
   '/profile',
   '/Error404',
   '/Error500',
+  '/offline',
+  brick,
+  registerFon,
+  leaderboardFon,
+  // './img/leaderboard-sort-button.svg',
+  // leaderboardSort,
+  // modalGameOver,
+  pause,
+  goneWrong,
+  // './img/modal-game-over.jpg'
 ];
 
 // eslint-disable-next-line no-restricted-globals
@@ -66,5 +91,6 @@ async function networkFirst(request) {
     const fetchRequest = request.clone();
 
     return cached ?? await cacheFirst(fetchRequest);
+    // return cached ? await cacheFirst(fetchRequest) : caches.match('/offline');
   }
 }
