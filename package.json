@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "arkanoid game",
   "scripts": {
-    "dev": "webpack serve --mode development --open --hot",
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open --hot",
     "lint": "eslint . --fix",
     "stylelint": "npx stylelint **/*.scss --fix",
-    "test": "jest --findRelatedTests",
+    "test": "jest",
     "prepare": "husky install"
   },
   "repository": {
@@ -73,6 +72,6 @@
   "lint-staged": {
     "*.{js,ts,tsx}": "npm run lint",
     "*.scss": "npm run stylelint",
-    "./src/components/**/*.tsx": "npm run test"
+    "./src/components/**/*.tsx": "jest --findRelatedTests"
   }
 }

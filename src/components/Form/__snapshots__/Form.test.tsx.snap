@@ -3,7 +3,7 @@
 exports[`Тестируем Form.tsx проверяем снимок 1`] = `
 <form
   className="form"
-  onSubmit={[MockFunction]}
+  onSubmit={[Function]}
 >
   <h1
     className="form__title"
@@ -17,18 +17,6 @@ exports[`Тестируем Form.tsx проверяем снимок 1`] = `
     onChange={[Function]}
     placeholder="Логин"
     type="text"
-    value=""
-  />
-  <span
-    className="input__error"
-  />
-  <input
-    className="input"
-    name="password"
-    onBlur={[Function]}
-    onChange={[Function]}
-    placeholder="Пароль"
-    type="password"
     value=""
   />
   <span

@@ -1,17 +1,39 @@
-import React, { FC } from 'react';
+import React, { FC, FormEvent } from 'react';
 import renderer from 'react-test-renderer';
 import { useForm } from 'react-hook-form';
 import { BrowserRouter } from 'react-router-dom';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { VALIDATION } from '../../utils/constants/validation';
 import { Input } from '../Input/Input';
 import { ERoutes } from '../../utils/constants/routes';
 import Form from './Form';
 
-const handleSubmit = jest.fn((event) => event.preventDefault());
+type TTestFormWrapperProps = {
+  formTitle?: string;
+  buttonText?: string;
+  handleSubmit?: (event: FormEvent<HTMLFormElement>) => void;
+  linkTo?: ERoutes;
+  linkText?: string;
+  inputName?: string;
+  inputType?: string;
+  inputPlaceholder?: string;
+  rules?: Record<string, unknown>;
+};
 
-const TestFormWrapper: FC = () => {
+const TestFormWrapper: FC<TTestFormWrapperProps> = ({
+  formTitle = 'Заголовок',
+  buttonText = 'Кнопка',
+  handleSubmit = (event) => event.preventDefault(),
+  linkTo = ERoutes.REGISTER,
+  linkText = 'Ссылка',
+  inputName = 'login',
+  inputType = 'text',
+  inputPlaceholder = 'Логин',
+  rules = {
+    required: VALIDATION.required
+  }
+}) => {
   const {
     formState: {
       isValid
@@ -20,46 +42,29 @@ const TestFormWrapper: FC = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      login: '',
-      password: ''
+      login: ''
     }
   });
 
   return (
     <BrowserRouter>
       <Form
-        title='Заголовок'
+        title={formTitle}
         button={{
           type: 'submit',
-          title: 'Кнопка',
+          title: buttonText,
           disabled: !isValid
         }}
         handleSubmit={handleSubmit}
-        linkTo={ERoutes.REGISTER}
-        linkText='Ссылка'
+        linkTo={linkTo}
+        linkText={linkText}
       >
         <Input
-          name='login'
-          type='text'
-          placeholder='Логин'
+          name={inputName}
+          type={inputType}
+          placeholder={inputPlaceholder}
           control={control}
-          rules={{
-            required: VALIDATION.required,
-            minLength: VALIDATION.minLength_3,
-            maxLength: VALIDATION.maxLength_20,
-            pattern: VALIDATION.login
-          }}
-        />
-        <Input
-          name='password'
-          type='password'
-          placeholder='Пароль'
-          control={control}
-          rules={{
-            required: VALIDATION.required,
-            pattern: VALIDATION.password,
-            minLength: VALIDATION.minLength_8
-          }}
+          rules={rules}
         />
       </Form>
     </BrowserRouter>
@@ -75,55 +80,74 @@ describe('Тестируем Form.tsx', () => {
   });
 
   it('содержит заголовок', () => {
-    render(<TestFormWrapper/>);
-    expect(screen.getByText('Заголовок')).toBeInTheDocument();
+    render(<TestFormWrapper formTitle='Тестовый заголовок'/>);
+    expect(screen.getByText('Тестовый заголовок')).toBeInTheDocument();
   });
 
   it('содержит дочерние инпуты', () => {
-    render(<TestFormWrapper/>);
+    render(<TestFormWrapper inputPlaceholder='Логин'/>);
     expect(screen.getByPlaceholderText('Логин')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Пароль')).toBeInTheDocument();
   });
 
   it('содержит кнопку', () => {
-    render(<TestFormWrapper/>);
-    expect(screen.getByText('Кнопка')).toBeInTheDocument();
+    render(<TestFormWrapper buttonText='Тестовая кнопка'/>);
+    expect(screen.getByText('Тестовая кнопка')).toBeInTheDocument();
   });
 
   it('кнопка заблокирована при невалидных значениях', () => {
-    render(<TestFormWrapper/>);
-    expect(screen.getByText('Кнопка')).toBeDisabled();
+    render(
+      <TestFormWrapper
+        buttonText='Тестовая кнопка'
+        inputName='login'
+        inputType='text'
+        inputPlaceholder='Логин'
+        rules={{
+          required: VALIDATION.required
+        }}
+      />
+    );
+    expect(screen.getByText('Тестовая кнопка')).toBeDisabled();
   });
 
   it('кнопка активна при валидных значениях', async () => {
-    render(<TestFormWrapper/>);
+    render(
+      <TestFormWrapper
+        buttonText='Тестовая кнопка'
+        inputName='login'
+        inputType='text'
+        inputPlaceholder='Логин'
+        rules={{
+          required: VALIDATION.required
+        }}
+      />
+    );
     const user = userEvent.setup();
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Логин'), 'TestLogin');
-    });
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Пароль'), 'TestPassword1');
-    });
-    expect(screen.getByText('Кнопка')).toBeEnabled();
+    await user.type(screen.getByPlaceholderText('Логин'), 'TestLogin');
+    expect(screen.getByText('Тестовая кнопка')).toBeEnabled();
   });
 
   it('функция onSubmit вызывается при валидных значениях', async () => {
-    render(<TestFormWrapper/>);
+    const handleSubmit = jest.fn((event) => event.preventDefault());
+    render(
+      <TestFormWrapper
+        buttonText='Тестовая кнопка'
+        handleSubmit={handleSubmit}
+        inputName='login'
+        inputType='text'
+        inputPlaceholder='Логин'
+        rules={{
+          required: VALIDATION.required
+        }}
+      />
+    );
     const user = userEvent.setup();
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Логин'), 'TestLogin');
-    });
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Пароль'), 'TestPassword1');
-    });
-    await act(async () => {
-      await user.click(screen.getByText('Кнопка'));
-    });
+    await user.type(screen.getByPlaceholderText('Логин'), 'TestLogin');
+    await user.click(screen.getByText('Тестовая кнопка'));
     expect(handleSubmit).toHaveBeenCalledTimes(1);
   });
 
   it('присутствует ссылка', () => {
-    render(<TestFormWrapper/>);
-    expect(screen.getByText('Ссылка')).toBeInTheDocument();
+    render(<TestFormWrapper linkTo={ERoutes.REGISTER} linkText='Тестовая ссылка'/>);
+    expect(screen.getByText('Тестовая ссылка')).toBeInTheDocument();
   });
 });

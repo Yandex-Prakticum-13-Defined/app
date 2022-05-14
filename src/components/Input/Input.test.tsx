@@ -6,22 +6,33 @@ import userEvent from '@testing-library/user-event';
 import { VALIDATION } from '../../utils/constants/validation';
 import { Input } from './Input';
 
-const TestInputWrapper: FC = () => {
+type TTestInputWrapperProps = {
+  name?: string;
+  value?: string;
+  rules?: Record<string, unknown>;
+  type?: string;
+  placeholder?: string;
+};
+
+const TestInputWrapper: FC<TTestInputWrapperProps> = ({
+  name = 'test',
+  value = 'Значение по умолчанию',
+  rules = {
+    required: VALIDATION.required
+  },
+  type = 'text',
+  placeholder = 'Введите значение'
+}) => {
   const { control } = useForm({ mode: 'onChange' });
 
   return (
     <Input
-      name='test'
+      name={name}
       control={control}
-      value='Значение по умолчанию'
-      rules={{
-        required: VALIDATION.required,
-        minLength: VALIDATION.minLength_3,
-        maxLength: VALIDATION.maxLength_20,
-        pattern: VALIDATION.login
-      }}
-      type='text'
-      placeholder='Введите значение'
+      value={value}
+      rules={rules}
+      type={type}
+      placeholder={placeholder}
     />
   );
 };
@@ -35,57 +46,26 @@ describe('Тестируем Input.tsx', () => {
   });
 
   it('передаётся value', () => {
-    render(<TestInputWrapper/>);
-    expect(screen.getByDisplayValue('Значение по умолчанию')).toBeInTheDocument();
+    render(<TestInputWrapper value='Тестовое значение'/>);
+    expect(screen.getByDisplayValue('Тестовое значение')).toBeInTheDocument();
   });
 
   it('передаётся placeholder', () => {
-    render(<TestInputWrapper/>);
+    render(<TestInputWrapper placeholder='Введите значение'/>);
     expect(screen.getByPlaceholderText('Введите значение')).toBeInTheDocument();
   });
 
   it('валидируется required', async () => {
-    render(<TestInputWrapper/>);
+    render(
+      <TestInputWrapper
+        rules={{ required: VALIDATION.required }}
+        placeholder='Введите значение'
+      />
+    );
     const user = userEvent.setup();
     await act(async () => {
       await user.clear(screen.getByPlaceholderText('Введите значение'));
     });
     expect(screen.getByText(VALIDATION.required)).toBeInTheDocument();
-  });
-
-  it('валидируется minLength', async () => {
-    render(<TestInputWrapper/>);
-    const user = userEvent.setup();
-    await act(async () => {
-      await user.clear(screen.getByPlaceholderText('Введите значение'));
-    });
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Введите значение'), '1');
-    });
-    expect(screen.getByText(VALIDATION.minLength_3.message)).toBeInTheDocument();
-  });
-
-  it('валидируется maxLength', async () => {
-    render(<TestInputWrapper/>);
-    const user = userEvent.setup();
-    await act(async () => {
-      await user.clear(screen.getByPlaceholderText('Введите значение'));
-    });
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Введите значение'), 'Здесь явно больше 20 символов');
-    });
-    expect(screen.getByText(VALIDATION.maxLength_20.message)).toBeInTheDocument();
-  });
-
-  it('валидируется pattern', async () => {
-    render(<TestInputWrapper/>);
-    const user = userEvent.setup();
-    await act(async () => {
-      await user.clear(screen.getByPlaceholderText('Введите значение'));
-    });
-    await act(async () => {
-      await user.type(screen.getByPlaceholderText('Введите значение'), '12345');
-    });
-    expect(screen.getByText(VALIDATION.login.message)).toBeInTheDocument();
   });
 });
