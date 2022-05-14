@@ -2,7 +2,7 @@ import React, { FC, FormEvent, ReactNode } from 'react';
 import './Form.scss';
 import { Link } from 'react-router-dom';
 import Button, { IButton } from '../Button/Button';
-import { ERoutes } from '../../App';
+import { ERoutes } from '../../utils/constants/routes';
 
 interface IForm {
   title: string;

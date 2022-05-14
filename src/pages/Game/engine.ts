@@ -42,7 +42,7 @@ let isBallInsidePaddle = false; // Флаг: было касание мячом 
 export enum EStep {
   'INIT', // Инициализация (сбрасываем значения в дефолтные)
   'RUNNING', // Игра запущена
-  'PAUSED', // Игра на паузе
+  'PAUSED' // Игра на паузе
 }
 export let step = EStep.INIT;
 export let isGameOver = false;
@@ -105,7 +105,7 @@ export function fillBricksRow(ctx: CanvasRenderingContext2D) {
     + brickPadding / 2);
   bricks = Array.from(
     { length: brickRowCount },
-    () => Array.from({ length: brickColCount }, () => ({ x: 0, y: 0, status: 'ACTIVE' })),
+    () => Array.from({ length: brickColCount }, () => ({ x: 0, y: 0, status: 'ACTIVE' }))
   );
 }
 

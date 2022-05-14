@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import './Start.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { ERoutes } from '../../App';
 import { useAuth } from '../../hook/useAuth';
+import { ERoutes } from '../../utils/constants/routes';
 
 const Start: FC = () => {
   const navigate = useNavigate();

@@ -2,11 +2,11 @@ import React, { FC, FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Login.scss';
-import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
 import { useAuth } from '../../hook/useAuth';
 import { VALIDATION } from '../../utils/constants/validation';
+import { ERoutes } from '../../utils/constants/routes';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -26,8 +26,8 @@ const Login: FC = () => {
     mode: 'onChange',
     defaultValues: {
       login: '',
-      password: '',
-    },
+      password: ''
+    }
   });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -45,7 +45,7 @@ const Login: FC = () => {
         button={{
           type: 'submit',
           title: 'Войти',
-          disabled: !isValid,
+          disabled: !isValid
         }}
         linkTo={ERoutes.REGISTER}
         linkText='Регистрация'
@@ -59,7 +59,7 @@ const Login: FC = () => {
             required: VALIDATION.required,
             minLength: VALIDATION.minLength_3,
             maxLength: VALIDATION.maxLength_20,
-            pattern: VALIDATION.login,
+            pattern: VALIDATION.login
           }}
         />
         <Input

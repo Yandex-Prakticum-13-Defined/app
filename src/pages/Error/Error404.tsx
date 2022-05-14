@@ -1,7 +1,7 @@
 import React from 'react';
 import './Error.scss';
 import { Link } from 'react-router-dom';
-import { ERoutes } from '../../App';
+import { ERoutes } from '../../utils/constants/routes';
 
 const Error404 = () => (
   <div className='error-container'>

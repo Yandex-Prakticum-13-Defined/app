@@ -3,7 +3,7 @@ import './ForumTopic.scss';
 import { Link } from 'react-router-dom';
 import ForumMessage from '../ForumMessage/ForumMessage';
 import { messages } from '../../mockData/mockMessages';
-import { ERoutes } from '../../../../App';
+import { ERoutes } from '../../../../utils/constants/routes';
 
 export type TMessage = {
   id: string;

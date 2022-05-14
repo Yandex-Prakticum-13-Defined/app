@@ -23,12 +23,12 @@ type TSortingRules = {
 
 enum SortingField {
   NAME = 'name',
-  POINTS = 'points',
+  POINTS = 'points'
 }
 
 enum SortingDirection {
   DESC = 'DESC',
-  ASC = 'ASC',
+  ASC = 'ASC'
 }
 
 const LeaderboardTable: FC = () => {
