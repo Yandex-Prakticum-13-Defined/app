@@ -6,13 +6,14 @@
     "airbnb-typescript",
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
-    "react-app"
+    "react-app",
+    "plugin:jest-dom/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "jest-dom"],
   "rules": {
     // Отключенные правила:
-    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/comma-dangle": ["error", "never"],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/extensions": "off",
     "@typescript-eslint/no-use-before-define": "off",

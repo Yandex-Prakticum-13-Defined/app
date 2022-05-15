@@ -37,8 +37,8 @@ const instance = axios.create({
   baseURL: 'https://ya-praktikum.tech/api/v2',
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json; charset=utf-8',
-  },
+    'Content-Type': 'application/json; charset=utf-8'
+  }
 });
 
 export const logout = () => instance.post('auth/logout')

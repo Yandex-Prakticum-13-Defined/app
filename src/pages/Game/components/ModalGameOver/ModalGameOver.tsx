@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import './ModalGameOver.scss';
-import { ERoutes } from '../../../../App';
+import { ERoutes } from '../../../../utils/constants/routes';
 
 interface IModalGameOver {
   hideModal: () => void;

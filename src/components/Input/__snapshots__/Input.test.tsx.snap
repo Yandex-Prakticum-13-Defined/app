@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Тестируем Input.tsx проверяем снимок 1`] = `
+Array [
+  <input
+    className="input"
+    name="test"
+    onBlur={[Function]}
+    onChange={[Function]}
+    placeholder="Введите значение"
+    type="text"
+    value="Значение по умолчанию"
+  />,
+  <span
+    className="input__error"
+  />,
+]
+`;
