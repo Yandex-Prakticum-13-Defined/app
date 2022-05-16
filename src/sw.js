@@ -3,7 +3,6 @@ import registerFon from './img/register_fon.png';
 import leaderboardFon from './img/leaderboard-background.png';
 
 // import leaderboardSort from './img/leaderboard-sort-button.svg';
-// @ts-ignore
 // import modalGameOver from './img/modal-game-over.jpg';
 import pause from './img/pause.png';
 import goneWrong from './img/something-gone-wrong.png';
@@ -13,7 +12,7 @@ import goneWrong from './img/something-gone-wrong.png';
 //   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 // };
 
-const CACHE_NAME = 'app-v2';
+const CACHE_NAME = 'app-v1';
 const STATIC_CACHE_NAME = `s-${CACHE_NAME}`;
 const DYNAMIC_CACHE_NAME = `d-${CACHE_NAME}`;
 
@@ -63,20 +62,16 @@ self.addEventListener('activate', async () => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  const url = new URL(request.url);
-
-  // eslint-disable-next-line no-restricted-globals
-  if (url.origin === location.origin) {
-    event.respondWith(cacheFirst(request));
-  } else {
-    event.respondWith(networkFirst(request));
-  }
+  event.respondWith(cacheData(request));
 });
 
-async function cacheFirst(request) {
-  const cached = await caches.match(request);
+async function cacheData(request) {
+  const cashedRequest = await caches.match(request);
+  if (URLS.some((url) => request.url.indexOf(url) >= 0) || request.headers.get('accept').includes('text/html')) {
+    return cashedRequest || await caches.match('/offline') || networkFirst(request);
+  }
 
-  return cached ?? await fetch(request);
+  return cashedRequest || networkFirst(request);
 }
 
 async function networkFirst(request) {
@@ -87,10 +82,6 @@ async function networkFirst(request) {
 
     return response;
   } catch (e) {
-    const cached = await cache.match(request);
-    const fetchRequest = request.clone();
-
-    return cached ?? await cacheFirst(fetchRequest);
-    // return cached ? await cacheFirst(fetchRequest) : caches.match('/offline');
+    return await cache.match(request);
   }
 }
