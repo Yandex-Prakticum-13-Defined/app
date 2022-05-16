@@ -1,8 +1,10 @@
 import pauseIcon from '../../img/pause.png';
 import brickIcon from '../../img/brick.png';
 
-const imgPause = new Image();
 const imgBrick = new Image();
+const imgPause = new Image();
+imgBrick.src = brickIcon;
+imgPause.src = pauseIcon;
 const brickWidth = 120; // Ширина кирпича
 const brickPadding = 4; // Отступ кирпича
 const brickHeight = 60; // Высота кирпича
@@ -23,6 +25,7 @@ const colorCountdownText = '#ffffff'; // Цвет текста обратног�
 const ballRadius = 10; // Радиус мяча
 const paddleHeight = 12; // Высота ракетки
 const paddleWidth = 150; // Ширина ракетки
+const kSpeed = 0.05; // Коэффициент, определяющий дельту приращения по x и y
 
 let x: number; // Координата X мяча
 let y: number; // Координата Y мяча
@@ -36,13 +39,16 @@ let brickOffsetLeft: number; // Расстояние до левого края 
 let rightPressed: boolean; // Флаг нажатия стрелки Right
 let leftPressed: boolean; // Флаг нажатия стрелки Left
 let isBoostBallModeActive: boolean; // Если true - то мяч движется быстрее чем обычно
-let framesCount: number; // Счетчик кол-ва кадров для анимации обратного отсчета
+let animationTime = 2999; // Время в мс (для анимации обратного отсчета)
+let frameTime = 16; // Время одного фрейма в мс
 let isBallInsidePaddle = false; // Флаг: было касание мячом ракетки или нет
+
+let tPrev = 0; // timestamp предыдущий (для подсчета времени кадра)
 
 export enum EStep {
   'INIT', // Инициализация (сбрасываем значения в дефолтные)
   'RUNNING', // Игра запущена
-  'PAUSED', // Игра на паузе
+  'PAUSED' // Игра на паузе
 }
 export let step = EStep.INIT;
 export let isGameOver = false;
@@ -105,7 +111,7 @@ export function fillBricksRow(ctx: CanvasRenderingContext2D) {
     + brickPadding / 2);
   bricks = Array.from(
     { length: brickRowCount },
-    () => Array.from({ length: brickColCount }, () => ({ x: 0, y: 0, status: 'ACTIVE' })),
+    () => Array.from({ length: brickColCount }, () => ({ x: 0, y: 0, status: 'ACTIVE' }))
   );
 }
 
@@ -123,9 +129,26 @@ export function resetGame(ctx: CanvasRenderingContext2D) {
   dy = -ballSpeedNormal;
 
   fillBricksRow(ctx);
-  framesCount = 179;
+  animationTime = 2999;
   isGameOver = false;
   step = EStep.RUNNING;
+}
+
+/** Функция расчета времени кадра */
+export function calcFrameTime() {
+  const tNow = performance.now();
+  tPrev = tPrev === 0 ? tNow - 16 : tPrev;
+
+  // Обработка старта (когда tPrev === 0) и нажатия паузы (когда delta -> ♾)
+  frameTime = (tNow - tPrev) > 100 ? 16 : tNow - tPrev;
+  tPrev = tNow;
+
+  // Расчет времени анимации обратного отсчета
+  if (animationTime - frameTime > 0) {
+    animationTime -= frameTime;
+  } else {
+    animationTime = 0;
+  }
 }
 
 /** Функция обработки координат мяча и касания мячом ракетки */
@@ -138,8 +161,8 @@ export function processCoordinates(ctx: CanvasRenderingContext2D) {
   const ballRight = x + ballRadius;
   const ballTop = y - ballRadius;
 
-  x += dx;
-  y += dy;
+  x += (frameTime * dx) * kSpeed;
+  y += (frameTime * dy) * kSpeed;
 
   if (rightPressed) {
     const paddleEnd = paddleX + paddleWidth + paddleSpeed;
@@ -261,7 +284,6 @@ export function bricksCollisionDetection() {
 
 /** Функция отображения иконки паузы посередине экрана */
 export function drawPause(ctx: CanvasRenderingContext2D) {
-  imgPause.src = pauseIcon;
   ctx.drawImage(imgPause, ctx.canvas.width / 2 - 50, ctx.canvas.height / 2 - 50, 128, 128);
 }
 
@@ -293,7 +315,6 @@ export function drawPaddle(ctx: CanvasRenderingContext2D) {
 
 /** Отображение кирпичей */
 export function drawBricks(ctx: CanvasRenderingContext2D) {
-  imgBrick.src = brickIcon;
   for (let c = 0; c < brickRowCount; c += 1) {
     for (let r = 0; r < brickColCount; r += 1) {
       if (bricks[c][r].status === 'ACTIVE') {
@@ -343,10 +364,9 @@ export function drawLives(ctx: CanvasRenderingContext2D) {
 export function showCountdownAnimation(ctx: CanvasRenderingContext2D) {
   const offsetX = ctx.canvas.width / 2 - 40;
   const offsetY = ctx.canvas.height / 2 + 50;
-  const displayNumber = Math.ceil(framesCount / 60);
+  const displayNumber = Math.ceil(animationTime / 1000);
 
   drawText(ctx, String(displayNumber), colorCountdownText, 150, offsetX, offsetY);
-  framesCount -= 1;
 }
 
-export const isAnimationActive = () => !!framesCount;
+export const isAnimationActive = () => !!animationTime;

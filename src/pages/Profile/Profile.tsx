@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './Profile.scss';
 import {
   changeAvatar, changeUserPassword, changeUserProfile, getUser, IUserData
 } from '../../api/api';
-import { ERoutes } from '../../App';
 import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
 import { useAppSelector } from '../../hook/useAppSelector';
+import { ERoutes } from '../../utils/constants/routes';
 
 const Profile = () => {
   const [isProfile, setIsProfile] = useState(true);
   const [isAvatar, setIsAvatar] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  const [curFile, setCurFile] = useState();
+  const [curFile, setCurFile] = useState<File | null>(null);
   const [avatarName, setAvatarName] = useState('');
   const userId = useAppSelector((state) => state.user.data.id);
 
@@ -38,14 +38,14 @@ const Profile = () => {
       avatar: '',
       oldPassword: '',
       newPassword: ''
-    },
+    }
   });
 
   const [profile, setProfile] = useState<IUserData>({
     first_name: '',
     login: '',
     email: '',
-    password: '',
+    password: ''
   });
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Profile = () => {
       email,
       second_name: 'Second',
       display_name: 'Display',
-      phone: '+7-000-000-00-00',
+      phone: '+7-000-000-00-00'
     })
       .then();
   };
@@ -140,7 +140,7 @@ const Profile = () => {
             button={{
               type: 'submit',
               title: 'Сохранить',
-              disabled: !isValid,
+              disabled: !isValid
             }}
             linkTo={ERoutes.START}
             linkText='На главную'
@@ -153,7 +153,7 @@ const Profile = () => {
               control={control}
               rules={{
                 required: VALIDATION.required,
-                pattern: VALIDATION.name,
+                pattern: VALIDATION.name
               }}
             />
             <Input
@@ -166,7 +166,7 @@ const Profile = () => {
                 required: VALIDATION.required,
                 minLength: VALIDATION.minLength_3,
                 maxLength: VALIDATION.maxLength_20,
-                pattern: VALIDATION.login,
+                pattern: VALIDATION.login
               }}
             />
             <Input
@@ -177,7 +177,7 @@ const Profile = () => {
               control={control}
               rules={{
                 required: VALIDATION.required,
-                pattern: VALIDATION.email,
+                pattern: VALIDATION.email
               }}
             />
           </Form>
@@ -189,7 +189,7 @@ const Profile = () => {
             button={{
               type: 'submit',
               title: 'Сохранить',
-              disabled: !isValid,
+              disabled: !isValid
             }}
             linkTo={ERoutes.START}
             linkText='На главную'
@@ -199,9 +199,12 @@ const Profile = () => {
               type='file'
               placeholder='Выберите аватар'
               control={control}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onChange={(e: any) => {
-                setCurFile(e?.target?.files[0]);
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const target = (e.target as HTMLInputElement);
+                const file = target.files ? target.files[0] : null;
+                setCurFile(file);
                 setAvatarName(e.target.value);
               }}
               value={avatarName}
@@ -215,7 +218,7 @@ const Profile = () => {
             button={{
               type: 'submit',
               title: 'Сохранить',
-              disabled: !isValid,
+              disabled: !isValid
             }}
             linkTo={ERoutes.START}
             linkText='На главную'

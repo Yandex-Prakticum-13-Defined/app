@@ -18,7 +18,7 @@ export const getUser = createAsyncThunk<IUserData, void, { rejectValue: string; 
 
       return rejectWithValue(errMessage);
     }
-  },
+  }
 );
 
 export const userSlice = createSlice({
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
     },
     addUserData: (state, action: PayloadAction<IUserData>) => {
       state.data = action.payload;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getUser.pending, (state) => {
@@ -47,7 +47,7 @@ export const userSlice = createSlice({
       state.error = payload || 'Неопознанная ошибка!';
       state.status = EStatus.REJECTED;
     });
-  },
+  }
 });
 
 const {

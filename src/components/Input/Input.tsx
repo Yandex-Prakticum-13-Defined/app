@@ -1,26 +1,24 @@
-import React, { memo } from 'react';
+import React from 'react';
 import './Input.scss';
 import { useController } from 'react-hook-form';
 
 export interface IInput {
+  name: string;
+  defaultValue?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
-  defaultValue?: string;
-  name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  rules?: any;
+  value?: string;
+  rules?: Record<string, unknown>;
   type: string;
   placeholder: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange?: (e: any) => void;
-  value?: string;
 }
 
 // eslint-disable-next-line react/display-name
-export const Input = memo(({
+export const Input = ({
+  name,
   control,
   defaultValue,
-  name,
+  value,
   rules,
   ...rest
 }: IInput) => {
@@ -30,8 +28,8 @@ export const Input = memo(({
   } = useController({
     name,
     control,
-    rules,
-    defaultValue: defaultValue ?? ''
+    defaultValue: value ?? '',
+    rules
   });
 
   return (
@@ -41,4 +39,4 @@ export const Input = memo(({
       {errors && <span className='input__error'>{errors[name]?.message}</span>}
     </>
   );
-});
+};

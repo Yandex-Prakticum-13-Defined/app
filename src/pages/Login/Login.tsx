@@ -2,7 +2,6 @@ import React, { FC, FormEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Login.scss';
-import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
@@ -10,6 +9,7 @@ import { signIn } from '../../api/api';
 import { useAppDispatch } from '../../hook/useAppDispatch';
 import { getUser } from '../../store/slice/userSlice';
 import { useAppSelector } from '../../hook/useAppSelector';
+import { ERoutes } from '../../utils/constants/routes';
 
 interface ILocationState {
   from: {
@@ -42,8 +42,8 @@ const Login: FC = () => {
     mode: 'onChange',
     defaultValues: {
       login: '',
-      password: '',
-    },
+      password: ''
+    }
   });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -65,7 +65,7 @@ const Login: FC = () => {
         button={{
           type: 'submit',
           title: 'Войти',
-          disabled: !isValid,
+          disabled: !isValid
         }}
         linkTo={ERoutes.REGISTER}
         linkText='Регистрация'
@@ -79,7 +79,7 @@ const Login: FC = () => {
             required: VALIDATION.required,
             minLength: VALIDATION.minLength_3,
             maxLength: VALIDATION.maxLength_20,
-            pattern: VALIDATION.login,
+            pattern: VALIDATION.login
           }}
         />
         <Input

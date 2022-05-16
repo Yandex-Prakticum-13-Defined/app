@@ -13,18 +13,7 @@ import Profile from './pages/Profile/Profile';
 import Forum from './pages/Forum/Forum';
 import ForumTopic from './pages/Forum/components/ForumTopic/ForumTopic';
 import ForumTopics from './pages/Forum/components/ForumTopics/ForumTopics';
-
-export enum ERoutes {
-  'START' = '/',
-  'REGISTER' = '/register',
-  'LOGIN' = '/login',
-  'GAME' = '/game',
-  'LEADERBOARD' = '/leaderboard',
-  'PROFILE' = '/profile',
-  'FORUM' = '/forum',
-  'ERROR_500' = '/500',
-  'FALLBACK' = '*'
-}
+import { ERoutes } from './utils/constants/routes';
 
 const App: FC = () => (
   <BrowserRouter>

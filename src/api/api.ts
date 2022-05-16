@@ -38,8 +38,8 @@ export const instance = axios.create({
   withCredentials: true,
   baseURL,
   headers: {
-    'Content-Type': 'application/json; charset=utf-8',
-  },
+    'Content-Type': 'application/json; charset=utf-8'
+  }
 });
 
 export const logOut = async (): Promise<string> => {

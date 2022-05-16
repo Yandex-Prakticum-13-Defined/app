@@ -2,13 +2,13 @@ import React, { FC, FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import './Register.scss';
-import { ERoutes } from '../../App';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
 import { signUp } from '../../api/api';
 import { getUser } from '../../store/slice/userSlice';
 import { useAppDispatch } from '../../hook/useAppDispatch';
+import { ERoutes } from '../../utils/constants/routes';
 
 const Register: FC = () => {
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ const Register: FC = () => {
       first_name: '',
       login: '',
       email: '',
-      password: '',
-    },
+      password: ''
+    }
   });
 
   const additionalInfo = {
@@ -69,7 +69,7 @@ const Register: FC = () => {
         button={{
           type: 'submit',
           title: 'Зарегистрироваться',
-          disabled: !isValid,
+          disabled: !isValid
         }}
         linkTo={ERoutes.LOGIN}
         linkText='Авторизация'
@@ -81,7 +81,7 @@ const Register: FC = () => {
           control={control}
           rules={{
             required: VALIDATION.required,
-            pattern: VALIDATION.name,
+            pattern: VALIDATION.name
           }}
         />
         <Input
@@ -93,7 +93,7 @@ const Register: FC = () => {
             required: VALIDATION.required,
             minLength: VALIDATION.minLength_3,
             maxLength: VALIDATION.maxLength_20,
-            pattern: VALIDATION.login,
+            pattern: VALIDATION.login
           }}
         />
         <Input
@@ -103,7 +103,7 @@ const Register: FC = () => {
           control={control}
           rules={{
             required: VALIDATION.required,
-            pattern: VALIDATION.email,
+            pattern: VALIDATION.email
           }}
         />
         <Input

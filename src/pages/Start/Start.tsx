@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import './Start.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { ERoutes } from '../../App';
 import { logOut } from '../../api/api';
 import { useAppDispatch } from '../../hook/useAppDispatch';
 import { clearUserData } from '../../store/slice/userSlice';
 import { useAppSelector } from '../../hook/useAppSelector';
+import { ERoutes } from '../../utils/constants/routes';
 
 const Start: FC = () => {
   const isAuthenticated = useAppSelector((state) => !!state.user.data.id);
