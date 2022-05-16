@@ -12,7 +12,7 @@ import goneWrong from './img/something-gone-wrong.png';
 //   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 // };
 
-const CACHE_NAME = 'app-v1';
+const CACHE_NAME = 'app-v2';
 const STATIC_CACHE_NAME = `s-${CACHE_NAME}`;
 const DYNAMIC_CACHE_NAME = `d-${CACHE_NAME}`;
 
@@ -59,13 +59,13 @@ self.addEventListener('activate', async () => {
   );
 });
 // eslint-disable-next-line no-restricted-globals
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', (event: any) => {
   const { request } = event;
 
   event.respondWith(cacheData(request));
 });
 
-async function cacheData(request) {
+async function cacheData(request: any) {
   const cashedRequest = await caches.match(request);
   if (URLS.some((url) => request.url.indexOf(url) >= 0) || request.headers.get('accept').includes('text/html')) {
     return cashedRequest || await caches.match('/offline') || networkFirst(request);
@@ -74,7 +74,7 @@ async function cacheData(request) {
   return cashedRequest || networkFirst(request);
 }
 
-async function networkFirst(request) {
+async function networkFirst(request: any) {
   const cache = await caches.open(DYNAMIC_CACHE_NAME);
   try {
     const response = await fetch(request);
