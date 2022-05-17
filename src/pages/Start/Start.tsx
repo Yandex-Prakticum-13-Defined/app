@@ -1,15 +1,24 @@
 import React, { FC } from 'react';
 import './Start.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hook/useAuth';
+import { logOut } from '../../api/api';
+import { useAppDispatch } from '../../hook/useAppDispatch';
+import { clearUserData } from '../../store/slice/userSlice';
+import { useAppSelector } from '../../hook/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
 
 const Start: FC = () => {
+  const isAuthenticated = useAppSelector((state) => !!state.user.data.id);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { signout, isAuthenticated } = useAuth();
 
-  const handleLogout = () => {
-    signout(() => navigate(ERoutes.LOGIN, { replace: true }));
+  const handleLogout = async () => {
+    const response = await logOut();
+
+    if (response === 'OK') {
+      dispatch(clearUserData());
+      navigate(ERoutes.LOGIN, { replace: true });
+    }
   };
 
   return (
@@ -20,7 +29,7 @@ const Start: FC = () => {
         которая перемещается горизонтально с помощью мыши или стрелок клавиатуры.
         В верхней части экрана расположены блоки,
         которые разрушаются при попадании в них мячика.
-        Если не удалось отбить мячик ракеткой, то игра заканчивается.
+        Если трижды не удалось отбить мячик ракеткой, то игра заканчивается.
       </p>
       <div className='start__links'>
         {isAuthenticated ? (
@@ -29,7 +38,7 @@ const Start: FC = () => {
             <Link className='start__link' to={ERoutes.PROFILE}>Профиль</Link>
             <Link className='start__link' to={ERoutes.LEADERBOARD}>Таблица лидеров</Link>
             <Link className='start__link' to={ERoutes.FORUM}>Форум</Link>
-            <Link className='start__link' onClick={handleLogout} to={ERoutes.LOGIN}>Выйти</Link>
+            <button type='button' className='start__link' onClick={handleLogout}>Выйти</button>
           </>
         ) : (
           <>

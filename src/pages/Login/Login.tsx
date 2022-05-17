@@ -1,20 +1,36 @@
-import React, { FC, FormEvent } from 'react';
+import React, { FC, FormEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Login.scss';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
-import { useAuth } from '../../hook/useAuth';
 import { VALIDATION } from '../../utils/constants/validation';
+import { signIn } from '../../api/api';
+import { useAppDispatch } from '../../hook/useAppDispatch';
+import { getUser } from '../../store/slice/userSlice';
+import { useAppSelector } from '../../hook/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
+
+interface ILocationState {
+  from: {
+    pathname: string;
+  };
+}
 
 const Login: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const fromPage = location?.state?.from?.pathname;
-  const { signin } = useAuth();
+  const state = location.state as ILocationState;
+  const userId = useAppSelector((rootState) => rootState.user.data.id);
+  const status = useAppSelector((rootState) => rootState.user.status); // Статус запроса /user
+  const pageFrom = state?.from?.pathname === ERoutes.LOGIN ? undefined : state?.from?.pathname;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!userId && status === 'IDLE') {
+      dispatch(getUser());
+    }
+  }, []);
 
   const {
     formState: {
@@ -30,11 +46,15 @@ const Login: FC = () => {
     }
   });
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const user = getValues();
-    signin(user, () => navigate(fromPage || ERoutes.START, { replace: true }));
+    const response = await signIn(user);
+
+    if (response === 'OK') {
+      dispatch(getUser());
+      navigate(pageFrom || ERoutes.START, { replace: true });
+    }
   };
 
   return (

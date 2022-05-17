@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import './Register.scss';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
-import { useAuth } from '../../hook/useAuth';
 import { VALIDATION } from '../../utils/constants/validation';
+import { signUp } from '../../api/api';
+import { getUser } from '../../store/slice/userSlice';
+import { useAppDispatch } from '../../hook/useAppDispatch';
 import { ERoutes } from '../../utils/constants/routes';
 
 const Register: FC = () => {
   const navigate = useNavigate();
-  const { signup } = useAuth();
+  const dispatch = useAppDispatch();
 
   const {
     formState: {
@@ -29,12 +31,12 @@ const Register: FC = () => {
     }
   });
 
-  const formMethod = {
+  const additionalInfo = {
     second_name: 'Second',
     phone: '+7-000-000-00-00'
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const {
@@ -44,15 +46,19 @@ const Register: FC = () => {
       password
     } = getValues();
 
-    signup({
-      ...formMethod,
+    const userData = {
+      ...additionalInfo,
       first_name: username,
       login,
       email,
       password
-    }, () => {
+    };
+
+    const response = await signUp(userData);
+    if (response) {
+      dispatch(getUser());
       navigate(ERoutes.START, { replace: true });
-    });
+    }
   };
 
   return (

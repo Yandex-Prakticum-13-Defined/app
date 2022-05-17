@@ -4,6 +4,7 @@ import { useController } from 'react-hook-form';
 
 export interface IInput {
   name: string;
+  defaultValue?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   value?: string;
@@ -16,6 +17,7 @@ export interface IInput {
 export const Input = ({
   name,
   control,
+  defaultValue,
   value,
   rules,
   ...rest
