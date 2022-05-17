@@ -4,3 +4,24 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  src: url("/src/vendor/fonts/play-regular.woff2") format("woff2"), url("/src/vendor/fonts/play-regular.woff") format("woff");
+  font-family: Play;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  src: url("/src/vendor/fonts/play-700.woff2") format("woff2"), url("/src/vendor/fonts/play-700.woff") format("woff");
+  font-family: Play;
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  src: url("/src/vendor/fonts/bad-script-regular.woff2") format("woff2"), url("/src/vendor/fonts/bad-script-regular.woff") format("woff");
+  font-family: "Bad Script";
+  font-weight: 400;
+  font-style: normal;
+}
