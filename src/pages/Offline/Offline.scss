@@ -1,0 +1,5 @@
+@import "../../mixins";
+
+.offline {
+  @include centered-content;
+}
