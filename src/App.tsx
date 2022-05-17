@@ -41,8 +41,8 @@ const App: FC = () => (
         <Route path=':id' element={<ForumTopic/>}/>
       </Route>
       <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
-      <Route path={ERoutes.FALLBACK} element={<Error404/>}/>
       <Route path={ERoutes.OFFLINE} element={<Offline/>}/>
+      <Route path={ERoutes.FALLBACK} element={<Error404/>}/>
     </Routes>
   </BrowserRouter>
 );
