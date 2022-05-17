@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import Spinner from '../components/Spinner/Spinner';
 import { useAppSelector } from '../hook/useAppSelector';
@@ -14,16 +14,20 @@ const Auth: FC<IRequireAuth> = ({ children }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const userId = useAppSelector((state) => state.user.data.id);
-  const status = useAppSelector((state) => state.user.status); // Статус запроса /user
-  const isLoading = status === 'PENDING';
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) {
-      dispatch(getUser());
-    }
+    init();
   }, []);
 
-  if (isLoading) {
+  async function init() {
+    if (!userId) {
+      await dispatch(getUser());
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
     return <Spinner/>;
   }
 

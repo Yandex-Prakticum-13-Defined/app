@@ -1,51 +1,106 @@
-import React, { FC } from 'react';
+import React, {
+  FC, useEffect, useState
+} from 'react';
 import './Start.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { logOut } from '../../api/api';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAppDispatch } from '../../hook/useAppDispatch';
-import { clearUserData } from '../../store/slice/userSlice';
 import { useAppSelector } from '../../hook/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
+import { clearFirstLoading } from '../../store/reducer/helper';
+
+interface ILink {
+  route: ERoutes;
+  isAuthRoute?: boolean;
+  text: string;
+}
 
 const Start: FC = () => {
   const isAuthenticated = useAppSelector((state) => !!state.user.data.id);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const firstLoading = useAppSelector((state) => state.helper.firstLoading);
+  const status = useAppSelector((state) => state.user.status); // Статус запроса /user
+  const [firstLoadingState, setFirstLoadingState] = useState(firstLoading);
 
-  const handleLogout = async () => {
-    const response = await logOut();
-
-    if (response === 'OK') {
-      dispatch(clearUserData());
-      navigate(ERoutes.LOGIN, { replace: true });
+  useEffect(() => {
+    setFirstLoadingState(firstLoading);
+    if (status === 'FULFILLED') {
+      dispatch(clearFirstLoading());
     }
+  }, []);
+
+  const links: ILink[] = [
+    { route: ERoutes.GAME, text: 'Начать игру' },
+    { route: ERoutes.PROFILE, text: 'Профиль' },
+    { route: ERoutes.LEADERBOARD, text: 'Таблица лидеров' },
+    { route: ERoutes.FORUM, text: 'Форум' },
+    { route: ERoutes.LOGOUT, text: 'Выйти' },
+    { route: ERoutes.LOGIN, text: 'Войти', isAuthRoute: true },
+    { route: ERoutes.REGISTER, text: 'Зарегистрироваться', isAuthRoute: true }
+  ];
+
+  const h1Variants = {
+    hidden: { opacity: 0, x: -1000 },
+    visible: { opacity: 1, x: 0 }
   };
+
+  const pVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
+  };
+
+  const linkVariants = {
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.4 }
+    }),
+    hidden: { opacity: 0, y: 100 }
+  };
+
+  const renderLink = (link: ILink, i: number) => (
+    <motion.div
+      key={link.text}
+      variants={linkVariants}
+      initial={firstLoadingState ? 'hidden' : 'visible'}
+      animate='visible'
+      custom={i}
+    >
+      <Link className='start__link' to={link.route}>
+        {link.text}
+      </Link>
+    </motion.div>
+  );
 
   return (
     <section className='start'>
-      <h1 className='start__title'>Арканоид</h1>
-      <p className='start__text'>
-        В нижней части экрана находится ракетка,
-        которая перемещается горизонтально с помощью мыши или стрелок клавиатуры.
-        В верхней части экрана расположены блоки,
-        которые разрушаются при попадании в них мячика.
-        Если трижды не удалось отбить мячик ракеткой, то игра заканчивается.
-      </p>
       <div className='start__links'>
-        {isAuthenticated ? (
-          <>
-            <Link className='start__link' to={ERoutes.GAME}>Начать игру</Link>
-            <Link className='start__link' to={ERoutes.PROFILE}>Профиль</Link>
-            <Link className='start__link' to={ERoutes.LEADERBOARD}>Таблица лидеров</Link>
-            <Link className='start__link' to={ERoutes.FORUM}>Форум</Link>
-            <button type='button' className='start__link' onClick={handleLogout}>Выйти</button>
-          </>
-        ) : (
-          <>
-            <Link className='start__link' to={ERoutes.LOGIN}>Войти</Link>
-            <Link className='start__link' to={ERoutes.REGISTER}>Зарегистрироваться</Link>
-          </>
-        )}
+        {
+          links.filter((route) => isAuthenticated === !route.isAuthRoute).map((link, i) => (renderLink(link, i)))
+        }
+      </div>
+      <div className='text-container'>
+        <motion.h1
+          variants={h1Variants}
+          initial={firstLoadingState ? 'hidden' : 'visible'}
+          animate='visible'
+          className='start__title'
+        >
+          Арканоид
+        </motion.h1>
+        <motion.p
+          variants={pVariants}
+          initial={firstLoadingState ? 'hidden' : 'visible'}
+          animate='visible'
+          transition={{ duration: 2 }}
+          className='start__text'
+        >
+          В нижней части экрана находится ракетка,
+          которая перемещается горизонтально с помощью мыши или стрелок клавиатуры.
+          В верхней части экрана расположены блоки,
+          которые разрушаются при попадании в них мячика.
+          Если трижды не удалось отбить мячик ракеткой, то игра заканчивается.
+        </motion.p>
       </div>
     </section>
   );

@@ -14,6 +14,7 @@ import Forum from './pages/Forum/Forum';
 import ForumTopic from './pages/Forum/components/ForumTopic/ForumTopic';
 import ForumTopics from './pages/Forum/components/ForumTopics/ForumTopics';
 import { ERoutes } from './utils/constants/routes';
+import Logout from './pages/Logout/Logout';
 
 const App: FC = () => (
   <BrowserRouter>
@@ -21,6 +22,7 @@ const App: FC = () => (
       <Route path={ERoutes.START} element={<Auth><Start/></Auth>}/>
       <Route path={ERoutes.REGISTER} element={<Auth><Register/></Auth>}/>
       <Route path={ERoutes.LOGIN} element={<Auth><Login/></Auth>}/>
+      <Route path={ERoutes.LOGOUT} element={<Auth><Logout/></Auth>}/>
       <Route path={ERoutes.GAME} element={<Auth><Game/></Auth>}/>
       <Route path={ERoutes.LEADERBOARD} element={<Auth><Leaderboard/></Auth>}/>
       <Route path={ERoutes.PROFILE} element={<Auth><Profile/></Auth>}/>

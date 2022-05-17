@@ -2,6 +2,7 @@ export enum ERoutes {
   'START' = '/',
   'REGISTER' = '/register',
   'LOGIN' = '/login',
+  'LOGOUT' = '/logout',
   'GAME' = '/game',
   'LEADERBOARD' = '/leaderboard',
   'PROFILE' = '/profile',
