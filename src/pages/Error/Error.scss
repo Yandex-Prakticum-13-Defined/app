@@ -1,9 +1,7 @@
+@import "../../mixins";
+
 .error-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 25% auto;
-  align-items: center;
+  @include centered-content;
 
   &__link {
     font-weight: bold;

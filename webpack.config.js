@@ -4,10 +4,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    app: './src/index.tsx',
+    sw: './src/sw.ts'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].js',
     publicPath: '/'
   },
   resolve: {
@@ -24,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|svg|woff(2)?)$/,
+        test: /\.(jpg|png|svg|woff(2)?)$/,
         type: 'asset/resource'
       },
       {

@@ -7,5 +7,6 @@ export enum ERoutes {
   'PROFILE' = '/profile',
   'FORUM' = '/forum',
   'ERROR_500' = '/500',
+  'OFFLINE' = '/offline',
   'FALLBACK' = '*'
 }
