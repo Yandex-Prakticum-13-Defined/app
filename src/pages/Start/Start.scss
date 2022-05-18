@@ -3,6 +3,16 @@
 .start {
   @include centered-content;
 
+  justify-content: flex-start;
+
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85%;
+  }
+
   &__title {
     margin: 0 0 30px;
     font-size: 50px;
@@ -18,8 +28,9 @@
 
   &__links {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 10px;
   }
 
   &__link {
