@@ -17,16 +17,16 @@ import ForumTopics from './pages/Forum/components/ForumTopics/ForumTopics';
 import { ERoutes } from './utils/constants/routes';
 import Logout from './pages/Logout/Logout';
 
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', async () => {
-//     try {
-//       const registration = await navigator.serviceWorker.register('/sw.js');
-//       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//     } catch (error) {
-//       console.log('ServiceWorker registration failed: ', error);
-//     }
-//   });
-// }
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    } catch (error) {
+      console.log('ServiceWorker registration failed: ', error);
+    }
+  });
+}
 
 const App: FC = () => (
   <BrowserRouter>
