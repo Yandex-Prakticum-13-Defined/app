@@ -5,6 +5,12 @@ import pause from './img/pause.png';
 import somethingGoneWrong from './img/something-gone-wrong.png';
 import righteousFontWoff2 from './vendor/fonts/righteous-regular.woff2';
 import righteousFontWoff from './vendor/fonts/righteous-regular.woff';
+import playFontWoff2 from './vendor/fonts/play-regular.woff2';
+import playFontWoff from './vendor/fonts/play-regular.woff';
+import playBoldFontWoff2 from './vendor/fonts/play-700.woff2';
+import playBoldFontWoff from './vendor/fonts/play-700.woff';
+import badScriptFontWoff2 from './vendor/fonts/bad-script-regular.woff2';
+import badScriptFontWoff from './vendor/fonts/bad-script-regular.woff';
 import { ERoutes } from './utils/constants/routes';
 
 const CACHE_NAME = 'app-v1';
@@ -12,11 +18,11 @@ const STATIC_CACHE_NAME = `s-${CACHE_NAME}`;
 const DYNAMIC_CACHE_NAME = `d-${CACHE_NAME}`;
 
 const staticURLs = [
-  '/sw.js',
   '/index.html',
   ERoutes.START,
   ERoutes.REGISTER,
   ERoutes.LOGIN,
+  ERoutes.LOGOUT,
   ERoutes.GAME,
   ERoutes.LEADERBOARD,
   ERoutes.PROFILE,
@@ -29,7 +35,13 @@ const staticURLs = [
   pause,
   somethingGoneWrong,
   righteousFontWoff2,
-  righteousFontWoff
+  righteousFontWoff,
+  playFontWoff2,
+  playFontWoff,
+  playBoldFontWoff2,
+  playBoldFontWoff,
+  badScriptFontWoff2,
+  badScriptFontWoff
 ];
 
 const dynamicURLs = [
