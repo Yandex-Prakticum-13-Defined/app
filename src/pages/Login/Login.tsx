@@ -1,6 +1,6 @@
-import React, { FC, FormEvent, useEffect } from 'react';
+import React, { FC, FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Login.scss';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
@@ -8,29 +8,11 @@ import { VALIDATION } from '../../utils/constants/validation';
 import { signIn } from '../../api/api';
 import { useAppDispatch } from '../../hook/useAppDispatch';
 import { getUser } from '../../store/slice/userSlice';
-import { useAppSelector } from '../../hook/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
-
-interface ILocationState {
-  from: {
-    pathname: string;
-  };
-}
 
 const Login: FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state as ILocationState;
-  const userId = useAppSelector((rootState) => rootState.user.data.id);
-  const status = useAppSelector((rootState) => rootState.user.status); // Статус запроса /user
-  const pageFrom = state?.from?.pathname === ERoutes.LOGIN ? undefined : state?.from?.pathname;
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!userId && status === 'IDLE') {
-      dispatch(getUser());
-    }
-  }, []);
 
   const {
     formState: {
@@ -52,8 +34,8 @@ const Login: FC = () => {
     const response = await signIn(user);
 
     if (response === 'OK') {
-      dispatch(getUser());
-      navigate(pageFrom || ERoutes.START, { replace: true });
+      await dispatch(getUser());
+      navigate(ERoutes.START, { replace: true });
     }
   };
 
