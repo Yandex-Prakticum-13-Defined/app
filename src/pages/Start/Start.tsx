@@ -1,6 +1,4 @@
-import React, {
-  FC, useEffect, useState
-} from 'react';
+import React, { FC, useEffect } from 'react';
 import './Start.scss';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -19,12 +17,9 @@ const Start: FC = () => {
   const isAuthenticated = useAppSelector((state) => !!state.user.data.id);
   const dispatch = useAppDispatch();
   const firstLoading = useAppSelector((state) => state.helper.firstLoading);
-  const status = useAppSelector((state) => state.user.status); // Статус запроса /user
-  const [firstLoadingState, setFirstLoadingState] = useState(firstLoading);
 
   useEffect(() => {
-    setFirstLoadingState(firstLoading);
-    if (status === 'FULFILLED') {
+    if (isAuthenticated) {
       dispatch(clearFirstLoading());
     }
   }, []);
@@ -62,7 +57,7 @@ const Start: FC = () => {
     <motion.div
       key={link.text}
       variants={linkVariants}
-      initial={firstLoadingState ? 'hidden' : 'visible'}
+      initial={firstLoading ? 'hidden' : 'visible'}
       animate='visible'
       custom={i}
     >
@@ -82,7 +77,7 @@ const Start: FC = () => {
       <div className='text-container'>
         <motion.h1
           variants={h1Variants}
-          initial={firstLoadingState ? 'hidden' : 'visible'}
+          initial={firstLoading ? 'hidden' : 'visible'}
           animate='visible'
           className='start__title'
         >
@@ -90,7 +85,7 @@ const Start: FC = () => {
         </motion.h1>
         <motion.p
           variants={pVariants}
-          initial={firstLoadingState ? 'hidden' : 'visible'}
+          initial={firstLoading ? 'hidden' : 'visible'}
           animate='visible'
           transition={{ duration: 2 }}
           className='start__text'

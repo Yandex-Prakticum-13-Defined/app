@@ -56,7 +56,7 @@ const Register: FC = () => {
 
     const response = await signUp(userData);
     if (response) {
-      dispatch(getUser());
+      await dispatch(getUser());
       navigate(ERoutes.START, { replace: true });
     }
   };
