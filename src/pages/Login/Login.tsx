@@ -19,7 +19,8 @@ const Login: FC = () => {
       isValid
     },
     control,
-    getValues
+    getValues,
+    reset
   } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -31,11 +32,14 @@ const Login: FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const user = getValues();
-    const response = await signIn(user);
 
-    if (response === 'OK') {
+    try {
+      await signIn(user);
       await dispatch(getUser());
+      reset();
       navigate(ERoutes.START, { replace: true });
+    } catch (error) {
+      console.log(error);
     }
   };
 

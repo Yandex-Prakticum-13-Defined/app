@@ -4,23 +4,22 @@ import { useController } from 'react-hook-form';
 
 export interface IInput {
   name: string;
-  defaultValue?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   value?: string;
   rules?: Record<string, unknown>;
   type: string;
-  placeholder: string;
+  placeholder?: string;
 }
 
 // eslint-disable-next-line react/display-name
 export const Input = ({
   name,
   control,
-  defaultValue,
   value,
   rules,
-  ...rest
+  type,
+  placeholder
 }: IInput) => {
   const {
     field,
@@ -34,8 +33,12 @@ export const Input = ({
 
   return (
     <>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <input className='input' {...field} {...rest}/>
+      {
+        type !== 'file'
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          ? <input className='input' type={type} placeholder={placeholder} {...field}/>
+          : <input className='input' type={type} placeholder={placeholder} onChange={field.onChange} name={field.name}/>
+      }
       {errors && <span className='input__error'>{errors[name]?.message}</span>}
     </>
   );

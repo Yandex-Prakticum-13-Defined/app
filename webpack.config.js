@@ -8,6 +8,9 @@ module.exports = {
     app: './src/index.tsx',
     sw: './src/sw.ts'
   },
+  optimization: {
+    runtimeChunk: 'single'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',

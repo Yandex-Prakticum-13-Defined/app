@@ -9,4 +9,11 @@
     align-items: center;
     justify-content: center;
   }
+
+  &__picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 }

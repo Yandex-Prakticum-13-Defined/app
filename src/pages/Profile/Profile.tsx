@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './Profile.scss';
 import {
-  changeAvatar, changeUserPassword, changeUserProfile, getUser, IUserData
+  baseURL, changeAvatar, changePassword, changeProfile, IAvatar
 } from '../../api/api';
 import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
@@ -10,94 +10,105 @@ import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
 import { useAppSelector } from '../../hook/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
+import mockProfilePicture from '../../img/mock-profile-picture.jpg';
+import { useAppDispatch } from '../../hook/useAppDispatch';
+import { addUserData } from '../../store/slice/userSlice';
+import { additionalUserData } from '../../utils/constants/additionalUserData';
 
 const Profile = () => {
   const [isProfile, setIsProfile] = useState(true);
   const [isAvatar, setIsAvatar] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  const [curFile, setCurFile] = useState<File | null>(null);
-  const [avatarName, setAvatarName] = useState('');
-  const userId = useAppSelector((state) => state.user.data.id);
+  const user = useAppSelector((state) => state.user.data!);
+  const dispatch = useAppDispatch();
 
   const {
-    handleSubmit,
+    handleSubmit: handleProfileFormSubmit,
     formState: {
-      isValid
+      isValid: isProfileFormValid,
+      isDirty: isProfileFormDirty
     },
-    control,
-    setValue,
-    getValues
+    control: profileFormControl,
+    getValues: getProfileFormValues
   } = useForm({
-    mode: 'onChange',
-    defaultValues: {
-      username: '',
-      first_name: '',
-      login: '',
-      email: '',
-      password: '',
-      avatar: '',
-      oldPassword: '',
-      newPassword: ''
-    }
+    mode: 'onChange'
   });
 
-  const [profile, setProfile] = useState<IUserData>({
-    first_name: '',
-    login: '',
-    email: '',
-    password: ''
+  const {
+    handleSubmit: handleAvatarFormSubmit,
+    formState: {
+      isValid: isAvatarFormValid,
+      isDirty: isAvatarFormDirty
+    },
+    control: avatarFormControl,
+    reset: resetAvatarForm
+  } = useForm({
+    mode: 'onChange'
   });
 
-  useEffect(() => {
-    getUser()
-      .then((data) => {
-        setProfile(data);
+  const {
+    handleSubmit: handlePasswordFormSubmit,
+    formState: {
+      isValid: isPasswordFormValid
+    },
+    control: passwordFormControl,
+    getValues: getPasswordFormValues,
+    reset: resetPasswordForm
+  } = useForm({
+    mode: 'onChange'
+  });
+
+  const onSubmitProfileForm = async () => {
+    const { firstName, login, email } = getProfileFormValues();
+
+    try {
+      await changeProfile({
+        first_name: firstName,
+        login,
+        email,
+        ...additionalUserData
       });
-  }, [userId]);
-
-  useEffect(() => {
-    setValue('username', profile?.first_name || '');
-    setValue('login', profile?.login || '');
-    setValue('email', profile?.email || '');
-  }, [profile]);
-
-  const onSubmit = () => {
-    const {
-      username,
-      login,
-      email
-    } = getValues();
-
-    changeUserProfile({
-      first_name: username,
-      login,
-      email,
-      second_name: 'Second',
-      display_name: 'Display',
-      phone: '+7-000-000-00-00'
-    })
-      .then();
-  };
-
-  const uploadAvatar = () => {
-    if (curFile) {
-      const formData = new FormData();
-      formData.append('avatar', curFile);
-      changeAvatar(formData)
-        .then();
+      dispatch(addUserData({
+        first_name: firstName,
+        login,
+        email,
+        id: user.id,
+        avatar: user.avatar
+      }));
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const onSubmitPassword = () => {
-    const {
-      oldPassword,
-      newPassword
-    } = getValues();
-    changeUserPassword({
-      oldPassword,
-      newPassword
-    })
-      .then();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmitAvatarForm = async (data: any, event: any) => {
+    const formData = new FormData();
+    formData.append('avatar', event.target.avatar.files[0]);
+
+    try {
+      const response = await changeAvatar(formData as unknown as IAvatar);
+      dispatch(addUserData({
+        first_name: user.first_name,
+        login: user.login,
+        email: user.email,
+        id: user.id,
+        avatar: response.avatar
+      }));
+      resetAvatarForm();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmitPasswordForm = async () => {
+    const { oldPassword, newPassword } = getPasswordFormValues();
+
+    try {
+      await changePassword({ oldPassword, newPassword });
+      resetPasswordForm();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -136,21 +147,21 @@ const Profile = () => {
         {isProfile && (
           <Form
             title='Редактировать профиль'
-            handleSubmit={handleSubmit(onSubmit)}
+            handleSubmit={handleProfileFormSubmit(onSubmitProfileForm)}
             button={{
               type: 'submit',
               title: 'Сохранить',
-              disabled: !isValid
+              disabled: !isProfileFormValid || !isProfileFormDirty
             }}
             linkTo={ERoutes.START}
             linkText='На главную'
           >
             <Input
-              name='username'
+              name='firstName'
               type='text'
               placeholder='Имя'
-              defaultValue={profile?.first_name}
-              control={control}
+              value={user.first_name}
+              control={profileFormControl}
               rules={{
                 required: VALIDATION.required,
                 pattern: VALIDATION.name
@@ -160,8 +171,8 @@ const Profile = () => {
               name='login'
               type='text'
               placeholder='Логин'
-              defaultValue={profile?.login}
-              control={control}
+              value={user.login}
+              control={profileFormControl}
               rules={{
                 required: VALIDATION.required,
                 minLength: VALIDATION.minLength_3,
@@ -173,8 +184,8 @@ const Profile = () => {
               name='email'
               type='email'
               placeholder='Email'
-              defaultValue={profile?.email}
-              control={control}
+              value={user.email}
+              control={profileFormControl}
               rules={{
                 required: VALIDATION.required,
                 pattern: VALIDATION.email
@@ -183,42 +194,39 @@ const Profile = () => {
           </Form>
         )}
         {isAvatar && (
-          <Form
-            title='Загрузить аватар'
-            handleSubmit={handleSubmit(uploadAvatar)}
-            button={{
-              type: 'submit',
-              title: 'Сохранить',
-              disabled: !isValid
-            }}
-            linkTo={ERoutes.START}
-            linkText='На главную'
-          >
-            <Input
-              name='avatar'
-              type='file'
-              placeholder='Выберите аватар'
-              control={control}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const target = (e.target as HTMLInputElement);
-                const file = target.files ? target.files[0] : null;
-                setCurFile(file);
-                setAvatarName(e.target.value);
-              }}
-              value={avatarName}
+          <>
+            <img
+              className='profile__picture'
+              src={user.avatar ? `${baseURL}/resources${user.avatar}` : mockProfilePicture}
+              alt='Аватар пользователя'
             />
-          </Form>
+            <Form
+              title='Загрузить аватар'
+              handleSubmit={handleAvatarFormSubmit(onSubmitAvatarForm)}
+              button={{
+                type: 'submit',
+                title: 'Сохранить',
+                disabled: !isAvatarFormValid || !isAvatarFormDirty
+              }}
+              linkTo={ERoutes.START}
+              linkText='На главную'
+            >
+              <Input
+                name='avatar'
+                type='file'
+                control={avatarFormControl}
+              />
+            </Form>
+          </>
         )}
         {isPassword && (
           <Form
             title='Изменить пароль'
-            handleSubmit={handleSubmit(onSubmitPassword)}
+            handleSubmit={handlePasswordFormSubmit(onSubmitPasswordForm)}
             button={{
               type: 'submit',
               title: 'Сохранить',
-              disabled: !isValid
+              disabled: !isPasswordFormValid
             }}
             linkTo={ERoutes.START}
             linkText='На главную'
@@ -227,7 +235,7 @@ const Profile = () => {
               name='oldPassword'
               type='password'
               placeholder='Введите старый пароль'
-              control={control}
+              control={passwordFormControl}
               rules={{
                 required: VALIDATION.required,
                 pattern: VALIDATION.password,
@@ -238,7 +246,7 @@ const Profile = () => {
               name='newPassword'
               type='password'
               placeholder='Введите новый пароль'
-              control={control}
+              control={passwordFormControl}
               rules={{
                 required: VALIDATION.required,
                 pattern: VALIDATION.password,

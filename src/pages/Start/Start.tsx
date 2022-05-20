@@ -14,7 +14,7 @@ interface ILink {
 }
 
 const Start: FC = () => {
-  const isAuthenticated = useAppSelector((state) => !!state.user.data.id);
+  const isAuthenticated = useAppSelector((state) => state.user.data !== null);
   const dispatch = useAppDispatch();
   const firstLoading = useAppSelector((state) => state.helper.firstLoading);
 
