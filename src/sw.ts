@@ -86,17 +86,20 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-async function cacheFirst(request: RequestInfo) {
+async function cacheFirst(request: Request) {
   const cached = await caches.match(request);
 
   return cached ?? await fetch(request);
 }
 
-async function networkFirst(request: RequestInfo) {
+async function networkFirst(request: Request) {
   const cache = await caches.open(DYNAMIC_CACHE_NAME);
   try {
     const response = await fetch(request);
-    await cache.put(request, response.clone());
+
+    if (request.method === 'GET') {
+      await cache.put(request, response.clone());
+    }
 
     return response;
   } catch (e) {
