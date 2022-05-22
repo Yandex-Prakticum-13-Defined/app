@@ -3,6 +3,7 @@ import leaderboardSortButton from './img/leaderboard-sort-button.svg';
 import modalGameOver from './img/modal-game-over.jpg';
 import pause from './img/pause.png';
 import somethingGoneWrong from './img/something-gone-wrong.png';
+import mockProfilePicture from './img/mock-profile-picture.jpg';
 import righteousFontWoff2 from './vendor/fonts/righteous-regular.woff2';
 import righteousFontWoff from './vendor/fonts/righteous-regular.woff';
 import playFontWoff2 from './vendor/fonts/play-regular.woff2';
@@ -34,6 +35,7 @@ const staticURLs = [
   modalGameOver,
   pause,
   somethingGoneWrong,
+  mockProfilePicture,
   righteousFontWoff2,
   righteousFontWoff,
   playFontWoff2,

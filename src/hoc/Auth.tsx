@@ -13,7 +13,7 @@ interface IRequireAuth {
 const Auth: FC<IRequireAuth> = ({ children }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const userId = useAppSelector((state) => state.user.data.id);
+  const isAuthenticated = useAppSelector((state) => state.user.data !== null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Auth: FC<IRequireAuth> = ({ children }) => {
   }, []);
 
   async function init() {
-    if (!userId) {
+    if (!isAuthenticated) {
       await dispatch(getUser());
       setLoading(false);
     }
@@ -31,11 +31,11 @@ const Auth: FC<IRequireAuth> = ({ children }) => {
     return <Spinner/>;
   }
 
-  if (!userId && ![ERoutes.LOGIN, ERoutes.REGISTER, ERoutes.START].includes(location.pathname as ERoutes)) {
+  if (!isAuthenticated && ![ERoutes.LOGIN, ERoutes.REGISTER, ERoutes.START].includes(location.pathname as ERoutes)) {
     return <Navigate to={ERoutes.LOGIN} state={{ from: location }} replace/>;
   }
 
-  if (userId && [ERoutes.LOGIN, ERoutes.REGISTER].includes(location.pathname as ERoutes)) {
+  if (isAuthenticated && [ERoutes.LOGIN, ERoutes.REGISTER].includes(location.pathname as ERoutes)) {
     return <Navigate to={ERoutes.START} state={{ from: location }} replace/>;
   }
 

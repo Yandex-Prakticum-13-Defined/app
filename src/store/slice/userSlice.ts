@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUser as getUserApi, IUserData } from '../../api/api';
+import { getUser as getUserApi, IUserResponse } from '../../api/api';
 import { EStatus, IAsyncData } from '../interface';
 
+type IUserData = Omit<IUserResponse, 'second_name' | 'display_name' | 'phone'> | null;
+
 const initialState: IAsyncData<IUserData> = {
-  data: {},
+  data: null,
   error: null,
   status: EStatus.IDLE
 };
@@ -26,7 +28,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     clearUserData: (state) => {
-      state.data = {};
+      state.data = null;
       state.error = null;
       state.status = EStatus.IDLE;
     },

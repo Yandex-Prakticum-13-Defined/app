@@ -9,6 +9,7 @@ import { signUp } from '../../api/api';
 import { getUser } from '../../store/slice/userSlice';
 import { useAppDispatch } from '../../hook/useAppDispatch';
 import { ERoutes } from '../../utils/constants/routes';
+import { additionalUserData } from '../../utils/constants/additionalUserData';
 
 const Register: FC = () => {
   const navigate = useNavigate();
@@ -19,45 +20,43 @@ const Register: FC = () => {
       isValid
     },
     control,
-    getValues
+    getValues,
+    reset
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      username: '',
-      first_name: '',
+      firstName: '',
       login: '',
       email: '',
       password: ''
     }
   });
 
-  const additionalInfo = {
-    second_name: 'Second',
-    phone: '+7-000-000-00-00'
-  };
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const {
-      username,
+      firstName,
       login,
       email,
       password
     } = getValues();
 
     const userData = {
-      ...additionalInfo,
-      first_name: username,
+      first_name: firstName,
       login,
       email,
-      password
+      password,
+      ...additionalUserData
     };
 
-    const response = await signUp(userData);
-    if (response) {
+    try {
+      await signUp(userData);
       await dispatch(getUser());
+      reset();
       navigate(ERoutes.START, { replace: true });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -75,7 +74,7 @@ const Register: FC = () => {
         linkText='Авторизация'
       >
         <Input
-          name='username'
+          name='firstName'
           type='text'
           placeholder='Имя'
           control={control}

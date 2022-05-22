@@ -3,33 +3,44 @@ import axios from 'axios';
 export interface IRegisterData {
   first_name: string;
   second_name: string;
-  display_name?: string;
   login: string;
   email: string;
-  password?: string;
+  password: string;
   phone: string;
 }
 
-export interface ISignInData {
+export interface ILoginData {
   login: string;
   password: string;
+}
+
+export interface IUserResponse {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string | null;
+}
+
+export interface IProfile {
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+}
+
+export interface IAvatar {
+  avatar: BinaryData;
 }
 
 export interface IPassword {
   oldPassword: string;
   newPassword: string;
-}
-
-export interface IUserData {
-  id?: number;
-  first_name?: string;
-  second_name?: string;
-  display_name?: string;
-  login?: string;
-  email?: string;
-  phone?: string;
-  avatar?: BinaryData;
-  password?: string;
 }
 
 export const baseURL = 'https://ya-praktikum.tech/api/v2';
@@ -42,28 +53,21 @@ export const instance = axios.create({
   }
 });
 
-export const logOut = async (): Promise<string> => {
-  const response = await instance.post('auth/logout');
+export const signUp = (userData: IRegisterData) => instance.post('auth/signup', userData);
 
-  return response.data;
-};
+export const signIn = (signInData: ILoginData) => instance.post('/auth/signin', signInData);
 
-export const getUser = async (): Promise<IUserData> => {
+export const getUser = async (): Promise<IUserResponse> => {
   const response = await instance.get('auth/user');
 
   return response.data;
 };
 
-export const signUp = (userData: IRegisterData) => instance.post('auth/signup', userData)
-  .then((response) => response.data.id);
+export const logOut = () => instance.post('auth/logout');
 
-export const signIn = (signInData: ISignInData): Promise<string> => instance.post('/auth/signin', signInData)
-  .then((response) => response.data);
+export const changeProfile = (profileData: IProfile) => instance.put('user/profile', profileData);
 
-export const changeUserProfile = (userData: IUserData) => instance.put('user/profile', userData)
-  .then((response) => response);
-
-export const changeAvatar = (formData: FormData) => instance.put(
+export const changeAvatar = (formData: IAvatar) => instance.put(
   'user/profile/avatar',
   formData,
   {
@@ -71,11 +75,6 @@ export const changeAvatar = (formData: FormData) => instance.put(
       'Content-Type': 'multipart/form-data'
     }
   }
-)
-  .then((response) => response);
+);
 
-export const changeUserPassword = (userData: IPassword) => instance.put('user/password', userData)
-  .then((response) => response);
-
-export const searchUser = (signInData: IUserData) => instance.post('user/search', signInData)
-  .then((Responses) => Responses);
+export const changePassword = (passwordData: IPassword) => instance.put('user/password', passwordData);

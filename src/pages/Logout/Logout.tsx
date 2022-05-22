@@ -10,15 +10,18 @@ const Logout: FC = () => {
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
-    const response = await logOut();
-
-    if (response === 'OK') {
+    try {
+      await logOut();
       dispatch(clearUserData());
       navigate(ERoutes.START, { replace: true });
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  useEffect(() => { handleLogout(); }, []);
+  useEffect(() => {
+    handleLogout();
+  }, []);
 
   return (
     <p>...Logout</p>
