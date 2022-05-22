@@ -92,7 +92,7 @@ const Profile = () => {
         login: user.login,
         email: user.email,
         id: user.id,
-        avatar: response.avatar
+        avatar: response.data.avatar
       }));
       resetAvatarForm();
     } catch (error) {

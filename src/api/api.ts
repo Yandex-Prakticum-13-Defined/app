@@ -53,17 +53,9 @@ export const instance = axios.create({
   }
 });
 
-export const signUp = async (userData: IRegisterData): Promise<IUserResponse> => {
-  const response = await instance.post('auth/signup', userData);
+export const signUp = (userData: IRegisterData) => instance.post('auth/signup', userData);
 
-  return response.data;
-};
-
-export const signIn = async (signInData: ILoginData): Promise<string> => {
-  const response = await instance.post('/auth/signin', signInData);
-
-  return response.data;
-};
+export const signIn = (signInData: ILoginData) => instance.post('/auth/signin', signInData);
 
 export const getUser = async (): Promise<IUserResponse> => {
   const response = await instance.get('auth/user');
@@ -71,34 +63,18 @@ export const getUser = async (): Promise<IUserResponse> => {
   return response.data;
 };
 
-export const logOut = async (): Promise<string> => {
-  const response = await instance.post('auth/logout');
+export const logOut = () => instance.post('auth/logout');
 
-  return response.data;
-};
+export const changeProfile = (profileData: IProfile) => instance.put('user/profile', profileData);
 
-export const changeProfile = async (profileData: IProfile): Promise<IUserResponse> => {
-  const response = await instance.put('user/profile', profileData);
-
-  return response.data;
-};
-
-export const changeAvatar = async (formData: IAvatar): Promise<IUserResponse> => {
-  const response = await instance.put(
-    'user/profile/avatar',
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+export const changeAvatar = (formData: IAvatar) => instance.put(
+  'user/profile/avatar',
+  formData,
+  {
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
-  );
+  }
+);
 
-  return response.data;
-};
-
-export const changePassword = async (passwordData: IPassword): Promise<IUserResponse> => {
-  const response = await instance.put('user/password', passwordData);
-
-  return response.data;
-};
+export const changePassword = (passwordData: IPassword) => instance.put('user/password', passwordData);
