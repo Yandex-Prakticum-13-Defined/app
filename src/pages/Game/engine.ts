@@ -1,10 +1,16 @@
 import pauseIcon from '../../img/pause.png';
 import brickIcon from '../../img/brick.png';
+import { isServer } from '../../utils/isServer';
 
-const imgBrick = new Image();
-const imgPause = new Image();
-imgBrick.src = brickIcon;
-imgPause.src = pauseIcon;
+let imgPause: HTMLImageElement;
+let imgBrick: HTMLImageElement;
+
+if (!isServer) {
+  imgBrick = new Image();
+  imgPause = new Image();
+  imgBrick.src = brickIcon;
+  imgPause.src = pauseIcon;
+}
 const brickWidth = 120; // Ширина кирпича
 const brickPadding = 4; // Отступ кирпича
 const brickHeight = 60; // Высота кирпича
