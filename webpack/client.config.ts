@@ -1,4 +1,3 @@
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { DIST_DIR } from './env';
 import { jsLoader } from './loaders/js';
@@ -33,7 +32,6 @@ const config = {
     rules: [jsLoader, cssLoader.client, filesLoader.client]
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin()
   ]
 };
