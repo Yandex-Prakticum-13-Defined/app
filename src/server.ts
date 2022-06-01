@@ -12,4 +12,8 @@ app
 
 app.get('/*', serverRenderMiddleware);
 
-export { app };
+const port = process.env.PORT || 8080;
+
+app.listen(port, () => {
+  console.log('Application is started on localhost:', port);
+});

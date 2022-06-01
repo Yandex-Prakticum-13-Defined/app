@@ -21,13 +21,6 @@ const config = {
     extensions: ['.tsx', '.ts', '.js']
   },
   mode: 'development',
-  devServer: {
-    static: DIST_DIR,
-    compress: true,
-    port: 8080,
-    open: true,
-    historyApiFallback: true
-  },
   module: {
     rules: [jsLoader, cssLoader.client, filesLoader.client]
   },

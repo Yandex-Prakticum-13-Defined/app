@@ -9,7 +9,7 @@ import { store } from './store/store';
 export const serverRenderMiddleware = (req: Request, res: Response) => {
   const jsx = (
     <Provider store={store}>
-      <StaticRouter location='/'>
+      <StaticRouter location={req.url}>
         <App/>
       </StaticRouter>
     </Provider>
@@ -37,6 +37,7 @@ function getHtml(reactHtml: string, reduxState = {}) {
           window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
         </script>
         <script src="/app.js"></script>
+        <script src="/runtime.js"></script>
     </body>
     </html>
   `;

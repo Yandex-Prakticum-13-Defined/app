@@ -48,7 +48,8 @@ const staticURLs = [
 
 const dynamicURLs = [
   '/app.css',
-  '/app.js'
+  '/app.js',
+  '/runtime.js'
 ];
 
 declare const self: ServiceWorkerGlobalScope;
