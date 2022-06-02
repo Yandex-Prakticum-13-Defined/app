@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './index.scss';
-import Auth from './HOCs/Auth';
 import Offline from './pages/Offline/Offline';
 import Start from './pages/Start/Start';
 import Game from './pages/Game/Game';
@@ -31,14 +30,14 @@ if (!isServer && 'serviceWorker' in navigator) {
 
 const App: FC = () => (
   <Routes>
-    <Route path={ERoutes.START} element={<Auth><Start/></Auth>}/>
-    <Route path={ERoutes.REGISTER} element={<Auth><Register/></Auth>}/>
-    <Route path={ERoutes.LOGIN} element={<Auth><Login/></Auth>}/>
-    <Route path={ERoutes.LOGOUT} element={<Auth><Logout/></Auth>}/>
-    <Route path={ERoutes.GAME} element={<Auth><Game/></Auth>}/>
-    <Route path={ERoutes.LEADERBOARD} element={<Auth><Leaderboard/></Auth>}/>
-    <Route path={ERoutes.PROFILE} element={<Auth><Profile/></Auth>}/>
-    <Route path={ERoutes.FORUM} element={<Auth><Forum/></Auth>}>
+    <Route path={ERoutes.START} element={<Start/>}/>
+    <Route path={ERoutes.REGISTER} element={<Register/>}/>
+    <Route path={ERoutes.LOGIN} element={<Login/>}/>
+    <Route path={ERoutes.LOGOUT} element={<Logout/>}/>
+    <Route path={ERoutes.GAME} element={<Game/>}/>
+    <Route path={ERoutes.LEADERBOARD} element={<Leaderboard/>}/>
+    <Route path={ERoutes.PROFILE} element={<Profile/>}/>
+    <Route path={ERoutes.FORUM} element={<Forum/>}>
       <Route path='' element={<ForumTopics/>}/>
       <Route path=':id' element={<ForumTopic/>}/>
     </Route>
