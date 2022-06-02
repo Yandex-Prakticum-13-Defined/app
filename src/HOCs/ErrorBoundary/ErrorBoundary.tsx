@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import image from '../../img/something-gone-wrong.png';
+import image from '../../images/something-gone-wrong.png';
 import './ErrorBoundary.scss';
 
 interface IErrorBoundaryProps {

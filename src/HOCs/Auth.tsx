@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import Spinner from '../components/Spinner/Spinner';
-import { useAppSelector } from '../hook/useAppSelector';
+import { useAppSelector } from '../hooks/useAppSelector';
 import { getUser } from '../store/slice/userSlice';
-import { useAppDispatch } from '../hook/useAppDispatch';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 import { ERoutes } from '../utils/constants/routes';
 
 interface IRequireAuth {

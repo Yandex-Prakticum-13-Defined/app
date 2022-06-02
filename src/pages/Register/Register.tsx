@@ -7,7 +7,7 @@ import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
 import { signUp } from '../../api/api';
 import { getUser } from '../../store/slice/userSlice';
-import { useAppDispatch } from '../../hook/useAppDispatch';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { ERoutes } from '../../utils/constants/routes';
 import { additionalUserData } from '../../utils/constants/additionalUserData';
 

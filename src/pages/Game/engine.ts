@@ -1,5 +1,5 @@
-import pauseIcon from '../../img/pause.png';
-import brickIcon from '../../img/brick.png';
+import pauseIcon from '../../images/pause.png';
+import brickIcon from '../../images/brick.png';
 import { isServer } from '../../utils/isServer';
 
 let imgPause: HTMLImageElement;

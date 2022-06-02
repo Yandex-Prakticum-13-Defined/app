@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './index.scss';
-import Auth from './hoc/Auth';
+import Auth from './HOCs/Auth';
 import Offline from './pages/Offline/Offline';
 import Start from './pages/Start/Start';
 import Game from './pages/Game/Game';
