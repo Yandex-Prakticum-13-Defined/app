@@ -2,8 +2,8 @@ import React, { FC, useEffect } from 'react';
 import './Start.scss';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAppDispatch } from '../../hook/useAppDispatch';
-import { useAppSelector } from '../../hook/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
 import { clearFirstLoading } from '../../store/reducer/helper';
 

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../../api/api';
-import { useAppDispatch } from '../../hook/useAppDispatch';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { clearUserData } from '../../store/slice/userSlice';
 import { ERoutes } from '../../utils/constants/routes';
 

@@ -3,10 +3,23 @@ import { renderToString } from 'react-dom/server';
 import { Request, Response } from 'express';
 import { StaticRouter } from 'react-router-dom/server';
 import { Provider } from 'react-redux';
-import App from './App';
-import { store } from './store/store';
+import { configureStore } from '@reduxjs/toolkit';
+import App from '../App';
+import { addUserData, userReducer } from '../store/slice/userSlice';
+import { helperReducer } from '../store/reducer/helper';
 
 export const serverRenderMiddleware = (req: Request, res: Response) => {
+  const store = configureStore({
+    reducer: {
+      user: userReducer,
+      helper: helperReducer
+    }
+  });
+
+  if (res.locals.user) {
+    store.dispatch(addUserData(res.locals.user));
+  }
+
   const jsx = (
     <Provider store={store}>
       <StaticRouter location={req.url}>
@@ -16,12 +29,12 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
   );
 
   const reactHtml = renderToString(jsx);
-  const reduxState = store.getState();
+  const initialState = store.getState();
 
-  res.send(getHtml(reactHtml, reduxState));
+  res.send(getHtml(reactHtml, initialState));
 };
 
-function getHtml(reactHtml: string, reduxState = {}) {
+function getHtml(reactHtml: string, initialState = {}) {
   return `
   <!DOCTYPE html>
     <html lang="ru">
@@ -34,7 +47,7 @@ function getHtml(reactHtml: string, reduxState = {}) {
     <body>
         <div id="root">${reactHtml}</div>
         <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
         <script src="/app.js"></script>
         <script src="/runtime.js"></script>
