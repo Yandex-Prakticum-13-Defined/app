@@ -2,6 +2,10 @@ import React, {
   Fragment, useState, useEffect, FC
 } from 'react';
 import './LeaderboardTable.scss';
+import { useAppDispatch } from '../../../../hooks/useAppDispatch';
+import { getLeaderboard } from '../../../../store/slice/leaderboardSlice';
+import { useAppSelector } from '../../../../hooks/useAppSelector';
+import { ILeaderboard } from '../../../../api/api';
 
 type TNumberedLeaderboardData = {
   number: number;
@@ -9,8 +13,6 @@ type TNumberedLeaderboardData = {
   name: string;
   points: number;
 };
-
-type TLeaderboardData = Omit<TNumberedLeaderboardData, 'number'>;
 
 type TSortingField = 'name' | 'points';
 
@@ -32,11 +34,8 @@ enum SortingDirection {
 }
 
 const LeaderboardTable: FC = () => {
-  const serverData: TLeaderboardData[] = [
-    { image: 'https://tinyurl.com/bdznfmzs', name: 'Сергей', points: 1400 },
-    { image: 'https://tinyurl.com/bdznfmzs', name: 'Анастасия', points: 2100 },
-    { image: 'https://tinyurl.com/bdznfmzs', name: 'Владимир', points: 700 }
-  ];
+  const dispatch = useAppDispatch();
+  const leaderboardStoreData = useAppSelector((state) => state.leaderboard.data);
   const initialSort = {
     field: SortingField.POINTS,
     direction: SortingDirection.DESC
@@ -44,7 +43,11 @@ const LeaderboardTable: FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<TNumberedLeaderboardData[]>([]);
   const [sort, setSort] = useState<TSortingRules>(initialSort);
 
-  useEffect(() => setLeaderboardData(prepareData(serverData)), []);
+  useEffect(() => { dispatch(getLeaderboard()); }, []);
+
+  useEffect(() => {
+    setLeaderboardData(prepareData(leaderboardStoreData));
+  }, [leaderboardStoreData]);
 
   const handleSortButtonClick = (field: TSortingField): void => {
     let direction: TSortingDirection;
@@ -93,8 +96,9 @@ const LeaderboardTable: FC = () => {
   );
 };
 
-function prepareData(serverData: TLeaderboardData[]): TNumberedLeaderboardData[] {
-  return [...serverData]
+function prepareData(data: ILeaderboard[]): TNumberedLeaderboardData[] {
+  return data
+    .map((item) => ({ points: item.score, name: item.userName, image: 'https://tinyurl.com/bdznfmzs' }))
     .sort((a, b) => b.points - a.points)
     .map((row, i) => ({ ...row, number: i + 1 }));
 }

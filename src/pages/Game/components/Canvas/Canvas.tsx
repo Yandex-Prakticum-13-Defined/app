@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Canvas.scss';
 import ModalGameOver from '../ModalGameOver/ModalGameOver';
-import { isGameOver, roundWin } from '../../engine';
+import { isGameOver, roundWin, score } from '../../engine';
+import { useAppDispatch } from '../../../../hooks/useAppDispatch';
+import { addUserToLeaderboard } from '../../../../store/slice/leaderboardSlice';
+import { useAppSelector } from '../../../../hooks/useAppSelector';
 
 interface ICanvasProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -9,15 +12,19 @@ interface ICanvasProps {
 }
 
 const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
+  const dispatch = useAppDispatch();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isReset, setIsReset] = useState(false);
   const [isRoundWin, setIsRoundWin] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const user = useAppSelector((state) => state.user.data!);
 
   useEffect(() => {
     setIsShowModal(isGameOver);
     setIsRoundWin(roundWin);
+    isGameOver && dispatch(addUserToLeaderboard({ score, userId: user.id, userName: user.first_name }));
   }, [isGameOver]);
 
   useEffect(() => {

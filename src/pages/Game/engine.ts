@@ -38,7 +38,6 @@ let y: number; // Координата Y мяча
 let dx: number; // Приращение координаты X мяча
 let dy: number; // Приращение координаты Y мяча
 let paddleX: number; // Координата X ракетки
-let score: number; // Очки (отображаются в верхнем углу слева)
 let lives: number; // Жизни (отображаются в верхнем углу справа)
 let brickColCount: number; // Кол-во рядов кирпичей
 let brickOffsetLeft: number; // Расстояние до левого края самого левого кирпича
@@ -59,6 +58,7 @@ export enum EStep {
 export let step = EStep.INIT;
 export let isGameOver = false;
 export let roundWin = false;
+export let score: number; // Очки (отображаются в верхнем углу слева)
 
 type TBrickStatus = 'ACTIVE' | 'DELETED';
 
