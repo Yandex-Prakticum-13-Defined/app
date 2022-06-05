@@ -7,11 +7,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import App from '../App';
 import { addUserData, userReducer } from '../store/slice/userSlice';
 import { helperReducer } from '../store/reducer/helper';
+import { leaderboardReducer } from '../store/slice/leaderboardSlice';
 
 export const serverRenderMiddleware = (req: Request, res: Response) => {
   const store = configureStore({
     reducer: {
       user: userReducer,
+      leaderboard: leaderboardReducer,
       helper: helperReducer
     }
   });
