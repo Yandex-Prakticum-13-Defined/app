@@ -1,10 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState
+} from 'react';
 import './Canvas.scss';
 import ModalGameOver from '../ModalGameOver/ModalGameOver';
 import { isGameOver, roundWin, score } from '../../engine';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { addUserToLeaderboard } from '../../../../store/slice/leaderboardSlice';
 import { useAppSelector } from '../../../../hooks/useAppSelector';
+import { enterFullScreen, exitFullScreen, IEnterFullScreenElement } from '../../../../api/fullScreenApi';
 
 interface ICanvasProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -21,10 +24,36 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const user = useAppSelector((state) => state.user.data!);
 
+  const doubleClickHandler = useCallback(() => {
+    if (isGameOver) {
+      return;
+    }
+    if (document.fullscreenElement) {
+      exitFullScreen();
+    } else {
+      enterFullScreen(containerRef.current as unknown as IEnterFullScreenElement);
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    addEventListener('dblclick', doubleClickHandler);
+
+    return () => {
+      // eslint-disable-next-line no-restricted-globals
+      removeEventListener('dblclick', doubleClickHandler);
+    };
+  }, []);
+
   useEffect(() => {
     setIsShowModal(isGameOver);
     setIsRoundWin(roundWin);
-    isGameOver && dispatch(addUserToLeaderboard({ score, userId: user.id, userName: user.first_name }));
+    if (isGameOver) {
+      dispatch(addUserToLeaderboard({ score, userId: user.id, userName: user.first_name }));
+      exitFullScreen();
+    } else {
+      enterFullScreen(containerRef.current as unknown as IEnterFullScreenElement);
+    }
   }, [isGameOver]);
 
   useEffect(() => {
