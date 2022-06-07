@@ -48,7 +48,6 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
   useEffect(() => {
     setIsShowModal(isGameOver);
     setIsRoundWin(roundWin);
-    isGameOver && dispatch(addUserToLeaderboard({ score, userId: user.id }));
     if (isGameOver) {
       dispatch(addUserToLeaderboard({ score, userId: user.id }));
       exitFullScreen();
