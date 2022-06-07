@@ -89,10 +89,14 @@ export const getLeaderboard = async (leaderboardRequest: ILeaderboardRequest): P
   return response.data;
 };
 
-export const addUserToLeaderboard = (data: ILeaderboard): Promise<string> => instance.post(
-  'leaderboard',
-  { data, ratingFieldName: RATING_FIELD_NAME, teamName: TEAM_NAME }
-);
+export const addUserToLeaderboard = async (data: ILeaderboard): Promise<string> => {
+  const response = await instance.post(
+    'leaderboard',
+    { data, ratingFieldName: RATING_FIELD_NAME, teamName: TEAM_NAME }
+  );
+
+  return response.data;
+};
 
 export const logOut = () => instance.post('auth/logout');
 
