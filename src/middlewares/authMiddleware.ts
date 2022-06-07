@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
-import { baseURL } from '../api/api';
+import { baseURL } from '../API/API';
 import { ERoutes } from '../utils/constants/routes';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,6 +14,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       user = data;
 
       res.locals.user = user;
+      res.locals.cookie = req.headers.cookie;
     } catch (error) {
       console.log(error);
     }

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './Profile.scss';
+import { baseURL } from '../../API/API';
 import {
-  baseURL, changeAvatar, changePassword, changeProfile, IAvatar
-} from '../../api/api';
+  changeAvatar, changePassword, changeProfile, IAvatar
+} from '../../API/profileAPI';
 import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';

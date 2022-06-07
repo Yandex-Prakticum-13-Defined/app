@@ -24,7 +24,7 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
   useEffect(() => {
     setIsShowModal(isGameOver);
     setIsRoundWin(roundWin);
-    isGameOver && dispatch(addUserToLeaderboard({ score, userId: user.id, userName: user.first_name }));
+    isGameOver && dispatch(addUserToLeaderboard({ score, userId: user.id }));
   }, [isGameOver]);
 
   useEffect(() => {
