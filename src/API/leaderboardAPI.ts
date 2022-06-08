@@ -25,7 +25,7 @@ export const getLeaderboard = async (leaderboardRequest: ILeaderboardRequest): P
 export const addUserToLeaderboard = async (userScore: IUserScore): Promise<string> => {
   const response = await instance.post(
     'leaderboard',
-    { userScore, ratingFieldName: RATING_FIELD_NAME, teamName: TEAM_NAME }
+    { data: userScore, ratingFieldName: RATING_FIELD_NAME, teamName: TEAM_NAME }
   );
 
   return response.data;
