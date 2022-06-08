@@ -7,7 +7,7 @@ import { isGameOver, roundWin, score } from '../../engine';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { addUserToLeaderboard } from '../../../../store/slice/leaderboardSlice';
 import { useAppSelector } from '../../../../hooks/useAppSelector';
-import { enterFullScreen, exitFullScreen, IEnterFullScreenElement } from '../../../../api/fullScreenApi';
+import { enterFullScreen, exitFullScreen, IEnterFullScreenElement } from '../../../../API/fullScreenAPI';
 
 interface ICanvasProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
