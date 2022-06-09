@@ -14,7 +14,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       user = data;
 
       res.locals.user = user;
-      res.locals.cookie = req.headers.cookie;
     } catch (error) {
       console.log(error);
     }
