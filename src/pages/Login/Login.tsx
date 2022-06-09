@@ -5,7 +5,7 @@ import './Login.scss';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
-import { signIn } from '../../API2/authAPI';
+import { signIn } from '../../API/authAPI';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { getUser } from '../../store/slice/userSlice';
 import { ERoutes } from '../../utils/constants/routes';

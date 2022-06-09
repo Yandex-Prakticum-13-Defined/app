@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { baseURL, RATING_FIELD_NAME, TEAM_NAME } from '../../API2/API';
+import { baseURL, RATING_FIELD_NAME, TEAM_NAME } from '../../API/API';
 import {
   getLeaderboard as getLeaderboardApi,
   addUserToLeaderboard as addUserToLeaderboardApi, IUserScore, getUserById
-} from '../../API2/leaderboardAPI';
+} from '../../API/leaderboardAPI';
 import { EStatus, IAsyncData } from '../interface';
 import { isServer } from '../../utils/isServer';
 import mockProfilePicture from '../../images/mock-profile-picture.jpg';

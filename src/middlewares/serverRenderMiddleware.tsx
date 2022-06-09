@@ -9,8 +9,8 @@ import { addUserData, userReducer } from '../store/slice/userSlice';
 import { helperReducer } from '../store/reducer/helper';
 import { addLeaderboardData, leaderboardReducer, leaderboardRequest } from '../store/slice/leaderboardSlice';
 import { ERoutes } from '../utils/constants/routes';
-import { baseURL, instance, TEAM_NAME } from '../API2/API';
-import { IUserScoreData } from '../API2/leaderboardAPI';
+import { baseURL, instance, TEAM_NAME } from '../API/API';
+import { IUserScoreData } from '../API/leaderboardAPI';
 import mockProfilePicture from '../images/mock-profile-picture.jpg';
 
 export const serverRenderMiddleware = async (req: Request, res: Response) => {
