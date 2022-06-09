@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './Profile.scss';
+import { baseURL } from '../../API/API';
 import {
-  baseURL, changeAvatar, changePassword, changeProfile, IAvatar
-} from '../../api/api';
+  changeAvatar, changePassword, changeProfile, IAvatar
+} from '../../API/profileAPI';
 import Button from '../../components/Button/Button';
 import Form from '../../components/Form/Form';
 import { Input } from '../../components/Input/Input';
 import { VALIDATION } from '../../utils/constants/validation';
-import { useAppSelector } from '../../hook/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
-import mockProfilePicture from '../../img/mock-profile-picture.jpg';
-import { useAppDispatch } from '../../hook/useAppDispatch';
+import mockProfilePicture from '../../images/mock-profile-picture.jpg';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { addUserData } from '../../store/slice/userSlice';
 import { additionalUserData } from '../../utils/constants/additionalUserData';
 

@@ -1,16 +1,16 @@
 @import "../../mixins";
 
 .start {
-  @include centered-content;
-
-  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   .text-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 85%;
+    height: 100%;
   }
 
   &__title {
@@ -29,21 +29,19 @@
   &__links {
     display: flex;
     justify-content: space-evenly;
-    width: 100%;
-    margin-top: 10px;
   }
 
   &__link {
     font-weight: bold;
     font-size: 20px;
     text-decoration: none;
-    margin-top: 20px;
     color: #27aedb;
-    padding: 10px;
     border-radius: 15px;
     border: none;
     border-bottom: 3px solid black;
-    background: none;
+    padding: 10px;
+    box-sizing: border-box;
+    display: inline-block;
 
     &:hover {
       cursor: pointer;

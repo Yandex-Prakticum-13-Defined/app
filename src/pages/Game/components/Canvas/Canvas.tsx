@@ -1,7 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState
+} from 'react';
 import './Canvas.scss';
 import ModalGameOver from '../ModalGameOver/ModalGameOver';
-import { isGameOver, roundWin } from '../../engine';
+import { isGameOver, roundWin, score } from '../../engine';
+import { useAppDispatch } from '../../../../hooks/useAppDispatch';
+import { addUserToLeaderboard } from '../../../../store/slice/leaderboardSlice';
+import { useAppSelector } from '../../../../hooks/useAppSelector';
+import { enterFullScreen, exitFullScreen, IEnterFullScreenElement } from '../../../../API/fullScreenAPI';
 
 interface ICanvasProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -9,15 +15,45 @@ interface ICanvasProps {
 }
 
 const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
+  const dispatch = useAppDispatch();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isReset, setIsReset] = useState(false);
   const [isRoundWin, setIsRoundWin] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const user = useAppSelector((state) => state.user.data!);
+
+  const doubleClickHandler = useCallback(() => {
+    if (isGameOver) {
+      return;
+    }
+    if (document.fullscreenElement) {
+      exitFullScreen();
+    } else {
+      enterFullScreen(containerRef.current as unknown as IEnterFullScreenElement);
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    addEventListener('dblclick', doubleClickHandler);
+
+    return () => {
+      // eslint-disable-next-line no-restricted-globals
+      removeEventListener('dblclick', doubleClickHandler);
+    };
+  }, []);
 
   useEffect(() => {
     setIsShowModal(isGameOver);
     setIsRoundWin(roundWin);
+    if (isGameOver) {
+      dispatch(addUserToLeaderboard({ score, userId: user.id }));
+      exitFullScreen();
+    } else {
+      enterFullScreen(containerRef.current as unknown as IEnterFullScreenElement);
+    }
   }, [isGameOver]);
 
   useEffect(() => {

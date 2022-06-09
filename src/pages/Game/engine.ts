@@ -1,10 +1,16 @@
-import pauseIcon from '../../img/pause.png';
-import brickIcon from '../../img/brick.png';
+import pauseIcon from '../../images/pause.png';
+import brickIcon from '../../images/brick.png';
+import { isServer } from '../../utils/isServer';
 
-const imgBrick = new Image();
-const imgPause = new Image();
-imgBrick.src = brickIcon;
-imgPause.src = pauseIcon;
+let imgPause: HTMLImageElement;
+let imgBrick: HTMLImageElement;
+
+if (!isServer) {
+  imgBrick = new Image();
+  imgPause = new Image();
+  imgBrick.src = brickIcon;
+  imgPause.src = pauseIcon;
+}
 const brickWidth = 120; // Ширина кирпича
 const brickPadding = 4; // Отступ кирпича
 const brickHeight = 60; // Высота кирпича
@@ -32,7 +38,6 @@ let y: number; // Координата Y мяча
 let dx: number; // Приращение координаты X мяча
 let dy: number; // Приращение координаты Y мяча
 let paddleX: number; // Координата X ракетки
-let score: number; // Очки (отображаются в верхнем углу слева)
 let lives: number; // Жизни (отображаются в верхнем углу справа)
 let brickColCount: number; // Кол-во рядов кирпичей
 let brickOffsetLeft: number; // Расстояние до левого края самого левого кирпича
@@ -53,6 +58,7 @@ export enum EStep {
 export let step = EStep.INIT;
 export let isGameOver = false;
 export let roundWin = false;
+export let score: number; // Очки (отображаются в верхнем углу слева)
 
 type TBrickStatus = 'ACTIVE' | 'DELETED';
 

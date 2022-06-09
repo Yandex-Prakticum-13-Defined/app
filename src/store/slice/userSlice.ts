@@ -1,14 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUser as getUserApi, IUserResponse } from '../../api/api';
+import { getUser as getUserApi, IUserResponse } from '../../API/authAPI';
 import { EStatus, IAsyncData } from '../interface';
+import { isServer } from '../../utils/isServer';
 
-type IUserData = Omit<IUserResponse, 'second_name' | 'display_name' | 'phone'> | null;
+export type IUserData = Omit<IUserResponse, 'second_name' | 'display_name' | 'phone'> | null;
 
-const initialState: IAsyncData<IUserData> = {
-  data: null,
-  error: null,
-  status: EStatus.IDLE
-};
+let initialState: IAsyncData<IUserData>;
+
+if (isServer) {
+  initialState = {
+    data: null,
+    error: null,
+    status: EStatus.IDLE
+  };
+} else {
+  // eslint-disable-next-line no-underscore-dangle
+  initialState = window.__INITIAL_STATE__.user;
+}
 
 export const getUser = createAsyncThunk<IUserData, void, { rejectValue: string; }>(
   'auth/user',

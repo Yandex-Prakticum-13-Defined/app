@@ -2,15 +2,9 @@ import React, {
   Fragment, useState, useEffect, FC
 } from 'react';
 import './LeaderboardTable.scss';
-
-type TNumberedLeaderboardData = {
-  number: number;
-  image: string;
-  name: string;
-  points: number;
-};
-
-type TLeaderboardData = Omit<TNumberedLeaderboardData, 'number'>;
+import { useAppDispatch } from '../../../../hooks/useAppDispatch';
+import { getLeaderboard, ILeaderboardRow } from '../../../../store/slice/leaderboardSlice';
+import { useAppSelector } from '../../../../hooks/useAppSelector';
 
 type TSortingField = 'name' | 'points';
 
@@ -32,19 +26,22 @@ enum SortingDirection {
 }
 
 const LeaderboardTable: FC = () => {
-  const serverData: TLeaderboardData[] = [
-    { image: 'https://tinyurl.com/bdznfmzs', name: 'Сергей', points: 1400 },
-    { image: 'https://tinyurl.com/bdznfmzs', name: 'Анастасия', points: 2100 },
-    { image: 'https://tinyurl.com/bdznfmzs', name: 'Владимир', points: 700 }
-  ];
+  const dispatch = useAppDispatch();
+  const leaderboardStoreData = useAppSelector((state) => state.leaderboard.data);
   const initialSort = {
     field: SortingField.POINTS,
     direction: SortingDirection.DESC
   };
-  const [leaderboardData, setLeaderboardData] = useState<TNumberedLeaderboardData[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<ILeaderboardRow[]>(leaderboardStoreData);
   const [sort, setSort] = useState<TSortingRules>(initialSort);
 
-  useEffect(() => setLeaderboardData(prepareData(serverData)), []);
+  useEffect(() => {
+    dispatch(getLeaderboard());
+  }, []);
+
+  useEffect(() => {
+    setLeaderboardData(leaderboardStoreData);
+  }, [leaderboardStoreData]);
 
   const handleSortButtonClick = (field: TSortingField): void => {
     let direction: TSortingDirection;
@@ -93,12 +90,6 @@ const LeaderboardTable: FC = () => {
   );
 };
 
-function prepareData(serverData: TLeaderboardData[]): TNumberedLeaderboardData[] {
-  return [...serverData]
-    .sort((a, b) => b.points - a.points)
-    .map((row, i) => ({ ...row, number: i + 1 }));
-}
-
 function getButtonClassName(sort: TSortingRules, field: TSortingField): string {
   const baseClassName = `leaderboard-table__sort-button leaderboard-table__sort-button_type_${field}`;
 
@@ -125,10 +116,10 @@ function getColorClassName(number: number, className: string): string {
 }
 
 function sortByField(
-  leaderboardData: TNumberedLeaderboardData[],
+  leaderboardData: ILeaderboardRow[],
   field: TSortingField,
   direction: TSortingDirection
-): TNumberedLeaderboardData[] {
+): ILeaderboardRow[] {
   if (direction === SortingDirection.DESC) {
     return [...leaderboardData].sort((a, b) => (a[field] < b[field] ? 1 : -1));
   }

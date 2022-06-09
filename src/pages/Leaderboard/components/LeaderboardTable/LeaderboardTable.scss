@@ -28,6 +28,8 @@
 
   &__image {
     height: 80px;
+    width: 80px;
+    object-fit: cover;
   }
 
   &__name {
@@ -92,7 +94,7 @@
 
     &_type_increase::after {
       content: "";
-      background-image: url("../../../../img/leaderboard-sort-button.svg");
+      background-image: url("../../../../images/leaderboard-sort-button.svg");
       position: absolute;
       width: 25px;
       height: 25px;
@@ -105,7 +107,7 @@
 
     &_type_decrease::after {
       content: "";
-      background-image: url("../../../../img/leaderboard-sort-button.svg");
+      background-image: url("../../../../images/leaderboard-sort-button.svg");
       position: absolute;
       width: 25px;
       height: 25px;

@@ -1,7 +1,9 @@
 .canvas-container {
   height: 100%;
-  background: #000;
+  background: #262f47;
   overflow-y: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .canvas {
