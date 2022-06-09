@@ -3,16 +3,8 @@ import React, {
 } from 'react';
 import './LeaderboardTable.scss';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
-import { getLeaderboard } from '../../../../store/slice/leaderboardSlice';
+import { getLeaderboard, ILeaderboardRow } from '../../../../store/slice/leaderboardSlice';
 import { useAppSelector } from '../../../../hooks/useAppSelector';
-import { ILeaderboard } from '../../../../api/api';
-
-type TNumberedLeaderboardData = {
-  number: number;
-  image: string;
-  name: string;
-  points: number;
-};
 
 type TSortingField = 'name' | 'points';
 
@@ -40,13 +32,15 @@ const LeaderboardTable: FC = () => {
     field: SortingField.POINTS,
     direction: SortingDirection.DESC
   };
-  const [leaderboardData, setLeaderboardData] = useState<TNumberedLeaderboardData[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<ILeaderboardRow[]>(leaderboardStoreData);
   const [sort, setSort] = useState<TSortingRules>(initialSort);
 
-  useEffect(() => { dispatch(getLeaderboard()); }, []);
+  useEffect(() => {
+    dispatch(getLeaderboard());
+  }, []);
 
   useEffect(() => {
-    setLeaderboardData(prepareData(leaderboardStoreData));
+    setLeaderboardData(leaderboardStoreData);
   }, [leaderboardStoreData]);
 
   const handleSortButtonClick = (field: TSortingField): void => {
@@ -96,13 +90,6 @@ const LeaderboardTable: FC = () => {
   );
 };
 
-function prepareData(data: ILeaderboard[]): TNumberedLeaderboardData[] {
-  return data
-    .map((item) => ({ points: item.score, name: item.userName, image: 'https://tinyurl.com/bdznfmzs' }))
-    .sort((a, b) => b.points - a.points)
-    .map((row, i) => ({ ...row, number: i + 1 }));
-}
-
 function getButtonClassName(sort: TSortingRules, field: TSortingField): string {
   const baseClassName = `leaderboard-table__sort-button leaderboard-table__sort-button_type_${field}`;
 
@@ -129,10 +116,10 @@ function getColorClassName(number: number, className: string): string {
 }
 
 function sortByField(
-  leaderboardData: TNumberedLeaderboardData[],
+  leaderboardData: ILeaderboardRow[],
   field: TSortingField,
   direction: TSortingDirection
-): TNumberedLeaderboardData[] {
+): ILeaderboardRow[] {
   if (direction === SortingDirection.DESC) {
     return [...leaderboardData].sort((a, b) => (a[field] < b[field] ? 1 : -1));
   }

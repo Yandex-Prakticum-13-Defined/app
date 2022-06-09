@@ -7,9 +7,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import App from '../App';
 import { addUserData, userReducer } from '../store/slice/userSlice';
 import { helperReducer } from '../store/reducer/helper';
-import { leaderboardReducer } from '../store/slice/leaderboardSlice';
+import { addLeaderboardData, leaderboardReducer, leaderboardRequest } from '../store/slice/leaderboardSlice';
+import { ERoutes } from '../utils/constants/routes';
+import { baseURL, instance, TEAM_NAME } from '../API/API';
+import { IUserScoreData } from '../API/leaderboardAPI';
+import mockProfilePicture from '../images/mock-profile-picture.jpg';
 
-export const serverRenderMiddleware = (req: Request, res: Response) => {
+export const serverRenderMiddleware = async (req: Request, res: Response) => {
   const store = configureStore({
     reducer: {
       user: userReducer,
@@ -20,6 +24,33 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
 
   if (res.locals.user) {
     store.dispatch(addUserData(res.locals.user));
+  }
+
+  if (req.url === ERoutes.LEADERBOARD && req.headers.cookie) {
+    try {
+      const { data } = await instance.post(`leaderboard/${TEAM_NAME}`, leaderboardRequest, {
+        headers: { Cookie: req.headers.cookie }
+      });
+
+      const leaderboardData = await Promise.all(
+        data.map(async (item: IUserScoreData, i: number) => {
+          const { data: userInfo } = await instance.get(`user/${item.data.userId}`, {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            headers: { Cookie: req.headers.cookie! }
+          });
+
+          return {
+            number: i + 1,
+            image: userInfo.avatar ? `${baseURL}/resources${userInfo.avatar}` : mockProfilePicture,
+            name: userInfo.first_name,
+            points: item.data.score
+          };
+        })
+      );
+      await store.dispatch(addLeaderboardData(leaderboardData));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const jsx = (

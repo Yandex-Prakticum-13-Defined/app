@@ -7,7 +7,7 @@ import { isGameOver, roundWin, score } from '../../engine';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { addUserToLeaderboard } from '../../../../store/slice/leaderboardSlice';
 import { useAppSelector } from '../../../../hooks/useAppSelector';
-import { enterFullScreen, exitFullScreen, IEnterFullScreenElement } from '../../../../api/fullScreenApi';
+import { enterFullScreen, exitFullScreen, IEnterFullScreenElement } from '../../../../API/fullScreenAPI';
 
 interface ICanvasProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -49,7 +49,7 @@ const Canvas: React.FC<ICanvasProps> = ({ draw }) => {
     setIsShowModal(isGameOver);
     setIsRoundWin(roundWin);
     if (isGameOver) {
-      dispatch(addUserToLeaderboard({ score, userId: user.id, userName: user.first_name }));
+      dispatch(addUserToLeaderboard({ score, userId: user.id }));
       exitFullScreen();
     } else {
       enterFullScreen(containerRef.current as unknown as IEnterFullScreenElement);

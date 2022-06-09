@@ -9,13 +9,13 @@ import { store } from './store/store';
 import { sortOverload } from './utils/sortOverload';
 import { IAsyncData } from './store/interface';
 import { IUserData } from './store/slice/userSlice';
-import { ILeaderboard } from './api/api';
+import { ILeaderboardRow } from './store/slice/leaderboardSlice';
 
 declare global {
   interface Window {
     __INITIAL_STATE__: {
       user: IAsyncData<IUserData>;
-      leaderboard: IAsyncData<ILeaderboard[]>;
+      leaderboard: IAsyncData<ILeaderboardRow[]>;
       helper: {
         firstLoading: boolean;
       };
