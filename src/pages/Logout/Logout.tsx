@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logOut } from '../../API/authAPI';
+import { logOut } from '../../API2/authAPI';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { clearUserData } from '../../store/slice/userSlice';
 import { ERoutes } from '../../utils/constants/routes';

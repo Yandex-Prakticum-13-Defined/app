@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
-import { baseURL } from '../API/API';
+import { baseURL } from '../API2/API';
 import { ERoutes } from '../utils/constants/routes';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {

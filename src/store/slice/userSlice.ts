@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUser as getUserApi, IUserResponse } from '../../API/authAPI';
+import { getUser as getUserApi, IUserResponse } from '../../API2/authAPI';
 import { EStatus, IAsyncData } from '../interface';
 import { isServer } from '../../utils/isServer';
 
