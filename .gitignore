@@ -1,4 +1,5 @@
 node_modules
+postgresdata
 dist
 .idea
 *.DS_Store
