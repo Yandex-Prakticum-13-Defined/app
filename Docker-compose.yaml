@@ -7,7 +7,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:newPassword@postgres:5432/my-db-name
+      DATABASE_URL: postgres://postgres:newPassword@postgres:5432/arkanoid-db
       NODE_ENV: development
       PORT: 5000
     ports:
@@ -19,7 +19,7 @@ services:
     container_name: postgres-v12 # Можно и не указывать, тогда будет взято за основу название сервиса: `postgres`
     image: postgres:12
     ports:
-      - "5432:5432"
+      - "5678:5432"
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
       - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
