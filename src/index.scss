@@ -12,4 +12,30 @@ body {
 #root {
   height: 100%;
   font-family: Play, serif;
+  background-color: var(--background-main);
+  color: var(--color-main);
+}
+
+.theme {
+  --light-blue: #27aedb;
+  --button-disabled: #27aedb4c;
+  --error: red;
+  --leaderboard-gold: gold;
+  --leaderboard-silver: silver;
+  --leaderboard-bronze: #cd7f32;
+  --border-gray: gray;
+
+  &_light {
+    --background-main: #fff;
+    --color-main: #000;
+    --background-forum: linear-gradient(to right, #ece9e6, #fff);
+    --background-forum-card: #f0f4f7;
+  }
+
+  &_dark {
+    --background-main: #0d1117;
+    --color-main: #c9d1d9;
+    --background-forum: linear-gradient(to right, #232526, #414345);
+    --background-forum-card: #414345;
+  }
 }

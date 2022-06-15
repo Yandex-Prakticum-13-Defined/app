@@ -4,11 +4,15 @@
   border-radius: 15px;
   font-size: 30px;
   border: none;
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid var(--color-main);
   background: none;
 
+  &:disabled {
+    color: var(--button-disabled);
+  }
+
   &:enabled {
-    color: #27aedb;
+    color: var(--light-blue);
   }
 
   &:enabled:hover {

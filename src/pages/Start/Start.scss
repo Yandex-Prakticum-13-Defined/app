@@ -16,7 +16,7 @@
   &__title {
     margin: 0 0 30px;
     font-size: 50px;
-    color: #27aedb;
+    color: var(--light-blue);
   }
 
   &__text {
@@ -35,10 +35,10 @@
     font-weight: bold;
     font-size: 20px;
     text-decoration: none;
-    color: #27aedb;
+    color: var(--light-blue);
     border-radius: 15px;
     border: none;
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid var(--color-main);
     padding: 10px;
     box-sizing: border-box;
     display: inline-block;

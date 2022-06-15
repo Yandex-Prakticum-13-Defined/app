@@ -12,7 +12,7 @@
     }
 
     &:visited {
-      color: black;
+      color: var(--color-main);
     }
   }
 
@@ -28,10 +28,11 @@
   &__button {
     width: 10%;
     font-size: 20px;
-    border: none;
-    background-color: #f0f4f7;
+    border: 1px solid var(--border-gray);
+    background-color: var(--background-forum-card);
     border-radius: 10px;
     align-self: flex-end;
+    color: var(--color-main);
 
     &:hover {
       cursor: pointer;
@@ -42,7 +43,6 @@
   &__textarea {
     width: 90%;
     border: none;
-    height: 100px;
     margin-right: 10px;
   }
 }

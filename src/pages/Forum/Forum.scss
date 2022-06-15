@@ -5,7 +5,7 @@
   align-items: center;
   padding: 80px 0 200px;
   box-sizing: border-box;
-  background: linear-gradient(to right, #ece9e6, #fff);
+  background: var(--background-forum);
 
   &__title {
     margin: 0 0 40px;
