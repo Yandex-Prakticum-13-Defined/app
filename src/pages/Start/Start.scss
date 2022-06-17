@@ -1,16 +1,16 @@
 @import "../../mixins";
 
 .start {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   .text-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    flex: 1;
   }
 
   &__title {
