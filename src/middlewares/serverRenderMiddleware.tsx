@@ -78,7 +78,7 @@ function getHtml(reactHtml: string, initialState = {}) {
         <link href="/app.css" rel="stylesheet">
     </head>
     <body>
-        <div id="root">${reactHtml}</div>
+        <div id="root" class="theme theme_dark">${reactHtml}</div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>

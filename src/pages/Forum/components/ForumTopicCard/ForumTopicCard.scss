@@ -1,14 +1,15 @@
 .forum-topic-card {
   width: 100%;
-  border: 1px solid gray;
+  border: 1px solid var(--border-gray);
   margin-bottom: 20px;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
   border-radius: 10px;
   text-decoration: none;
+  color: var(--color-main);
   font-size: 20px;
-  background-color: #f0f4f7;
+  background-color: var(--background-forum-card);
 
   &:last-of-type {
     margin-bottom: 0;
@@ -19,12 +20,7 @@
     opacity: 0.5;
   }
 
-  &:visited {
-    color: black;
-  }
-
   &__author-picture-wrapper {
-    width: 10%;
     display: flex;
     justify-content: space-around;
   }

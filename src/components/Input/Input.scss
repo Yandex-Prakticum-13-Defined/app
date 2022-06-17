@@ -1,11 +1,11 @@
 .input {
   padding: 5px 25px;
   border: none;
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid var(--color-main);
   border-radius: 20px;
 
   &__error {
-    color: red;
+    color: var(--error);
     margin-left: 10px;
     font-size: 13px;
     height: 33px;
