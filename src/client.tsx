@@ -7,15 +7,22 @@ import './index.scss';
 import { ErrorBoundary } from './HOCs/ErrorBoundary/ErrorBoundary';
 import { store } from './store/store';
 import { sortOverload } from './utils/sortOverload';
-import { IAsyncData } from './store/interface';
+import { EStatus, IAsyncData } from './store/interface';
 import { IUserData } from './store/slice/userSlice';
 import { ILeaderboardRow } from './store/slice/leaderboardSlice';
+import { IMessage, ITopic } from './API/forumAPI';
 
 declare global {
   interface Window {
     __INITIAL_STATE__: {
       user: IAsyncData<IUserData>;
       leaderboard: IAsyncData<ILeaderboardRow[]>;
+      forum: {
+        topics: IAsyncData<ITopic[]>;
+        messages: IAsyncData<IMessage[]>;
+        createTopicStatus: EStatus;
+        createMessageStatus: EStatus;
+      };
       helper: {
         firstLoading: boolean;
       };

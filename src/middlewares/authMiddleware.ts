@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { baseURL } from '../API/API';
-import { ERoutes } from '../utils/constants/routes';
+import { EDBRoutes, ERoutes } from '../utils/constants/routes';
+import { logR } from '../utils/log';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   let user = null;
@@ -15,8 +16,15 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
       res.locals.user = user;
     } catch (error) {
-      console.log(error);
+      logR(error);
     }
+  }
+
+  if (user === null
+    && [EDBRoutes.TOPICS, EDBRoutes.MESSAGES, EDBRoutes.TOPIC, EDBRoutes.MESSAGE].includes(req.url as EDBRoutes)) {
+    res.status(403).send();
+
+    return;
   }
 
   if (user === null && ![ERoutes.LOGIN, ERoutes.REGISTER, ERoutes.START].includes(req.url as ERoutes)) {

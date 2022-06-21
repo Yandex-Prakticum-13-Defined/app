@@ -36,3 +36,10 @@ export const getUser = async (): Promise<IUserResponse> => {
 };
 
 export const logOut = () => instance.post('auth/logout');
+export const getUserById = async (id: number, cookie?: string): Promise<IUserResponse> => {
+  const response = await instance.get(`user/${id}`, {
+    headers: { Cookie: cookie || '' }
+  });
+
+  return response.data;
+};

@@ -13,31 +13,38 @@ export const seed = async () => {
     message: 'Во второй половине дня в Москве и области ожидаются небольшие дожди'
   });
 
-  const messageId = await createMessage({
+  const messageId1 = await createMessage({
     topicId,
     userId: 402,
     text: 'https://www.youtube.com/watch?v=I-wQEasgPbA&list=PL7_q6PqwRaY6vgyZ8lOnCDiu3ctx_DhAu&index=2',
     responseTo: 0
   });
 
-  await createMessage({
+  const messageId2 = await createMessage({
     topicId,
     userId: 17627,
     text: 'Sounds good! Мне нравится классика ) Dire Straits, Mark Knopfler, Eric Clapton...',
-    responseTo: messageId
+    responseTo: messageId1
   });
 
-  await createMessage({
+  const messageId3 = await createMessage({
     topicId,
     userId: 17388,
     text: 'Классный альбом! Помню был на их концерте.',
-    responseTo: messageId
+    responseTo: messageId2
   });
 
   await createMessage({
     topicId,
     userId: 4199,
     text: 'Как вам? https://www.youtube.com/watch?v=szdjUJIqVSQ&list=PL7_q6PqwRaY6vgyZ8lOnCDiu3ctx_DhAu&index=4',
-    responseTo: 0
+    responseTo: messageId3
+  });
+
+  await createMessage({
+    topicId,
+    userId: 17388,
+    text: 'Ответ на первое сообщение',
+    responseTo: messageId1
   });
 };

@@ -11,6 +11,7 @@ const config = {
   module: {
     rules: [jsLoader, cssLoader.server, filesLoader.server]
   },
+  cache: false,
   output: {
     path: DIST_DIR,
     filename: 'server.js',

@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import './ForumTopicCard.scss';
 import { Link } from 'react-router-dom';
-import { TTopic } from '../ForumTopics/ForumTopics';
+import { ITopic } from '../../../../API/forumAPI';
 
-const ForumTopicCard: FC<TTopic> = (props) => (
-  <Link className='forum-topic-card' to={props.id}>
+const ForumTopicCard: FC<ITopic> = (props) => (
+  <Link className='forum-topic-card' to={String(props.id)}>
     <div className='forum-topic-card__author-picture-wrapper'>
-      <img className='forum-topic-card__author-picture' src={props.authorPicture} alt='Аватар пользователя'/>
+      <img className='forum-topic-card__author-picture' src={props.authorPicture || ''} alt='Аватар пользователя'/>
     </div>
     <div className='forum-topic-card__text-wrapper'>
       <p className='forum-topic-card__title'>{props.title}</p>
@@ -26,7 +26,7 @@ const ForumTopicCard: FC<TTopic> = (props) => (
       <p className='forum-topic-card__last-message-wrapper'>
         Последнее сообщение:
         {' '}
-        <span className='forum-topic-card__last-message'>{props.lastMessage}</span>
+        <span className='forum-topic-card__last-message'>{props.message}</span>
       </p>
     </div>
     <div className='forum-topic-card__messages-count-wrapper'>

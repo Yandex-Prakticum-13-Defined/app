@@ -1,5 +1,4 @@
 import { instance, RATING_FIELD_NAME, TEAM_NAME } from './API';
-import { IUserResponse } from './authAPI';
 
 export interface ILeaderboardRequest {
   ratingFieldName: string;
@@ -27,12 +26,6 @@ export const addUserToLeaderboard = async (userScore: IUserScore): Promise<strin
     'leaderboard',
     { data: userScore, ratingFieldName: RATING_FIELD_NAME, teamName: TEAM_NAME }
   );
-
-  return response.data;
-};
-
-export const getUserById = async (id: number): Promise<IUserResponse> => {
-  const response = await instance.get(`user/${id}`);
 
   return response.data;
 };

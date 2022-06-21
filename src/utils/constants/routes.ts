@@ -11,3 +11,10 @@ export enum ERoutes {
   'OFFLINE' = '/offline',
   'FALLBACK' = '*'
 }
+
+export enum EDBRoutes {
+  'TOPICS' = '/topics',
+  'MESSAGES' = '/messages',
+  'TOPIC' = '/topic',
+  'MESSAGE' = '/message'
+}
