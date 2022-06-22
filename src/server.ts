@@ -10,6 +10,7 @@ import { logG } from './utils/log';
 import { getTopics } from './utils/getTopics';
 import { getMessages } from './utils/getMessages';
 import { createMessage, createTopic } from './db/init';
+import { EDBRoutes } from './utils/constants/routes';
 
 const key = fs.readFileSync(path.resolve(__dirname, '../key.pem'));
 const cert = fs.readFileSync(path.resolve(__dirname, '../cert.pem'));
@@ -21,7 +22,7 @@ app
   .use(express.json())
   .use(express.static(path.resolve(__dirname, '../dist')));
 
-app.get('/topics', authMiddleware, async (req, res) => {
+app.get(EDBRoutes.TOPICS, authMiddleware, async (req, res) => {
   try {
     const topics = await getTopics(req.headers.cookie);
     res.send(topics);
@@ -30,7 +31,7 @@ app.get('/topics', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/messages', authMiddleware, async (req, res) => {
+app.post(EDBRoutes.MESSAGES, authMiddleware, async (req, res) => {
   try {
     const messages = await getMessages(req.body.topicId, req.headers.cookie);
     res.send(messages);
@@ -39,17 +40,19 @@ app.post('/messages', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/message', authMiddleware, async (req, res) => {
+app.post(EDBRoutes.MESSAGE, authMiddleware, async (req, res) => {
   try {
-    createMessage(req.body.message).then(() => res.send('OK'));
+    await createMessage(req.body.message);
+    res.send('OK');
   } catch (error) {
     res.status(500).send({ error });
   }
 });
 
-app.post('/topic', authMiddleware, async (req, res) => {
+app.post(EDBRoutes.TOPIC, authMiddleware, async (req, res) => {
   try {
-    createTopic(req.body.topic).then(() => res.send('OK'));
+    await createTopic(req.body.topic);
+    res.send('OK');
   } catch (error) {
     res.status(500).send({ error });
   }

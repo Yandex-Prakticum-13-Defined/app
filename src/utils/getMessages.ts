@@ -1,12 +1,12 @@
 import { getMessagesByTopicId } from '../db/init';
-import { getUserById } from '../API/authAPI';
+import { getUserByIdFromServer } from '../API/authAPI';
 import { IMessage } from '../API/forumAPI';
 import { IDBMessageDataEx, orderMessages } from './orderMessages';
 import { getDate } from './getDate';
 
 export const getMessages = async (topicId: number, cookie = ''): Promise<IMessage[]> => {
   const messagesDB = await getMessagesByTopicId(topicId);
-  const users = await Promise.all(messagesDB.map((message) => getUserById(message.userId, cookie)));
+  const users = await Promise.all(messagesDB.map((message) => getUserByIdFromServer(message.userId, cookie)));
   const orderedMessages: IDBMessageDataEx[] = orderMessages(messagesDB, 0, 0);
 
   return orderedMessages.map((message, index) => ({

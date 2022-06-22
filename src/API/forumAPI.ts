@@ -1,5 +1,6 @@
 import { IDBTopic } from '../db/models/topic';
 import { IDBMessage } from '../db/models/message';
+import { EDBRoutes } from '../utils/constants/routes';
 import { server } from './API';
 
 export interface ITopic {
@@ -21,18 +22,18 @@ export interface IMessage {
   offsetLevel: number;
 }
 
-export const createTopic = (topic: IDBTopic): Promise<string> => server.post('topic', { topic });
+export const createTopic = (topic: IDBTopic): Promise<string> => server.post(EDBRoutes.TOPIC, { topic });
 
-export const createMessage = (message: IDBMessage): Promise<string> => server.post('message', { message });
+export const createMessage = (message: IDBMessage): Promise<string> => server.post(EDBRoutes.MESSAGE, { message });
 
 export const getAllTopics = async (): Promise<ITopic[]> => {
-  const response = await server.get('topics');
+  const response = await server.get(EDBRoutes.TOPICS);
 
   return response.data;
 };
 
 export const getMessagesByTopicId = async (topicId: number): Promise<IMessage[]> => {
-  const response = await server.post('messages', { topicId });
+  const response = await server.post(EDBRoutes.MESSAGES, { topicId });
 
   return response.data;
 };

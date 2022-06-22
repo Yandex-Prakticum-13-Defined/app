@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import './ForumTopics.scss';
-import ForumTopic from '../ForumTopicCard/ForumTopicCard';
 import { useAppSelector } from '../../../../hooks/useAppSelector';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { getAllTopics } from '../../../../store/slice/forumSlice';
+import ForumTopicCard from '../ForumTopicCard/ForumTopicCard';
 
 const ForumTopics: FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const ForumTopics: FC = () => {
       </form>
       {
         topics.map((topic) => (
-          <ForumTopic
+          <ForumTopicCard
             key={topic.id}
             id={topic.id}
             title={topic.title}

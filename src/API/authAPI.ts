@@ -36,7 +36,14 @@ export const getUser = async (): Promise<IUserResponse> => {
 };
 
 export const logOut = () => instance.post('auth/logout');
-export const getUserById = async (id: number, cookie?: string): Promise<IUserResponse> => {
+
+export const getUserById = async (id: number): Promise<IUserResponse> => {
+  const response = await instance.get(`user/${id}`);
+
+  return response.data;
+};
+
+export const getUserByIdFromServer = async (id: number, cookie: string): Promise<IUserResponse> => {
   const response = await instance.get(`user/${id}`, {
     headers: { Cookie: cookie || '' }
   });

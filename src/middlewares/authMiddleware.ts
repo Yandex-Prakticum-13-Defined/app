@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { baseURL } from '../API/API';
-import { EDBRoutes, ERoutes } from '../utils/constants/routes';
+import { apiPath, ERoutes } from '../utils/constants/routes';
 import { logR } from '../utils/log';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -20,8 +20,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
   }
 
-  if (user === null
-    && [EDBRoutes.TOPICS, EDBRoutes.MESSAGES, EDBRoutes.TOPIC, EDBRoutes.MESSAGE].includes(req.url as EDBRoutes)) {
+  if (user === null && (req.url).includes(apiPath)) {
     res.status(403).send();
 
     return;

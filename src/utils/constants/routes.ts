@@ -12,9 +12,11 @@ export enum ERoutes {
   'FALLBACK' = '*'
 }
 
-export enum EDBRoutes {
-  'TOPICS' = '/topics',
-  'MESSAGES' = '/messages',
-  'TOPIC' = '/topic',
-  'MESSAGE' = '/message'
-}
+export const apiPath = '/api/v1';
+
+export const EDBRoutes = {
+  TOPICS: `${apiPath}/topics`,
+  MESSAGES: `${apiPath}/messages`,
+  TOPIC: `${apiPath}/topic`,
+  MESSAGE: `${apiPath}/message`
+};

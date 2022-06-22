@@ -2,11 +2,17 @@ import React, { FC } from 'react';
 import './ForumTopicCard.scss';
 import { Link } from 'react-router-dom';
 import { ITopic } from '../../../../API/forumAPI';
+import { baseURL } from '../../../../API/API';
+import mockProfilePicture from '../../../../images/mock-profile-picture.jpg';
 
 const ForumTopicCard: FC<ITopic> = (props) => (
   <Link className='forum-topic-card' to={String(props.id)}>
     <div className='forum-topic-card__author-picture-wrapper'>
-      <img className='forum-topic-card__author-picture' src={props.authorPicture || ''} alt='Аватар пользователя'/>
+      <img
+        className='forum-topic-card__author-picture'
+        src={props.authorPicture ? `${baseURL}/resources${props.authorPicture}` : mockProfilePicture}
+        alt='Аватар пользователя'
+      />
     </div>
     <div className='forum-topic-card__text-wrapper'>
       <p className='forum-topic-card__title'>{props.title}</p>
