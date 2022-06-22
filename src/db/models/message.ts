@@ -1,14 +1,14 @@
 import { DataType, Model } from 'sequelize-typescript';
 import { ModelAttributes } from 'sequelize/types';
 
-export interface IMessage {
+export interface IDBMessage {
   topicId: number;
   userId: number;
   text: string;
-  responseTo: number; // 0 - НЕ ответ
+  responseTo: number; // message.id сообщения, на которое отвечает. Если 0 - НЕ ответное сообщение.
 }
 
-export const messageModel: ModelAttributes<Model, IMessage> = {
+export const messageModel: ModelAttributes<Model, IDBMessage> = {
   topicId: {
     type: DataType.INTEGER,
     allowNull: false

@@ -12,15 +12,20 @@ import { ERoutes } from '../utils/constants/routes';
 import { baseURL, instance, TEAM_NAME } from '../API/API';
 import { IUserScoreData } from '../API/leaderboardAPI';
 import mockProfilePicture from '../images/mock-profile-picture.jpg';
+import { initDb } from '../db/init';
+import { forumReducer } from '../store/slice/forumSlice';
 
 export const serverRenderMiddleware = async (req: Request, res: Response) => {
   const store = configureStore({
     reducer: {
       user: userReducer,
       leaderboard: leaderboardReducer,
-      helper: helperReducer
+      helper: helperReducer,
+      forum: forumReducer
     }
   });
+
+  await initDb();
 
   if (res.locals.user) {
     store.dispatch(addUserData(res.locals.user));

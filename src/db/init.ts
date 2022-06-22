@@ -1,14 +1,15 @@
 import { logB, logG, logR } from '../utils/log';
+import { IDBMessageData, IDBTopicData } from '../store/slice/forumSlice';
 import { Message, sequelize, Topic } from './config';
-import { ITopic } from './models/topic';
-import { IMessage } from './models/message';
+import { IDBTopic } from './models/topic';
+import { IDBMessage } from './models/message';
 import { seed } from './seeder';
 
 /**
  * Создание топика
  * @param topic - объект ITopic
  */
-export const createTopic = async (topic: ITopic) => {
+export const createTopic = async (topic: IDBTopic): Promise<number> => {
   const newTopic = await Topic.create({ ...topic });
 
   return newTopic.id;
@@ -18,7 +19,7 @@ export const createTopic = async (topic: ITopic) => {
  * Создание сообщения.
  * @param message - объект IMessage
  */
-export const createMessage = async (message: IMessage) => {
+export const createMessage = async (message: IDBMessage): Promise<number> => {
   const newMessage = await Message.create({ ...message });
 
   return newMessage.id;
@@ -27,14 +28,14 @@ export const createMessage = async (message: IMessage) => {
 /**
  * Получение всех топиков.
  */
-export const getAllTopics = async () => Topic.findAll();
+export const getAllTopics = () => Topic.findAll() as unknown as Promise<IDBTopicData[]>;
 
 /**
  * Получение всех сообщений заданного топика.
  */
-export const getAllTopicMessages = async (topicId: number) => Message.findAll({
+export const getMessagesByTopicId = (topicId: number) => Message.findAll({
   where: { topicId }
-});
+}) as unknown as Promise<IDBMessageData[]>;
 
 /**
  * Получение кол-ва записей в таблице "Topics".
@@ -45,7 +46,7 @@ const getTopicCount = async () => Topic.count();
  * Получение кол-ва сообщений для заданного топика.
  * @param topicId - id топика
  */
-export const getMessagesCountByTopic = async (topicId: number) => Message.count({
+export const getMessagesCountByTopicId = (topicId: number) => Message.count({
   where: { topicId }
 });
 
@@ -78,5 +79,3 @@ export const initDb = async () => {
     logR(`Seeding error occur! ${(err as Error).message}`);
   }
 };
-
-initDb();

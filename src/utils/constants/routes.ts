@@ -11,3 +11,12 @@ export enum ERoutes {
   'OFFLINE' = '/offline',
   'FALLBACK' = '*'
 }
+
+export const apiPath = '/api/v1';
+
+export const EDBRoutes = {
+  TOPICS: `${apiPath}/topics`,
+  MESSAGES: `${apiPath}/messages`,
+  TOPIC: `${apiPath}/topic`,
+  MESSAGE: `${apiPath}/message`
+};
