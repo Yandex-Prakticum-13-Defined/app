@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const baseURL = 'https://ya-praktikum.tech/api/v2';
-export const serverURL = 'https://local.ya-praktikum.tech:5000';
+export const serverURL = 'https://local.ya-praktikum.tech:8080';
 
 export const instance = axios.create({
   withCredentials: true,

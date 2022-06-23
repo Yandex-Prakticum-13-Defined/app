@@ -24,7 +24,7 @@ app
 
 app.get(EDBRoutes.TOPICS, authMiddleware, async (req, res) => {
   try {
-    const topics = await getTopics(req.headers.cookie);
+    const topics = await getTopics(req.headers.cookie!);
     res.send(topics);
   } catch (error) {
     res.status(500).send({ error });
@@ -33,7 +33,7 @@ app.get(EDBRoutes.TOPICS, authMiddleware, async (req, res) => {
 
 app.post(EDBRoutes.MESSAGES, authMiddleware, async (req, res) => {
   try {
-    const messages = await getMessages(req.body.topicId, req.headers.cookie);
+    const messages = await getMessages(req.body.topicId, req.headers.cookie!);
     res.send(messages);
   } catch (error) {
     res.status(500).send({ error });
@@ -62,7 +62,7 @@ app.get('/*', authMiddleware, serverRenderMiddleware);
 
 const server = https.createServer({ key, cert }, app);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 server.listen(port, () => {
   logG(`Application is started on localhost: ${port}`);
