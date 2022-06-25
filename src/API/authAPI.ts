@@ -43,9 +43,9 @@ export const getUserById = async (id: number): Promise<IUserResponse> => {
   return response.data;
 };
 
-export const getUserByIdFromServer = async (id: number, cookie: string): Promise<IUserResponse> => {
+export const getUserByIdSSR = async (id: number, cookie: string): Promise<IUserResponse> => {
   const response = await instance.get(`user/${id}`, {
-    headers: { Cookie: cookie || '' }
+    headers: { Cookie: cookie }
   });
 
   return response.data;

@@ -39,10 +39,10 @@ export const getLeaderboard = createAsyncThunk<ILeaderboardRow[], void, { reject
   `leaderboard/${TEAM_NAME}`,
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getLeaderboardApi(leaderboardRequest);
+      const rawLeaderboardData = await getLeaderboardApi(leaderboardRequest);
 
       return await Promise.all(
-        response.map(async (item, i) => {
+        rawLeaderboardData.map(async (item, i) => {
           const userInfo = await getUserById(item.data.userId);
 
           return {

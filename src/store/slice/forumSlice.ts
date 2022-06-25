@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createMessage as createMessageApi,
   createTopic as createTopicApi,
@@ -103,7 +103,14 @@ export const getMessagesByTopicId = createAsyncThunk<IMessage[], number, { rejec
 export const forumSlice = createSlice({
   name: 'forum',
   initialState,
-  reducers: {},
+  reducers: {
+    addTopicsData: (state, action: PayloadAction<ITopic[]>) => {
+      state.topics.data = action.payload;
+    },
+    addMessagesData: (state, action: PayloadAction<IMessage[]>) => {
+      state.messages.data = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(createTopic.pending, (state) => {
       state.createTopicStatus = EStatus.PENDING;
@@ -153,5 +160,13 @@ export const forumSlice = createSlice({
   }
 });
 
-const { reducer } = forumSlice;
-export { reducer as forumReducer };
+const {
+  actions: { addTopicsData, addMessagesData },
+  reducer
+} = forumSlice;
+
+export {
+  addTopicsData,
+  addMessagesData,
+  reducer as forumReducer
+};

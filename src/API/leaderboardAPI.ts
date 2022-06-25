@@ -21,6 +21,15 @@ export const getLeaderboard = async (leaderboardRequest: ILeaderboardRequest): P
   return response.data;
 };
 
+// eslint-disable-next-line max-len
+export const getLeaderboardSSR = async (leaderboardRequest: ILeaderboardRequest, cookie: string): Promise<IUserScoreData[]> => {
+  const response = await instance.post(`leaderboard/${TEAM_NAME}`, leaderboardRequest, {
+    headers: { Cookie: cookie }
+  });
+
+  return response.data;
+};
+
 export const addUserToLeaderboard = async (userScore: IUserScore): Promise<string> => {
   const response = await instance.post(
     'leaderboard',
