@@ -38,6 +38,25 @@ export const getMessagesByTopicId = (topicId: number) => Message.findAll({
 }) as unknown as Promise<IDBMessageData[]>;
 
 /**
+ * Получение сообщения топика.
+ */
+export const getTopicMessage = async (topicId: number): Promise<IDBMessageData> => {
+  const topic = await Topic.findOne({
+    where: { id: topicId }
+  }) as unknown as IDBTopicData;
+
+  return {
+    id: -1,
+    createdAt: topic.createdAt,
+    topicId,
+    userId: topic.userId,
+    text: topic.message,
+    responseTo: 0,
+    topicTitle: topic.title
+  };
+};
+
+/**
  * Получение кол-ва записей в таблице "Topics".
  */
 const getTopicCount = async () => Topic.count();

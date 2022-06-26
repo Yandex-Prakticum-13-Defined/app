@@ -1,11 +1,10 @@
-.forum-topics {
+.topic-list {
   width: 100%;
-  padding: 10px;
+  padding: 0 15px 15px;
   box-sizing: border-box;
 
   &__form {
     display: flex;
-    margin-bottom: 20px;
   }
 
   &__button {
@@ -27,5 +26,10 @@
   &__textarea {
     margin: 0 10px;
     width: 70%;
+  }
+
+  &__error-message {
+    color: #ed3838;
+    margin-top: 4px;
   }
 }

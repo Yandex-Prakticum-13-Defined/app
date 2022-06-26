@@ -11,11 +11,11 @@ import Error500 from './pages/Error/Error500';
 import Leaderboard from './pages/Leaderboard/Leaderboard';
 import Profile from './pages/Profile/Profile';
 import Forum from './pages/Forum/Forum';
-import ForumTopic from './pages/Forum/components/ForumTopic/ForumTopic';
-import ForumTopics from './pages/Forum/components/ForumTopics/ForumTopics';
 import { ERoutes } from './utils/constants/routes';
 import Logout from './pages/Logout/Logout';
 import { isServer } from './utils/isServer';
+import TopicList from './pages/Forum/components/TopicList/TopicList';
+import MessageList from './pages/Forum/components/MessageList/MessageList';
 
 if (!isServer && 'serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -38,8 +38,8 @@ const App: FC = () => (
     <Route path={ERoutes.LEADERBOARD} element={<Leaderboard/>}/>
     <Route path={ERoutes.PROFILE} element={<Profile/>}/>
     <Route path={ERoutes.FORUM} element={<Forum/>}>
-      <Route path='' element={<ForumTopics/>}/>
-      <Route path=':id' element={<ForumTopic/>}/>
+      <Route path='' element={<TopicList/>}/>
+      <Route path=':id' element={<MessageList/>}/>
     </Route>
     <Route path={ERoutes.ERROR_500} element={<Error500/>}/>
     <Route path={ERoutes.OFFLINE} element={<Offline/>}/>

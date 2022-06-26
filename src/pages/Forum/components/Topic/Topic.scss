@@ -1,7 +1,7 @@
-.forum-topic-card {
+.topic {
   width: 100%;
   border: 1px solid var(--border-gray);
-  margin-bottom: 20px;
+  margin-top: 15px;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
@@ -28,6 +28,7 @@
   &__author-picture {
     width: 100px;
     height: 100px;
+    border: 1px solid var(--border-gray);
   }
 
   &__text-wrapper {
@@ -48,21 +49,23 @@
 
   &__author-name {
     font-weight: bold;
+    margin: 0 10px;
   }
 
   &__date {
     font-family: Righteous, serif;
     font-size: 16px;
+    margin: 0 0 0 10px;
   }
 
-  &__last-message-wrapper {
+  &__message-wrapper {
     margin: 10px 0 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
-  &__last-message {
+  &__message {
     font-family: "Bad Script", serif;
     line-height: normal;
   }
