@@ -27,7 +27,7 @@ const Topic: FC<ITopic> = (props) => (
         </span>
       </p>
       <p className='topic__message-wrapper'>
-        <span className='topic__message'>{props.message}</span>
+        {props.message}
       </p>
     </div>
     <div className='topic__messages-count-wrapper'>

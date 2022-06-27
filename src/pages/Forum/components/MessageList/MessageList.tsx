@@ -18,7 +18,7 @@ const MessageList: FC = () => {
   const userId = useAppSelector((state) => state.user.data!.id);
   const topicTitle = (messages.length > 0 && messages[0].topicTitle) || '';
   const [newMessage, setNewMessage] = useState('');
-  const [isShowError, setIsShowError] = useState(false);
+  const [isMessageEmpty, setIsMessageEmpty] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const MessageList: FC = () => {
   const handlerAddMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!newMessage) {
-      setIsShowError(true);
+      setIsMessageEmpty(true);
 
       return;
     }
@@ -49,7 +49,7 @@ const MessageList: FC = () => {
       text: newMessage
     }));
     setNewMessage('');
-    setIsShowError(false);
+    setIsMessageEmpty(false);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await dispatch(getMessagesByTopicId(+id!));
   };
@@ -91,7 +91,7 @@ const MessageList: FC = () => {
           Добавить сообщение
         </button>
       </form>
-      {isShowError && (
+      {isMessageEmpty && (
         <p className='message-list__error-message'>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           Поле "Сообщение" не должно быть пустым!
