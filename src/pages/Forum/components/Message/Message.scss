@@ -59,16 +59,18 @@
     margin-right: 10px;
   }
 
-  &__button-container-align-right {
+  &__form {
     display: flex;
-    justify-content: flex-end;
     padding: 0 10px 10px;
-  }
+    box-sizing: border-box;
 
-  &__button-container-space-between {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px 10px;
+    &_align-right {
+      justify-content: flex-end;
+    }
+
+    &_space-between {
+      justify-content: space-between;
+    }
   }
 
   &__button {
@@ -80,6 +82,7 @@
     color: var(--color-main);
     background-color: var(--background-forum-card);
     padding-bottom: 3px;
+    box-sizing: border-box;
 
     &:hover {
       opacity: 0.5;

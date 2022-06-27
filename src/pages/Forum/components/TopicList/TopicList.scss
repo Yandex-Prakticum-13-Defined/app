@@ -29,7 +29,7 @@
   }
 
   &__error-message {
-    color: #ed3838;
+    color: var(--error);
     margin-top: 4px;
   }
 }

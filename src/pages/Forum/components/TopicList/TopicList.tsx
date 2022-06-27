@@ -16,7 +16,7 @@ const TopicList: FC = () => {
   const userId = useAppSelector((state) => state.user.data!.id);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const [isEmptyFields, setIsEmptyFields] = useState(false);
+  const [hasEmptyFields, setHasEmptyFields] = useState(false);
   const refTitle = useRef<HTMLInputElement>(null);
   const refMessage = useRef<HTMLTextAreaElement>(null);
 
@@ -29,11 +29,11 @@ const TopicList: FC = () => {
     if (message && title) {
       await dispatch(createTopic({ userId, title, message }));
       await dispatch(getAllTopics());
-      setIsEmptyFields(false);
+      setHasEmptyFields(false);
       setTitle('');
       setMessage('');
     } else {
-      setIsEmptyFields(true);
+      setHasEmptyFields(true);
       if (!title) {
         refTitle.current && refTitle.current.focus();
       } else {
@@ -67,7 +67,7 @@ const TopicList: FC = () => {
           />
           <button className='topic-list__button' type='submit'>Создать новую тему</button>
         </form>
-        {isEmptyFields && (
+        {hasEmptyFields && (
           <p className='topic-list__error-message'>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Поля "Название темы" и "Сообщение" обязательны к заполнению!

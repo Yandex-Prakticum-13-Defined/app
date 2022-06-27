@@ -18,13 +18,13 @@ enum EButtonText {
 }
 
 const Message: FC<IMessageProps> = (props) => {
-  const [isShowTextAria, setIsShowTextAria] = useState(false);
+  const [isTextAreaVisible, setIsTextAreaVisible] = useState(false);
   const [message, setMessage] = useState('');
   const [buttonText, setButtonText] = useState(EButtonText.REPLY);
   const refMessage = useRef<HTMLTextAreaElement>(null);
 
   const handlerSendMessage = () => {
-    if (isShowTextAria) {
+    if (isTextAreaVisible) {
       if (message) {
         props.onReplyMessage({
           text: message,
@@ -37,12 +37,12 @@ const Message: FC<IMessageProps> = (props) => {
       setButtonText(message ? EButtonText.SEND : EButtonText.HIDE);
       setTimeout(() => refMessage.current && refMessage.current.focus(), 200);
     }
-    setIsShowTextAria(!isShowTextAria);
+    setIsTextAreaVisible(!isTextAreaVisible);
   };
 
   const handlerChangeText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
-    if (isShowTextAria) {
+    if (isTextAreaVisible) {
       setButtonText(e.target.value ? EButtonText.SEND : EButtonText.HIDE);
     } else {
       setButtonText(EButtonText.REPLY);
@@ -70,11 +70,11 @@ const Message: FC<IMessageProps> = (props) => {
           )}
         </div>
         <p className='forum-message__text'>{props.text}</p>
-        <div className={isShowTextAria
-          ? 'forum-message__button-container-space-between'
-          : 'forum-message__button-container-align-right'}
+        <form className={isTextAreaVisible
+          ? 'forum-message__form forum-message__form_space-between'
+          : 'forum-message__form forum-message__form_align-right'}
         >
-          {isShowTextAria && (
+          {isTextAreaVisible && (
             <textarea
               className='forum-message__textarea'
               placeholder='Введите ваше сообщение'
@@ -90,7 +90,7 @@ const Message: FC<IMessageProps> = (props) => {
           >
             {buttonText}
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
