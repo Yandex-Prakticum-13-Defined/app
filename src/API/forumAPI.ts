@@ -20,11 +20,20 @@ export interface IMessage {
   date: string;
   text: string;
   offsetLevel: number;
+  topicTitle?: string;
 }
 
-export const createTopic = (topic: IDBTopic): Promise<string> => server.post(EDBRoutes.TOPIC, { topic });
+export const createTopic = async (topic: IDBTopic): Promise<string> => {
+  const response = await server.post(EDBRoutes.TOPIC, { topic });
 
-export const createMessage = (message: IDBMessage): Promise<string> => server.post(EDBRoutes.MESSAGE, { message });
+  return response.data;
+};
+
+export const createMessage = async (message: IDBMessage): Promise<string> => {
+  const response = await server.post(EDBRoutes.MESSAGE, { message });
+
+  return response.data;
+};
 
 export const getAllTopics = async (): Promise<ITopic[]> => {
   const response = await server.get(EDBRoutes.TOPICS);

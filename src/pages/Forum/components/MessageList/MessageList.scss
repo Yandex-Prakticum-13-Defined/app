@@ -1,6 +1,6 @@
-.forum-topic {
+.message-list {
   width: 100%;
-  padding: 0 10px;
+  padding: 0 15px 15px;
   box-sizing: border-box;
 
   &__backlink {
@@ -25,7 +25,8 @@
   }
 
   &__button {
-    font-size: 20px;
+    width: 130px;
+    height: 46px;
     border: 1px solid var(--border-gray);
     background-color: var(--background-forum-card);
     border-radius: 10px;
@@ -38,8 +39,13 @@
     }
   }
 
+  &__error-message {
+    color: var(--error);
+    margin-top: 4px;
+  }
+
   &__textarea {
-    width: 90%;
+    width: 100%;
     border: none;
     margin-right: 10px;
   }

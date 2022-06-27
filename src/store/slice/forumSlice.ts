@@ -19,7 +19,9 @@ interface IDBFields {
 
 export interface IDBTopicData extends IDBTopic, IDBFields {}
 
-export interface IDBMessageData extends IDBMessage, IDBFields {}
+export interface IDBMessageData extends IDBMessage, IDBFields {
+  topicTitle?: string;
+}
 
 let initialState: {
   topics: IAsyncData<ITopic[]>;

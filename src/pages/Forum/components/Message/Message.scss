@@ -2,11 +2,7 @@
   display: flex;
   background-color: var(--background-forum-card);
   border-radius: 20px;
-  margin-bottom: 10px;
-
-  &_type_response {
-    margin-left: 10%;
-  }
+  margin-bottom: 15px;
 
   &__author-wrapper {
     display: flex;
@@ -23,6 +19,8 @@
   &__author-picture {
     width: 100px;
     height: 100px;
+    object-fit: cover;
+    border: 1px solid var(--border-gray);
   }
 
   &__text-wrapper {
@@ -53,5 +51,41 @@
     margin: 0;
     padding: 10px;
     box-sizing: border-box;
+  }
+
+  &__textarea {
+    width: 100%;
+    border: none;
+    margin-right: 10px;
+  }
+
+  &__form {
+    display: flex;
+    padding: 0 10px 10px;
+    box-sizing: border-box;
+
+    &_align-right {
+      justify-content: flex-end;
+    }
+
+    &_space-between {
+      justify-content: space-between;
+    }
+  }
+
+  &__button {
+    border-radius: 10px;
+    height: 24px;
+    min-width: 96px;
+    border: 1px solid var(--border-gray);
+    cursor: pointer;
+    color: var(--color-main);
+    background-color: var(--background-forum-card);
+    padding-bottom: 3px;
+    box-sizing: border-box;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }

@@ -15,6 +15,6 @@ export const getTopics = async (cookie: string): Promise<ITopic[]> => {
     authorPicture: users[index].avatar,
     createdAt: getDate(topic.createdAt),
     message: topic.message,
-    messagesCount: messagesCount[index]
+    messagesCount: messagesCount[index] + 1
   }));
 };
