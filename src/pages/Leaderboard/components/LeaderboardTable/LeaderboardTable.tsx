@@ -5,6 +5,7 @@ import './LeaderboardTable.scss';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { getLeaderboard, ILeaderboardRow } from '../../../../store/slice/leaderboardSlice';
 import { useAppSelector } from '../../../../hooks/useAppSelector';
+import LeaderboardAvatar from '../LeaderboardAvatar/LeaderboardAvatar';
 
 type TSortingField = 'name' | 'points';
 
@@ -79,7 +80,7 @@ const LeaderboardTable: FC = () => {
           leaderboardData.map((row) => (
             <Fragment key={row.number}>
               <p className={getColorClassName(row.number, 'leaderboard-table__number')}>{row.number}</p>
-              <img className='leaderboard-table__image' src={row.image} alt='Аватар пользователя'/>
+              <LeaderboardAvatar avatar={row.image}/>
               <p className={getColorClassName(row.number, 'leaderboard-table__name')}>{row.name}</p>
               <p className={getColorClassName(row.number, 'leaderboard-table__points')}>{row.points}</p>
             </Fragment>
