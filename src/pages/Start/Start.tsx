@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import './Start.scss';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
 import { clearFirstLoading } from '../../store/reducer/helper';
+import { toggleTheme } from '../../API/themeAPI';
 
 interface ILink {
   route: ERoutes;
@@ -17,10 +18,23 @@ const Start: FC = () => {
   const isAuthenticated = useAppSelector((state) => state.user.data !== null);
   const dispatch = useAppDispatch();
   const firstLoading = useAppSelector((state) => state.helper.firstLoading);
+  const refToggler = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(clearFirstLoading());
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const theme = localStorage.getItem('theme');
+
+      if (theme === 'dark') {
+        refToggler.current && (refToggler.current.checked = true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, []);
 
@@ -74,7 +88,7 @@ const Start: FC = () => {
           links.filter((route) => isAuthenticated === !route.isAuthRoute).map((link, i) => (renderLink(link, i)))
         }
       </div>
-      <div className='text-container'>
+      <div className='start__text-container'>
         <motion.h1
           variants={h1Variants}
           initial={firstLoading ? 'hidden' : 'visible'}
@@ -97,8 +111,27 @@ const Start: FC = () => {
           Если трижды не удалось отбить мячик ракеткой, то игра заканчивается.
         </motion.p>
       </div>
+      <input className='start__toggle-button' type='checkbox' onChange={onChangeTheme} ref={refToggler}/>
     </section>
   );
 };
+
+async function onChangeTheme() {
+  try {
+    const container = document.querySelector('#root')!;
+    const newTheme = await toggleTheme();
+    localStorage.setItem('theme', newTheme);
+
+    if (newTheme === 'dark') {
+      container.classList.remove('theme_light');
+      container.classList.add('theme_dark');
+    } else {
+      container.classList.remove('theme_dark');
+      container.classList.add('theme_light');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export default Start;

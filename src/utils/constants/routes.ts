@@ -18,5 +18,6 @@ export const EDBRoutes = {
   TOPICS: `${apiPath}/topics`,
   MESSAGES: `${apiPath}/messages`,
   TOPIC: `${apiPath}/topic`,
-  MESSAGE: `${apiPath}/message`
+  MESSAGE: `${apiPath}/message`,
+  THEME: `${apiPath}/theme`
 };

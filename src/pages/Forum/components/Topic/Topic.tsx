@@ -26,7 +26,7 @@ const Topic: FC<ITopic> = (props) => (
           {props.createdAt}
         </span>
       </p>
-      <p className='topic__message-wrapper'>
+      <p className='topic__message'>
         {props.message}
       </p>
     </div>
