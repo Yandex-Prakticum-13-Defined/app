@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { baseURL } from '../API/API';
-import { apiPath, ERoutes } from '../utils/constants/routes';
+import { apiPath, ERoutes, serverRoutes } from '../utils/constants/routes';
 import { logR } from '../utils/log';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +20,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
   }
 
-  if (user === null && (req.url).includes(apiPath)) {
+  if (user === null && (req.url).includes(apiPath) && req.url !== serverRoutes.THEME) {
     res.status(403).send();
 
     return;

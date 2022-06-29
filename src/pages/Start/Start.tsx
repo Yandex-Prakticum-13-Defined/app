@@ -7,6 +7,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
 import { clearFirstLoading } from '../../store/reducer/helper';
 import { toggleTheme } from '../../API/themeAPI';
+import { getCurrentUserTheme } from '../../utils/getCurrentUserTheme';
 
 interface ILink {
   route: ERoutes;
@@ -16,6 +17,8 @@ interface ILink {
 
 const Start: FC = () => {
   const isAuthenticated = useAppSelector((state) => state.user.data !== null);
+  const userId = useAppSelector((state) => state.user.data?.id);
+  const userIdOrGuest = userId ? String(userId) : 'guest';
   const dispatch = useAppDispatch();
   const firstLoading = useAppSelector((state) => state.helper.firstLoading);
   const refToggler = useRef<HTMLInputElement>(null);
@@ -28,15 +31,23 @@ const Start: FC = () => {
 
   useEffect(() => {
     try {
-      const theme = localStorage.getItem('theme');
+      if (localStorage.getItem('theme') === null) {
+        return;
+      }
 
-      if (theme === 'dark') {
+      const currentUserTheme = getCurrentUserTheme(JSON.parse(localStorage.getItem('theme')!), userIdOrGuest);
+      const rootElement = document.querySelector('#root')!;
+
+      if (currentUserTheme === 'dark') {
+        turnDarkThemeOn(rootElement);
         refToggler.current && (refToggler.current.checked = true);
+      } else {
+        turnLightThemeOn(rootElement);
       }
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  });
 
   const links: ILink[] = [
     { route: ERoutes.GAME, text: 'Начать игру' },
@@ -81,6 +92,28 @@ const Start: FC = () => {
     </motion.div>
   );
 
+  async function onChangeTheme() {
+    try {
+      const rootElement = document.querySelector('#root')!;
+      const newTheme = await toggleTheme(userIdOrGuest);
+
+      if (localStorage.getItem('theme') === null) {
+        localStorage.setItem('theme', JSON.stringify({ [userIdOrGuest]: newTheme }));
+      } else {
+        const currentThemeObj = JSON.parse(localStorage.getItem('theme')!);
+        localStorage.setItem('theme', JSON.stringify({ ...currentThemeObj, [userIdOrGuest]: newTheme }));
+      }
+
+      if (newTheme === 'dark') {
+        turnDarkThemeOn(rootElement);
+      } else {
+        turnLightThemeOn(rootElement);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <section className='start'>
       <div className='start__links'>
@@ -116,22 +149,14 @@ const Start: FC = () => {
   );
 };
 
-async function onChangeTheme() {
-  try {
-    const container = document.querySelector('#root')!;
-    const newTheme = await toggleTheme();
-    localStorage.setItem('theme', newTheme);
+export default Start;
 
-    if (newTheme === 'dark') {
-      container.classList.remove('theme_light');
-      container.classList.add('theme_dark');
-    } else {
-      container.classList.remove('theme_dark');
-      container.classList.add('theme_light');
-    }
-  } catch (error) {
-    console.log(error);
-  }
+function turnDarkThemeOn(rootElement: Element) {
+  rootElement.classList.remove('theme_light');
+  rootElement.classList.add('theme_dark');
 }
 
-export default Start;
+function turnLightThemeOn(rootElement: Element) {
+  rootElement.classList.remove('theme_dark');
+  rootElement.classList.add('theme_light');
+}

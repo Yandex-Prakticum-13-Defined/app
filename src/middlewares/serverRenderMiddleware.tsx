@@ -14,6 +14,12 @@ import { addMessagesData, addTopicsData, forumReducer } from '../store/slice/for
 import { getPreparedLeaderboardData } from '../utils/getPreparedLeaderboardData';
 import { getTopics } from '../utils/getTopics';
 import { getMessages } from '../utils/getMessages';
+import { getCurrentUserTheme } from '../utils/getCurrentUserTheme';
+
+export const themeCookieOptions = {
+  secure: true,
+  httpOnly: true
+};
 
 export const serverRenderMiddleware = async (req: Request, res: Response) => {
   const store = configureStore({
@@ -65,6 +71,16 @@ export const serverRenderMiddleware = async (req: Request, res: Response) => {
     }
   }
 
+  const userId: string = res.locals.user ? String(res.locals.user.id) : 'guest';
+  let currentUserTheme = 'light';
+
+  if (req.cookies.theme === undefined) {
+    res.cookie('theme', { [userId]: currentUserTheme }, themeCookieOptions);
+  } else {
+    currentUserTheme = getCurrentUserTheme(req.cookies.theme, userId);
+    res.cookie('theme', { ...req.cookies.theme, [userId]: currentUserTheme }, themeCookieOptions);
+  }
+
   const jsx = (
     <Provider store={store}>
       <StaticRouter location={req.url}>
@@ -75,9 +91,8 @@ export const serverRenderMiddleware = async (req: Request, res: Response) => {
 
   const reactHtml = renderToString(jsx);
   const initialState = store.getState();
-  const theme = req.cookies.theme || res.locals.theme;
 
-  res.send(getHtml(reactHtml, theme, initialState));
+  res.send(getHtml(reactHtml, currentUserTheme, initialState));
 };
 
 function getHtml(reactHtml: string, theme: string, initialState = {}) {

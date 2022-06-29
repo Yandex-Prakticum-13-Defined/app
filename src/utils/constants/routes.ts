@@ -14,7 +14,7 @@ export enum ERoutes {
 
 export const apiPath = '/api/v1';
 
-export const EDBRoutes = {
+export const serverRoutes = {
   TOPICS: `${apiPath}/topics`,
   MESSAGES: `${apiPath}/messages`,
   TOPIC: `${apiPath}/topic`,

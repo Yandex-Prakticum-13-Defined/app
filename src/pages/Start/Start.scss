@@ -55,7 +55,7 @@
     appearance: none;
     position: relative;
     width: 100px;
-    height: 50px;
+    height: 40px;
     margin: 0;
     align-self: center;
     background: var(--light-blue);
@@ -65,8 +65,8 @@
     &::after {
       content: "";
       position: absolute;
-      width: 45px;
-      height: 45px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       top: 2.5px;
       left: 3px;
@@ -75,7 +75,7 @@
     }
 
     &:checked::after {
-      transform: translateX(49px);
+      transform: translateX(59px);
       background-color: var(--background-main);
     }
   }
