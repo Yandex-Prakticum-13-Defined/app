@@ -13,6 +13,7 @@ import { getMessages } from './utils/getMessages';
 import { createMessage, createTopic } from './db/init';
 import { serverRoutes } from './utils/constants/routes';
 import { getCurrentUserTheme } from './utils/getCurrentUserTheme';
+import { theme } from './utils/constants/cookieKeys';
 
 const key = fs.readFileSync(path.resolve(__dirname, '../key.pem'));
 const cert = fs.readFileSync(path.resolve(__dirname, '../cert.pem'));
@@ -66,7 +67,7 @@ app.post(serverRoutes.TOGGLE_THEME, async (req, res) => {
     const { userId } = req.body;
     const currentUserTheme = getCurrentUserTheme(req.cookies.theme, userId);
     const newTheme = currentUserTheme === 'light' ? 'dark' : 'light';
-    res.cookie('theme', { ...req.cookies.theme, [userId]: newTheme }, themeCookieOptions);
+    res.cookie(theme, { ...req.cookies.theme, [userId]: newTheme }, themeCookieOptions);
     res.send(newTheme);
   } catch (error) {
     res.status(500).send({ error });

@@ -15,6 +15,7 @@ import { getPreparedLeaderboardData } from '../utils/getPreparedLeaderboardData'
 import { getTopics } from '../utils/getTopics';
 import { getMessages } from '../utils/getMessages';
 import { getCurrentUserTheme } from '../utils/getCurrentUserTheme';
+import { theme } from '../utils/constants/cookieKeys';
 
 export const themeCookieOptions = {
   secure: true,
@@ -75,10 +76,10 @@ export const serverRenderMiddleware = async (req: Request, res: Response) => {
   let currentUserTheme = 'light';
 
   if (req.cookies.theme === undefined) {
-    res.cookie('theme', { [userId]: currentUserTheme }, themeCookieOptions);
+    res.cookie(theme, { [userId]: currentUserTheme }, themeCookieOptions);
   } else {
     currentUserTheme = getCurrentUserTheme(req.cookies.theme, userId);
-    res.cookie('theme', { ...req.cookies.theme, [userId]: currentUserTheme }, themeCookieOptions);
+    res.cookie(theme, { ...req.cookies.theme, [userId]: currentUserTheme }, themeCookieOptions);
   }
 
   const jsx = (
@@ -95,7 +96,7 @@ export const serverRenderMiddleware = async (req: Request, res: Response) => {
   res.send(getHtml(reactHtml, currentUserTheme, initialState));
 };
 
-function getHtml(reactHtml: string, theme: string, initialState = {}) {
+function getHtml(reactHtml: string, currentUserTheme: string, initialState = {}) {
   return `
   <!DOCTYPE html>
     <html lang="ru">
@@ -106,7 +107,7 @@ function getHtml(reactHtml: string, theme: string, initialState = {}) {
         <link href="/app.css" rel="stylesheet">
     </head>
     <body>
-        <div id="root" class="theme theme_${theme}">${reactHtml}</div>
+        <div id="root" class="theme theme_${currentUserTheme}">${reactHtml}</div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
