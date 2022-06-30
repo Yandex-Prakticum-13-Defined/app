@@ -61,7 +61,7 @@ app.post(serverRoutes.TOPIC, authMiddleware, async (req, res) => {
   }
 });
 
-app.post(serverRoutes.THEME, async (req, res) => {
+app.post(serverRoutes.TOGGLE_THEME, async (req, res) => {
   try {
     const { userId } = req.body;
     const currentUserTheme = getCurrentUserTheme(req.cookies.theme, userId);
@@ -71,6 +71,12 @@ app.post(serverRoutes.THEME, async (req, res) => {
   } catch (error) {
     res.status(500).send({ error });
   }
+});
+
+app.post(serverRoutes.THEME, async (req, res) => {
+  const { userId } = req.body;
+  const currentUserTheme = getCurrentUserTheme(req.cookies.theme, userId);
+  res.send(currentUserTheme);
 });
 
 app.get('/*', authMiddleware, serverRenderMiddleware);

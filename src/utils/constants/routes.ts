@@ -19,5 +19,6 @@ export const serverRoutes = {
   MESSAGES: `${apiPath}/messages`,
   TOPIC: `${apiPath}/topic`,
   MESSAGE: `${apiPath}/message`,
+  TOGGLE_THEME: `${apiPath}/toggleTheme`,
   THEME: `${apiPath}/theme`
 };

@@ -6,8 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
 import { clearFirstLoading } from '../../store/reducer/helper';
-import { toggleTheme } from '../../API/themeAPI';
-import { getCurrentUserTheme } from '../../utils/getCurrentUserTheme';
+import { getTheme, toggleTheme } from '../../API/themeAPI';
 
 interface ILink {
   route: ERoutes;
@@ -29,13 +28,9 @@ const Start: FC = () => {
     }
   }, []);
 
-  useEffect(() => {
+  const getCurrentTheme = async () => {
     try {
-      if (localStorage.getItem('theme') === null) {
-        return;
-      }
-
-      const currentUserTheme = getCurrentUserTheme(JSON.parse(localStorage.getItem('theme')!), userIdOrGuest);
+      const currentUserTheme = await getTheme(userIdOrGuest);
       const rootElement = document.querySelector('#root')!;
 
       if (currentUserTheme === 'dark') {
@@ -47,6 +42,10 @@ const Start: FC = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    getCurrentTheme();
   });
 
   const links: ILink[] = [
@@ -96,13 +95,6 @@ const Start: FC = () => {
     try {
       const rootElement = document.querySelector('#root')!;
       const newTheme = await toggleTheme(userIdOrGuest);
-
-      if (localStorage.getItem('theme') === null) {
-        localStorage.setItem('theme', JSON.stringify({ [userIdOrGuest]: newTheme }));
-      } else {
-        const currentThemeObj = JSON.parse(localStorage.getItem('theme')!);
-        localStorage.setItem('theme', JSON.stringify({ ...currentThemeObj, [userIdOrGuest]: newTheme }));
-      }
 
       if (newTheme === 'dark') {
         turnDarkThemeOn(rootElement);
