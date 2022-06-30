@@ -14,6 +14,13 @@ import { addMessagesData, addTopicsData, forumReducer } from '../store/slice/for
 import { getPreparedLeaderboardData } from '../utils/getPreparedLeaderboardData';
 import { getTopics } from '../utils/getTopics';
 import { getMessages } from '../utils/getMessages';
+import { getCurrentUserTheme } from '../utils/getCurrentUserTheme';
+import { theme } from '../utils/constants/cookieKeys';
+
+export const themeCookieOptions = {
+  secure: true,
+  httpOnly: true
+};
 
 export const serverRenderMiddleware = async (req: Request, res: Response) => {
   const store = configureStore({
@@ -65,6 +72,16 @@ export const serverRenderMiddleware = async (req: Request, res: Response) => {
     }
   }
 
+  const userId: string = res.locals.user ? String(res.locals.user.id) : 'guest';
+  let currentUserTheme = 'light';
+
+  if (req.cookies.theme === undefined) {
+    res.cookie(theme, { [userId]: currentUserTheme }, themeCookieOptions);
+  } else {
+    currentUserTheme = getCurrentUserTheme(req.cookies.theme, userId);
+    res.cookie(theme, { ...req.cookies.theme, [userId]: currentUserTheme }, themeCookieOptions);
+  }
+
   const jsx = (
     <Provider store={store}>
       <StaticRouter location={req.url}>
@@ -76,10 +93,10 @@ export const serverRenderMiddleware = async (req: Request, res: Response) => {
   const reactHtml = renderToString(jsx);
   const initialState = store.getState();
 
-  res.send(getHtml(reactHtml, initialState));
+  res.send(getHtml(reactHtml, currentUserTheme, initialState));
 };
 
-function getHtml(reactHtml: string, initialState = {}) {
+function getHtml(reactHtml: string, currentUserTheme: string, initialState = {}) {
   return `
   <!DOCTYPE html>
     <html lang="ru">
@@ -90,7 +107,7 @@ function getHtml(reactHtml: string, initialState = {}) {
         <link href="/app.css" rel="stylesheet">
     </head>
     <body>
-        <div id="root" class="theme theme_dark">${reactHtml}</div>
+        <div id="root" class="theme theme_${currentUserTheme}">${reactHtml}</div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
