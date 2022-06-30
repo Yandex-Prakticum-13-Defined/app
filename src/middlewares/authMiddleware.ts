@@ -26,7 +26,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     return;
   }
 
-  if (user === null && ![ERoutes.LOGIN, ERoutes.REGISTER, ERoutes.START].includes(req.url as ERoutes)) {
+  // eslint-disable-next-line max-len
+  if (user === null && ![ERoutes.LOGIN, ERoutes.REGISTER, ERoutes.START].includes(req.url as ERoutes) && !req.url.includes('?code=')) {
     res.redirect(ERoutes.LOGIN);
 
     return;

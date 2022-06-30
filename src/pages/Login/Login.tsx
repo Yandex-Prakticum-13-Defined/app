@@ -9,6 +9,10 @@ import { signIn } from '../../API/authAPI';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { getUser } from '../../store/slice/userSlice';
 import { ERoutes } from '../../utils/constants/routes';
+import Button from '../../components/Button/Button';
+import {
+  getServiceId, redirectUri
+} from '../../API/OAuthAPI';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -41,6 +45,12 @@ const Login: FC = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleOAuthClick = async () => {
+    const { service_id: serviceId } = await getServiceId();
+    // eslint-disable-next-line max-len
+    window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${redirectUri}`;
   };
 
   return (
@@ -80,6 +90,7 @@ const Login: FC = () => {
           }}
         />
       </Form>
+      <Button type='button' title='Войти через Яндекс' onClick={handleOAuthClick}/>
     </section>
   );
 };
