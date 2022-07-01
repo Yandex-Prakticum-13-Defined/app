@@ -6,6 +6,8 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { ERoutes } from '../../utils/constants/routes';
 import { clearFirstLoading } from '../../store/reducer/helper';
+import { appURL, redirectUri, signInWithYandex } from '../../API/OAuthAPI';
+import { getUser } from '../../store/slice/userSlice';
 import { getTheme, toggleTheme } from '../../API/themeAPI';
 
 interface ILink {
@@ -27,6 +29,25 @@ const Start: FC = () => {
       dispatch(clearFirstLoading());
     }
   }, []);
+
+  const handleOAuthRedirect = async () => {
+    if (!window.location.href.includes('?code=') || isAuthenticated) {
+      return;
+    }
+
+    try {
+      const code = window.location.href.split('?code=')[1];
+      await signInWithYandex({ code, redirect_uri: redirectUri });
+      await dispatch(getUser());
+      window.location.href = appURL;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleOAuthRedirect();
+  });
 
   const getCurrentTheme = async () => {
     try {
