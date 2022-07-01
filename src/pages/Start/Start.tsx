@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import './Start.scss';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -8,6 +8,7 @@ import { ERoutes } from '../../utils/constants/routes';
 import { clearFirstLoading } from '../../store/reducer/helper';
 import { appURL, redirectUri, signInWithYandex } from '../../API/OAuthAPI';
 import { getUser } from '../../store/slice/userSlice';
+import { getTheme, toggleTheme } from '../../API/themeAPI';
 
 interface ILink {
   route: ERoutes;
@@ -17,8 +18,11 @@ interface ILink {
 
 const Start: FC = () => {
   const isAuthenticated = useAppSelector((state) => state.user.data !== null);
+  const userId = useAppSelector((state) => state.user.data?.id);
+  const userIdOrGuest = userId ? String(userId) : 'guest';
   const dispatch = useAppDispatch();
   const firstLoading = useAppSelector((state) => state.helper.firstLoading);
+  const refToggler = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -43,6 +47,26 @@ const Start: FC = () => {
 
   useEffect(() => {
     handleOAuthRedirect();
+  });
+
+  const getCurrentTheme = async () => {
+    try {
+      const currentUserTheme = await getTheme(userIdOrGuest);
+      const rootElement = document.querySelector('#root')!;
+
+      if (currentUserTheme === 'dark') {
+        turnDarkThemeOn(rootElement);
+        refToggler.current && (refToggler.current.checked = true);
+      } else {
+        turnLightThemeOn(rootElement);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCurrentTheme();
   });
 
   const links: ILink[] = [
@@ -88,6 +112,21 @@ const Start: FC = () => {
     </motion.div>
   );
 
+  async function onChangeTheme() {
+    try {
+      const rootElement = document.querySelector('#root')!;
+      const newTheme = await toggleTheme(userIdOrGuest);
+
+      if (newTheme === 'dark') {
+        turnDarkThemeOn(rootElement);
+      } else {
+        turnLightThemeOn(rootElement);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <section className='start'>
       <div className='start__links'>
@@ -95,7 +134,7 @@ const Start: FC = () => {
           links.filter((route) => isAuthenticated === !route.isAuthRoute).map((link, i) => (renderLink(link, i)))
         }
       </div>
-      <div className='text-container'>
+      <div className='start__text-container'>
         <motion.h1
           variants={h1Variants}
           initial={firstLoading ? 'hidden' : 'visible'}
@@ -118,8 +157,19 @@ const Start: FC = () => {
           Если трижды не удалось отбить мячик ракеткой, то игра заканчивается.
         </motion.p>
       </div>
+      <input className='start__toggle-button' type='checkbox' onChange={onChangeTheme} ref={refToggler}/>
     </section>
   );
 };
 
 export default Start;
+
+function turnDarkThemeOn(rootElement: Element) {
+  rootElement.classList.remove('theme_light');
+  rootElement.classList.add('theme_dark');
+}
+
+function turnLightThemeOn(rootElement: Element) {
+  rootElement.classList.remove('theme_dark');
+  rootElement.classList.add('theme_light');
+}

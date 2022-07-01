@@ -1,0 +1,31 @@
+.leaderboard-avatar {
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--border-gray);
+  box-sizing: border-box;
+
+  &__image_visible {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__image_hidden {
+    display: none;
+  }
+
+  &__preload-container {
+    background:
+      linear-gradient(
+        90deg,
+        var(--gradient-side) 40%,
+        var(--gradient-center),
+        var(--gradient-side) 60%
+      ) right/300% 100%;
+    animation: light 1.6s linear infinite;
+  }
+
+  @keyframes light {
+    to { background-position: left; }
+  }
+}

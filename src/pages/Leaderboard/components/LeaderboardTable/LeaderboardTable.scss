@@ -23,14 +23,8 @@
     }
 
     &_color_bronze {
-      color: #cd7f32;
+      color: var(--leaderboard-bronze);
     }
-  }
-
-  &__image {
-    height: 80px;
-    width: 80px;
-    object-fit: cover;
   }
 
   &__name {
