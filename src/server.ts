@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import https from 'https';
 import express from 'express';
+import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import { serverRenderMiddleware, themeCookieOptions } from './middlewares/serverRenderMiddleware';
@@ -17,10 +18,21 @@ import { theme } from './utils/constants/cookieKeys';
 
 const key = fs.readFileSync(path.resolve(__dirname, '../key.pem'));
 const cert = fs.readFileSync(path.resolve(__dirname, '../cert.pem'));
+const srcDirectives = ["'self'", 'https://ya-praktikum.tech'];
 
 const app = express();
 
 app
+  .use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: srcDirectives,
+        scriptSrc: [...srcDirectives, "'unsafe-inline'", "'unsafe-eval'"],
+        imgSrc: srcDirectives
+      }
+    },
+    crossOriginEmbedderPolicy: false
+  }))
   .use(compression())
   .use(cookieParser())
   .use(express.json())
