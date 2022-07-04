@@ -6,23 +6,18 @@ services:
       context: .
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgres://postgres:newPassword@postgres:5432/arkanoid-db
-      NODE_ENV: development
-      PORT: 5000
     ports:
-      - "5000:5000"
+      - "8080:8080"
     restart: always
     networks:
       - awesome
+
   postgres:
-    container_name: postgres-v12 # Можно и не указывать, тогда будет взято за основу название сервиса: `postgres`
     image: postgres:12
     ports:
-      - "5678:5432"
+      - "5432:5432"
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
-      - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -30,8 +25,8 @@ services:
       POSTGRES_DB: arkanoid-db
     networks:
       - awesome
+
   pgadmin:
-    container_name: pgadmin
     image: dpage/pgadmin4:6.10
     restart: always
     environment:

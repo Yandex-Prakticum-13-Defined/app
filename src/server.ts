@@ -11,7 +11,7 @@ import { authMiddleware } from './middlewares/authMiddleware';
 import { logG } from './utils/log';
 import { getTopics } from './utils/getTopics';
 import { getMessages } from './utils/getMessages';
-import { createMessage, createTopic } from './db/init';
+import { createMessage, createTopic, initDb } from './db/init';
 import { serverRoutes } from './utils/constants/routes';
 import { getCurrentUserTheme } from './utils/getCurrentUserTheme';
 import { theme } from './utils/constants/cookieKeys';
@@ -97,6 +97,8 @@ app.get('/*', authMiddleware, serverRenderMiddleware);
 const server = https.createServer({ key, cert }, app);
 
 const port = process.env.PORT || 8080;
+
+initDb();
 
 server.listen(port, () => {
   logG(`Application is started on localhost: ${port}`);
