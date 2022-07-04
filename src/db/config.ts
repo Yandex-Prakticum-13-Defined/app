@@ -3,8 +3,8 @@ import { topicModel } from './models/topic';
 import { messageModel } from './models/message';
 
 const sequelizeOptions: SequelizeOptions = {
-  host: 'localhost',
-  port: 5678,
+  host: 'postgres',
+  port: 5432,
   username: 'postgres',
   password: 'newPassword',
   database: 'arkanoid-db',
