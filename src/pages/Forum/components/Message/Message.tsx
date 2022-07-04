@@ -1,5 +1,5 @@
 import React, {
-  ChangeEvent, FC, useRef, useState
+  ChangeEvent, FC, useRef, useState, MouseEvent
 } from 'react';
 import './Message.scss';
 import { baseURL } from '../../../../API/API';
@@ -49,6 +49,11 @@ const Message: FC<IMessageProps> = (props) => {
     }
   };
 
+  const emojiClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const emoji = (event.target as HTMLButtonElement).textContent;
+    setMessage((currentMessageValue) => currentMessageValue + emoji);
+  };
+
   return (
     <div className='forum-message' style={{ marginLeft: `${props.offsetLevel * 40}px` }}>
       <div className='forum-message__author-wrapper'>
@@ -75,13 +80,23 @@ const Message: FC<IMessageProps> = (props) => {
           : 'forum-message__form forum-message__form_align-right'}
         >
           {isTextAreaVisible && (
-            <textarea
-              className='forum-message__textarea'
-              placeholder='Введите ваше сообщение'
-              onChange={handlerChangeText}
-              ref={refMessage}
-              value={message}
-            />
+            <div className='forum-message__textarea-wrapper'>
+              <textarea
+                className='forum-message__textarea'
+                placeholder='Введите ваше сообщение'
+                onChange={handlerChangeText}
+                ref={refMessage}
+                value={message}
+              />
+              <div className='forum-message__emoji-tooltip'>
+                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>👍</button>
+                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>👎</button>
+                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>😂</button>
+                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>😧</button>
+                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>🙏</button>
+                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>❤</button>
+              </div>
+            </div>
           )}
           <button
             type='button'

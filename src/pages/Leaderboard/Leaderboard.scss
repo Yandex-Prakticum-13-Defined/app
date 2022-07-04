@@ -9,6 +9,17 @@
   &__title {
     font-size: 48px;
     margin-top: 0;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+  }
+
+  &__backlink {
+    color: var(--color-main);
+    margin-bottom: 20px;
+    margin-left: 15px;
+    font-size: 20px;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }

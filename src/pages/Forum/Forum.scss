@@ -10,4 +10,16 @@
   &__title {
     margin: 0 0 30px;
   }
+
+  &__backlink {
+    color: var(--color-main);
+    align-self: flex-start;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    font-size: 20px;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }
