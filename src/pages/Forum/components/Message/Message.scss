@@ -64,26 +64,6 @@
     border: none;
   }
 
-  &__emoji-tooltip {
-    position: absolute;
-    top: -30px;
-    right: -4px;
-    height: 25px;
-    background-color: var(--gradient-center);
-    border: 1px solid var(--border-gray);
-    padding: 0 5px;
-    box-sizing: border-box;
-    display: flex;
-    border-radius: 10px;
-  }
-
-  &__emoji-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-
   &__form {
     display: flex;
     padding: 0 10px 10px;

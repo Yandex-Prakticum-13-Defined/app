@@ -6,6 +6,7 @@ import { baseURL } from '../../../../API/API';
 import mockProfilePicture from '../../../../images/mock-profile-picture.jpg';
 import { IMessage } from '../../../../API/forumAPI';
 import { IDBMessage } from '../../../../db/models/message';
+import EmojiPanel from '../EmojiPanel/EmojiPanel';
 
 interface IMessageProps extends IMessage {
   onReplyMessage: (message: Omit<IDBMessage, 'topicId' | 'userId'>) => void;
@@ -52,6 +53,14 @@ const Message: FC<IMessageProps> = (props) => {
   const emojiClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
     const emoji = (event.target as HTMLButtonElement).textContent;
     setMessage((currentMessageValue) => currentMessageValue + emoji);
+
+    if (isTextAreaVisible) {
+      if (buttonText !== EButtonText.SEND) {
+        setButtonText(EButtonText.SEND);
+      }
+    } else {
+      setButtonText(EButtonText.REPLY);
+    }
   };
 
   return (
@@ -88,14 +97,7 @@ const Message: FC<IMessageProps> = (props) => {
                 ref={refMessage}
                 value={message}
               />
-              <div className='forum-message__emoji-tooltip'>
-                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>👍</button>
-                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>👎</button>
-                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>😂</button>
-                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>😧</button>
-                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>🙏</button>
-                <button className='forum-message__emoji-button' type='button' onClick={emojiClickHandler}>❤</button>
-              </div>
+              <EmojiPanel clickHandler={emojiClickHandler} emojiArray={['👍', '👎', '😂', '😧', '🙏', '❤']}/>
             </div>
           )}
           <button
