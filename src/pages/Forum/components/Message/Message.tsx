@@ -1,11 +1,12 @@
 import React, {
-  ChangeEvent, FC, useRef, useState
+  ChangeEvent, FC, useRef, useState, MouseEvent
 } from 'react';
 import './Message.scss';
 import { baseURL } from '../../../../API/API';
 import mockProfilePicture from '../../../../images/mock-profile-picture.jpg';
 import { IMessage } from '../../../../API/forumAPI';
 import { IDBMessage } from '../../../../db/models/message';
+import EmojiPanel from '../EmojiPanel/EmojiPanel';
 
 interface IMessageProps extends IMessage {
   onReplyMessage: (message: Omit<IDBMessage, 'topicId' | 'userId'>) => void;
@@ -49,6 +50,19 @@ const Message: FC<IMessageProps> = (props) => {
     }
   };
 
+  const emojiClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const emoji = (event.target as HTMLButtonElement).textContent;
+    setMessage((currentMessageValue) => currentMessageValue + emoji);
+
+    if (isTextAreaVisible) {
+      if (buttonText !== EButtonText.SEND) {
+        setButtonText(EButtonText.SEND);
+      }
+    } else {
+      setButtonText(EButtonText.REPLY);
+    }
+  };
+
   return (
     <div className='forum-message' style={{ marginLeft: `${props.offsetLevel * 40}px` }}>
       <div className='forum-message__author-wrapper'>
@@ -75,13 +89,16 @@ const Message: FC<IMessageProps> = (props) => {
           : 'forum-message__form forum-message__form_align-right'}
         >
           {isTextAreaVisible && (
-            <textarea
-              className='forum-message__textarea'
-              placeholder='Введите ваше сообщение'
-              onChange={handlerChangeText}
-              ref={refMessage}
-              value={message}
-            />
+            <div className='forum-message__textarea-wrapper'>
+              <textarea
+                className='forum-message__textarea'
+                placeholder='Введите ваше сообщение'
+                onChange={handlerChangeText}
+                ref={refMessage}
+                value={message}
+              />
+              <EmojiPanel clickHandler={emojiClickHandler} emojiArray={['👍', '👎', '😂', '😧', '🙏', '❤']}/>
+            </div>
           )}
           <button
             type='button'

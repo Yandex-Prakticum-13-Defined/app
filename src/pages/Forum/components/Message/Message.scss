@@ -53,10 +53,15 @@
     box-sizing: border-box;
   }
 
+  &__textarea-wrapper {
+    position: relative;
+    width: 100%;
+    margin-right: 10px;
+  }
+
   &__textarea {
     width: 100%;
     border: none;
-    margin-right: 10px;
   }
 
   &__form {
