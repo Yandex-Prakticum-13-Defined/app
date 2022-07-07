@@ -16,8 +16,6 @@ import { serverRoutes } from './utils/constants/routes';
 import { getCurrentUserTheme } from './utils/getCurrentUserTheme';
 import { theme } from './utils/constants/cookieKeys';
 
-const key = fs.readFileSync(path.resolve(__dirname, '../key.pem'));
-const cert = fs.readFileSync(path.resolve(__dirname, '../cert.pem'));
 const srcDirectives = ["'self'", 'https://ya-praktikum.tech'];
 
 const app = express();
@@ -94,12 +92,20 @@ app.post(serverRoutes.THEME, async (req, res) => {
 
 app.get('/*', authMiddleware, serverRenderMiddleware);
 
-const server = https.createServer({ key, cert }, app);
-
-const port = process.env.PORT || 8080;
-
 initDb();
 
-server.listen(port, () => {
-  logG(`Application is started on localhost: ${port}`);
-});
+const port = process.env.ENVIRONMENT === 'PROD' ? process.env.PORT : 8080;
+
+if (process.env.ENVIRONMENT === 'PROD') {
+  app.listen(port, () => {
+    logG(`Application is started on http://localhost:${port}`);
+  });
+} else {
+  const key = fs.readFileSync(path.resolve(__dirname, '../key.pem'));
+  const cert = fs.readFileSync(path.resolve(__dirname, '../cert.pem'));
+  const server = https.createServer({ key, cert }, app);
+
+  server.listen(port, () => {
+    logG(`Application is started on https://localhost:${port}`);
+  });
+}

@@ -5,7 +5,9 @@ interface IOAuthData {
   redirect_uri: string;
 }
 
-export const redirectUri = 'https://localhost:8080';
+export const redirectUri = process.env.ENVIRONMENT === 'DEV'
+  ? 'https://localhost:8080'
+  : 'https://defined-arkanoid-13.ya-praktikum.tech/';
 export const appURL = 'https://local.ya-praktikum.tech:8080';
 
 export const getServiceId = async (): Promise<{ service_id: string; }> => {

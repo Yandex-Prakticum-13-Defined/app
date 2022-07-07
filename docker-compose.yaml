@@ -1,17 +1,5 @@
 version: "3"
 services:
-  my-app:
-    container_name: arkanoid-app
-    build:
-      context: .
-    depends_on:
-      - postgres
-    ports:
-      - "8080:8080"
-    restart: always
-    networks:
-      - awesome
-
   postgres:
     image: postgres:12
     ports:
@@ -23,6 +11,28 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: newPassword
       POSTGRES_DB: arkanoid-db
+    networks:
+      - awesome
+
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./cert.pem:/etc/nginx/ssl/cert.pem
+      - ./key.pem:/etc/nginx/ssl/key.pem
+    ports:
+      - "80:80"
+      - "443:443"
+
+  app:
+    build:
+      context: .
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    restart: always
     networks:
       - awesome
 

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const baseURL = 'https://ya-praktikum.tech/api/v2';
-export const serverURL = 'https://local.ya-praktikum.tech:8080';
 
 export const instance = axios.create({
   withCredentials: true,
@@ -13,7 +12,6 @@ export const instance = axios.create({
 
 export const server = axios.create({
   withCredentials: true,
-  baseURL: serverURL,
   headers: {
     'Content-Type': 'application/json; charset=utf-8'
   }
