@@ -19,8 +19,8 @@ services:
     restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./cert.pem:/etc/nginx/ssl/cert.pem
-      - ./key.pem:/etc/nginx/ssl/key.pem
+      - /etc/letsencrypt/live/defined-arkanoid-13.ya-praktikum.tech/fullchain.pem:/etc/nginx/ssl/cert.pem
+      - /etc/letsencrypt/live/defined-arkanoid-13.ya-praktikum.tech/privkey.pem:/etc/nginx/ssl/key.pem
     ports:
       - "80:80"
       - "443:443"
