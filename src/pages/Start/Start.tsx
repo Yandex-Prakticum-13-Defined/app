@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import './Start.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -23,6 +23,7 @@ const Start: FC = () => {
   const dispatch = useAppDispatch();
   const firstLoading = useAppSelector((state) => state.helper.firstLoading);
   const refToggler = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -39,7 +40,11 @@ const Start: FC = () => {
       const code = window.location.href.split('?code=')[1];
       await signInWithYandex({ code, redirect_uri: redirectUri });
       await dispatch(getUser());
-      window.location.href = appURL;
+      if (process.env.ENVIRONMENT === 'PROD') {
+        navigate(ERoutes.START, { replace: true });
+      } else {
+        window.location.href = appURL;
+      }
     } catch (error) {
       console.log(error);
     }

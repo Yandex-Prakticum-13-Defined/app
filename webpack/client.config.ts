@@ -1,4 +1,6 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { DefinePlugin } from 'webpack';
+import { getEnvKeys } from '../src/utils/getEnvKeys';
 import { DIST_DIR } from './env';
 import { jsLoader } from './loaders/js';
 import { cssLoader } from './loaders/css';
@@ -25,7 +27,8 @@ const config = {
     rules: [jsLoader, cssLoader.client, filesLoader.client]
   },
   plugins: [
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new DefinePlugin(getEnvKeys())
   ]
 };
 
