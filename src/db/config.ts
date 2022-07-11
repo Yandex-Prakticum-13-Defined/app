@@ -3,7 +3,7 @@ import { topicModel } from './models/topic';
 import { messageModel } from './models/message';
 
 const sequelizeOptions: SequelizeOptions = {
-  host: 'postgres',
+  host: process.env.ENVIRONMENT === 'DEV' ? 'localhost' : 'postgres',
   port: 5432,
   username: 'postgres',
   password: 'newPassword',

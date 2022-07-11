@@ -1,5 +1,7 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
+import { DefinePlugin } from 'webpack';
+import { getEnvKeys } from '../src/utils/getEnvKeys';
 import { DIST_DIR, SRC_DIR } from './env';
 import { jsLoader } from './loaders/js';
 import { cssLoader } from './loaders/css';
@@ -22,7 +24,10 @@ const config = {
     extensions: ['.tsx', '.ts', '.js']
   },
   externalsPresets: { node: true },
-  externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })]
+  externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
+  plugins: [
+    new DefinePlugin(getEnvKeys())
+  ]
 };
 
 export default config;
