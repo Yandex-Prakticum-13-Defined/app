@@ -8,6 +8,10 @@
 
 ![Lighthouse](https://user-images.githubusercontent.com/53473616/178588139-fd413e7b-62ef-4305-9b32-c1fd102bac3d.png)
 
+Утечек памяти не обнаружено:
+
+![2022-07-12_23h52_35](https://user-images.githubusercontent.com/53473616/178593239-5f4bc08c-aa9d-4266-9c59-e4e9997b0990.png)
+
 
 ## Описание механики игры
 
